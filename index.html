@@ -13,7 +13,7 @@
   <!-- Top bar -->
   <header class="topbar" id="topbar">
     <a href="#home" class="brand" aria-label="Ragna Next">
-      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2 L25 15 L38 20 L25 25 L20 38 L15 25 L2 20 L15 15 Z"/><circle cx="20" cy="20" r="4"/></svg>
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5"/><path d="M7 17c2-7 8-11 13-11s11 4 13 11c-3 2-7 3-13 3s-10-1-13-3z"/><path d="M20 20v11M20 24l-5-4M20 24l5-4M20 31l-6 5M20 31l6 5M20 31v6"/></svg>
       <span>RAGNA<b>NEXT</b></span>
     </a>
     <nav class="menu" id="menu">
@@ -48,9 +48,13 @@
       <canvas id="stars" aria-hidden="true"></canvas>
       <div class="hero-sky"></div>
       <div class="hero-content">
-        <p class="hero-kicker"><span></span>RO NEXT : Renewal<span></span></p>
-        <h1 class="hero-logo">Ragna<br><em>Next</em></h1>
-        <p class="hero-tag">The fate of Midgard awaits. Rise, Adventurer.</p>
+        <p class="hero-kicker"><span></span>Ragna Next<span></span></p>
+        <h1 class="hero-logo"><img src="assets/img/logo-renewal.webp" width="1200" height="377" alt="Ragna Next Renewal"></h1>
+        <p class="hero-tag">Beneath the boughs of Yggdrasil, Midgard awaits. Rise, Adventurer.</p>
+        <div class="servers" aria-label="Servers">
+          <span class="server live"><i></i>Ragna Next <b>Renewal</b><small>Open</small></span>
+          <span class="server soon"><i></i>Ragna Next <b>Pre-Renewal</b><small>Coming Soon</small></span>
+        </div>
         <a href="#info" class="btn-download">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>
           Download Client
@@ -131,11 +135,22 @@
     <section id="info" class="panel info">
       <div class="wrap">
         <h2 class="title"><span>Server Info</span></h2>
-        <div class="info-cards">
-          <div class="icard"><small>Episode</small><strong>Renewal</strong></div>
-          <div class="icard"><small>Base / Job</small><strong>1x / 1x</strong></div>
-          <div class="icard"><small>Drop</small><strong>1x</strong></div>
-          <div class="icard"><small>Client</small><strong>2025-07-16</strong></div>
+        <div class="realms">
+          <article class="realm">
+            <p class="realm-tag live">Open</p>
+            <h3>Ragna Next <b>Renewal</b></h3>
+            <div class="info-cards">
+              <div class="icard"><small>Episode</small><strong>Renewal</strong></div>
+              <div class="icard"><small>Base / Job</small><strong>1x / 1x</strong></div>
+              <div class="icard"><small>Drop</small><strong>1x</strong></div>
+              <div class="icard"><small>Client</small><strong>2025-07-16</strong></div>
+            </div>
+          </article>
+          <article class="realm soon">
+            <p class="realm-tag">Coming Soon</p>
+            <h3>Ragna Next <b>Pre-Renewal</b></h3>
+            <p>The classic Midgard, as it once was. A new branch of the World Tree is growing. Stay tuned.</p>
+          </article>
         </div>
         <div class="cta-row">
           <a href="/akun/account/create" data-auth="register" class="btn-download">Create Account</a>

@@ -21,25 +21,46 @@
   }, { threshold: 0.5 });
   $$('.panel').forEach(p => io.observe(p));
 
-  // Hero stars
+  // Hero: Yggdrasil spores and leaves drifting upward
   const cv = $('#stars'), ctx = cv.getContext('2d');
-  let stars = [];
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let motes = [];
+  function mote(anywhere) {
+    const d = devicePixelRatio, leaf = Math.random() < 0.3;
+    return {
+      x: Math.random() * cv.width, y: anywhere ? Math.random() * cv.height : cv.height + 20 * d,
+      r: (leaf ? Math.random() * 3 + 3 : Math.random() * 1.6 + 0.6) * d, leaf,
+      vy: (Math.random() * 0.25 + 0.15) * d, sway: Math.random() * Math.PI * 2, rot: Math.random() * Math.PI,
+      hue: Math.random() < 0.8 ? 145 : 50
+    };
+  }
   function resize() {
     cv.width = cv.offsetWidth * devicePixelRatio;
     cv.height = cv.offsetHeight * devicePixelRatio;
-    stars = Array.from({ length: 140 }, () => ({
-      x: Math.random() * cv.width, y: Math.random() * cv.height * 0.65,
-      r: (Math.random() * 1.4 + 0.3) * devicePixelRatio, p: Math.random() * Math.PI * 2
-    }));
+    motes = Array.from({ length: 70 }, () => mote(true));
   }
   function draw(t) {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    for (const s of stars) {
-      ctx.globalAlpha = 0.35 + 0.65 * Math.abs(Math.sin(t / 1400 + s.p));
-      ctx.fillStyle = '#fff6dc';
-      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+    for (const m of motes) {
+      if (!still) {
+        m.y -= m.vy; m.x += Math.sin(t / 1800 + m.sway) * 0.3 * devicePixelRatio; m.rot += 0.004;
+        if (m.y < -20) Object.assign(m, mote(false));
+      }
+      const a = 0.35 + 0.5 * Math.abs(Math.sin(t / 1600 + m.sway));
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      if (m.leaf) {
+        ctx.rotate(m.rot);
+        ctx.fillStyle = `hsla(${m.hue}, 70%, 65%, ${a * 0.8})`;
+        ctx.beginPath(); ctx.ellipse(0, 0, m.r, m.r * 0.45, 0, 0, Math.PI * 2); ctx.fill();
+      } else {
+        ctx.shadowColor = `hsla(${m.hue}, 90%, 70%, 1)`; ctx.shadowBlur = 8 * devicePixelRatio;
+        ctx.fillStyle = `hsla(${m.hue}, 90%, 80%, ${a})`;
+        ctx.beginPath(); ctx.arc(0, 0, m.r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.restore();
     }
-    requestAnimationFrame(draw);
+    if (!still) requestAnimationFrame(draw);
   }
   addEventListener('resize', resize);
   resize(); requestAnimationFrame(draw);

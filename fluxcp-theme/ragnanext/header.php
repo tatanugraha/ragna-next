@@ -20,7 +20,7 @@
 <body>
 	<header class="topbar">
 		<a href="/" class="brand" aria-label="Ragna Next">
-			<svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2 L25 15 L38 20 L25 25 L20 38 L15 25 L2 20 L15 15 Z"/><circle cx="20" cy="20" r="4"/></svg>
+			<svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5"/><path d="M7 17c2-7 8-11 13-11s11 4 13 11c-3 2-7 3-13 3s-10-1-13-3z"/><path d="M20 20v11M20 24l-5-4M20 24l5-4M20 31l-6 5M20 31l6 5M20 31v6"/></svg>
 			<span>RAGNA<b>NEXT</b></span>
 		</a>
 		<nav class="menu" id="menu">
