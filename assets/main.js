@@ -112,4 +112,56 @@
     $$('button', list).forEach((b, k) => b.classList.toggle('on', k === i));
   }
   showJob(0);
+
+  // Akun: modal masuk / daftar. Form dikirim langsung ke FluxCP (/akun), hasil & error tampil di sana.
+  const auth = $('#auth'), captcha = $('#pane-register .auth-captcha img');
+  function refreshCaptcha() { captcha.src = '/akun/captcha?nocache=' + Math.random(); }
+  function showPane(name) {
+    $$('.auth-tabs button').forEach(b => b.classList.toggle('on', b.dataset.pane === name));
+    $$('.auth-form').forEach(f => { f.hidden = f.id !== 'pane-' + name; });
+    if (name === 'register' && !captcha.getAttribute('src')) refreshCaptcha();
+    $('#pane-' + name + ' input:not([type=hidden])').focus();
+  }
+  function openAuth(name) {
+    auth.hidden = false;
+    document.body.classList.add('modal-open');
+    $('#menu').classList.remove('open');
+    showPane(name);
+  }
+  function closeAuth() {
+    auth.hidden = true;
+    document.body.classList.remove('modal-open');
+  }
+  $$('[data-auth]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openAuth(a.dataset.auth); }));
+  $$('[data-pane]', auth).forEach(b => b.addEventListener('click', e => { e.preventDefault(); showPane(b.dataset.pane); }));
+  $$('[data-close]', auth).forEach(b => b.addEventListener('click', closeAuth));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !auth.hidden) closeAuth(); });
+  $('.captcha-refresh').addEventListener('click', refreshCaptcha);
+  if (location.hash === '#masuk') openAuth('login');
+  if (location.hash === '#daftar') openAuth('register');
+
+  // Tanggal lahir
+  const reg = $('#pane-register');
+  const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  const opt = (v, t) => `<option value="${v}">${t}</option>`;
+  const pad = n => String(n).padStart(2, '0');
+  reg.birthdate_day.innerHTML = opt('', 'Tgl') + Array.from({ length: 31 }, (_, i) => opt(pad(i + 1), i + 1)).join('');
+  reg.birthdate_month.innerHTML = opt('', 'Bulan') + months.map((m, i) => opt(pad(i + 1), m)).join('');
+  const thisYear = new Date().getFullYear();
+  reg.birthdate_year.innerHTML = opt('', 'Tahun') + Array.from({ length: 80 }, (_, i) => opt(thisYear - 5 - i, thisYear - 5 - i)).join('');
+
+  // Cek aturan FluxCP di browser dulu supaya pemain tidak bolak-balik halaman
+  reg.addEventListener('submit', e => {
+    const err = $('.auth-error', reg), p = reg.password.value;
+    const d = new Date(+reg.birthdate_year.value, +reg.birthdate_month.value - 1, +reg.birthdate_day.value);
+    let msg = '';
+    if (!/[A-Z]/.test(p) || !/[a-z]/.test(p) || !/[0-9]/.test(p)) msg = 'Password harus berisi huruf besar, huruf kecil, dan angka.';
+    else if (p.toLowerCase().includes(reg.username.value.toLowerCase())) msg = 'Password tidak boleh mengandung username.';
+    else if (p !== reg.confirm_password.value) msg = 'Ulangi password tidak sama.';
+    else if (d.getDate() !== +reg.birthdate_day.value) msg = 'Tanggal lahir tidak valid.';
+    err.textContent = msg;
+    err.hidden = !msg;
+    if (msg) { e.preventDefault(); return; }
+    reg.email_address2.value = reg.email_address.value;
+  });
 })();

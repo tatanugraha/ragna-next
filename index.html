@@ -24,8 +24,11 @@
       <a href="#info">Info Server</a>
     </nav>
     <div class="topbar-actions">
-      <a class="btn-sm" href="https://cp.ragna-next.cc/?module=account&action=login">Masuk</a>
-      <a class="btn-sm gold" href="https://cp.ragna-next.cc/?module=account&action=create">Daftar</a>
+      <a class="btn-sm gold" href="/akun/account/create" data-auth="register">Daftar</a>
+      <a class="avatar" href="/akun/account/login" data-auth="login" aria-label="Masuk">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
+        <span>Masuk</span>
+      </a>
     </div>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </header>
@@ -55,7 +58,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>
           Download Client
         </a>
-        <a href="https://cp.ragna-next.cc/?module=account&action=create" class="hero-sub">Belum punya akun? <b>Daftar sekarang</b></a>
+        <a href="/akun/account/create" data-auth="register" class="hero-sub">Belum punya akun? <b>Daftar sekarang</b></a>
       </div>
       <a href="#berita" class="scroll-hint" aria-label="Scroll"><span></span></a>
     </section>
@@ -138,7 +141,8 @@
           <div class="icard"><small>Client</small><strong>2025-07-16</strong></div>
         </div>
         <div class="cta-row">
-          <a href="https://cp.ragna-next.cc/?module=account&action=create" class="btn-download">Daftar Akun</a>
+          <a href="/akun/account/create" data-auth="register" class="btn-download">Daftar Akun</a>
+          <a href="/akun/" class="btn-ghost">Panel Akun</a>
           <a href="#" class="btn-ghost" aria-disabled="true">Client — Segera Hadir</a>
         </div>
       </div>
@@ -147,6 +151,59 @@
       </footer>
     </section>
   </main>
+
+  <!-- Akun: masuk / daftar (dikirim ke FluxCP di /akun) -->
+  <div class="auth" id="auth" hidden>
+    <div class="auth-backdrop" data-close></div>
+    <div class="auth-box" role="dialog" aria-modal="true" aria-label="Akun Ragna Next">
+      <button class="auth-x" data-close aria-label="Tutup">&times;</button>
+      <p class="auth-brand">RAGNA<b>NEXT</b></p>
+      <div class="auth-tabs" role="tablist">
+        <button type="button" data-pane="login" class="on">Masuk</button>
+        <button type="button" data-pane="register">Daftar</button>
+      </div>
+
+      <form class="auth-form" id="pane-login" action="/akun/account/login" method="post">
+        <input type="hidden" name="server" value="RO NEXT : Renewal">
+        <input type="hidden" name="return_url" value="/akun/account/view">
+        <label>Username<input name="username" required minlength="4" maxlength="23" autocomplete="username"></label>
+        <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+        <button class="btn-auth">Masuk</button>
+        <p class="auth-alt"><a href="/akun/account/resetpass">Lupa password?</a> · <a href="#" data-pane="register">Buat akun baru</a></p>
+      </form>
+
+      <form class="auth-form" id="pane-register" action="/akun/account/create" method="post" hidden>
+        <input type="hidden" name="server" value="RO NEXT : Renewal">
+        <input type="hidden" name="email_address2">
+        <label>Username<input name="username" required minlength="4" maxlength="23" pattern="[A-Za-z0-9_]+" autocomplete="username" title="4–23 karakter: huruf, angka, garis bawah"></label>
+        <div class="auth-row">
+          <label>Password<input type="password" name="password" required minlength="8" maxlength="31" autocomplete="new-password"></label>
+          <label>Ulangi Password<input type="password" name="confirm_password" required minlength="8" maxlength="31" autocomplete="new-password"></label>
+        </div>
+        <p class="auth-hint">8–31 karakter, minimal 1 huruf besar, 1 huruf kecil, dan 1 angka.</p>
+        <label>Email<input type="email" name="email_address" required autocomplete="email"></label>
+        <fieldset class="auth-birth">
+          <legend>Tanggal Lahir</legend>
+          <select name="birthdate_day" aria-label="Tanggal" required></select>
+          <select name="birthdate_month" aria-label="Bulan" required></select>
+          <select name="birthdate_year" aria-label="Tahun" required></select>
+        </fieldset>
+        <fieldset class="auth-gender">
+          <legend>Jenis Kelamin</legend>
+          <label><input type="radio" name="gender" value="M" required> Pria</label>
+          <label><input type="radio" name="gender" value="F"> Wanita</label>
+        </fieldset>
+        <div class="auth-captcha">
+          <img alt="Kode keamanan" width="160" height="50">
+          <button type="button" class="captcha-refresh" aria-label="Ganti kode">&#x21bb;</button>
+          <label>Kode Keamanan<input name="security_code" required autocomplete="off"></label>
+        </div>
+        <p class="auth-error" role="alert" hidden></p>
+        <button class="btn-auth">Daftar</button>
+        <p class="auth-alt">Sudah punya akun? <a href="#" data-pane="login">Masuk</a></p>
+      </form>
+    </div>
+  </div>
 
   <script src="assets/main.js"></script>
 </body>
