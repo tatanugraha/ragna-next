@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Ragna Next - pasang website statis di VPS (nginx yang sama dengan FluxCP).
 # Usage (root): bash install_web.sh [domain]     default domain: ragna-next.cc
-# Aman dijalankan ulang. Update otomatis: cron `git pull` tiap menit dari branch main.
+# Aman dijalankan ulang. Update otomatis: cron fetch + reset ke origin/main tiap menit.
 set -euo pipefail
 
 DOMAIN=${1:-ragna-next.cc}
@@ -14,7 +14,8 @@ if [[ ! -d $WEB_DIR/.git ]]; then
   rm -rf "$WEB_DIR"
   git clone --depth 1 "$REPO" "$WEB_DIR"
 else
-  git -C "$WEB_DIR" pull --ff-only -q
+  git -C "$WEB_DIR" fetch -q --depth 1 origin main
+  git -C "$WEB_DIR" reset -q --hard origin/main
 fi
 
 # --- nginx (dibuat sekali; certbot menambah blok SSL ke file ini) ---
@@ -48,7 +49,7 @@ fi
 
 # --- auto-deploy: tarik update dari GitHub tiap menit ---
 cat > /etc/cron.d/ragna-next <<CRON
-* * * * * root git -C $WEB_DIR pull --ff-only -q >/dev/null 2>&1
+* * * * * root git -C $WEB_DIR fetch -q --depth 1 origin main && git -C $WEB_DIR reset -q --hard origin/main >/dev/null 2>&1
 CRON
 
 # --- SSL (hanya kalau DNS sudah mengarah ke VPS ini dan belum ada sertifikat) ---
