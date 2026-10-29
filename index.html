@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ragna Next — RO NEXT : Renewal</title>
-  <meta name="description" content="Ragna Next: Ragnarok Online Renewal private server. Daftar akun, download client, dan mulai petualanganmu di Midgard.">
+  <meta name="description" content="Ragna Next: a Ragnarok Online Renewal server. Create your account, download the client, and begin your adventure in Midgard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
@@ -17,29 +17,29 @@
       <span>RAGNA<b>NEXT</b></span>
     </a>
     <nav class="menu" id="menu">
-      <a href="#home">Beranda</a>
-      <a href="#berita">Berita</a>
-      <a href="#dunia">Dunia</a>
-      <a href="#karakter">Karakter</a>
-      <a href="#info">Info Server</a>
+      <a href="#home">Home</a>
+      <a href="#news">News</a>
+      <a href="#world">World</a>
+      <a href="#heroes">Classes</a>
+      <a href="#info">Server Info</a>
     </nav>
     <div class="topbar-actions">
-      <a class="btn-sm gold" href="/akun/account/create" data-auth="register">Daftar</a>
-      <a class="avatar" href="/akun/account/login" data-auth="login" aria-label="Masuk">
+      <a class="btn-sm gold" href="/akun/account/create" data-auth="register">Sign Up</a>
+      <a class="avatar" href="/akun/account/login" data-auth="login" aria-label="Log In">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
-        <span>Masuk</span>
+        <span>Log In</span>
       </a>
     </div>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </header>
 
   <!-- Side dots -->
-  <nav class="dots" aria-label="Navigasi section">
-    <a href="#home" data-label="Beranda"></a>
-    <a href="#berita" data-label="Berita"></a>
-    <a href="#dunia" data-label="Dunia"></a>
-    <a href="#karakter" data-label="Karakter"></a>
-    <a href="#info" data-label="Info Server"></a>
+  <nav class="dots" aria-label="Sections">
+    <a href="#home" data-label="Home"></a>
+    <a href="#news" data-label="News"></a>
+    <a href="#world" data-label="World"></a>
+    <a href="#heroes" data-label="Classes"></a>
+    <a href="#info" data-label="Server Info"></a>
   </nav>
 
   <main>
@@ -47,47 +47,44 @@
     <section id="home" class="panel hero">
       <canvas id="stars" aria-hidden="true"></canvas>
       <div class="hero-sky"></div>
-      <div class="hero-mountains" aria-hidden="true">
-        <svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path class="m1" d="M0 260 L120 170 L230 230 L360 120 L480 210 L600 140 L720 220 L860 90 L990 200 L1110 130 L1250 230 L1340 170 L1440 220 L1440 320 L0 320Z"/><path class="m2" d="M0 290 L160 220 L300 270 L450 200 L620 280 L780 210 L940 280 L1100 220 L1270 285 L1440 240 L1440 320 L0 320Z"/></svg>
-      </div>
       <div class="hero-content">
         <p class="hero-kicker"><span></span>RO NEXT : Renewal<span></span></p>
         <h1 class="hero-logo">Ragna<br><em>Next</em></h1>
-        <p class="hero-tag">Takdir Midgard menunggumu. Bangkitlah, Petualang.</p>
+        <p class="hero-tag">The fate of Midgard awaits. Rise, Adventurer.</p>
         <a href="#info" class="btn-download">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>
           Download Client
         </a>
-        <a href="/akun/account/create" data-auth="register" class="hero-sub">Belum punya akun? <b>Daftar sekarang</b></a>
+        <a href="/akun/account/create" data-auth="register" class="hero-sub">No account yet? <b>Sign up now</b></a>
       </div>
-      <a href="#berita" class="scroll-hint" aria-label="Scroll"><span></span></a>
+      <a href="#news" class="scroll-hint" aria-label="Scroll"><span></span></a>
     </section>
 
     <!-- NEWS -->
-    <section id="berita" class="panel news">
+    <section id="news" class="panel news">
       <div class="wrap">
-        <h2 class="title"><span>Berita</span></h2>
+        <h2 class="title"><span>News</span></h2>
         <div class="news-grid">
           <div class="carousel" id="carousel">
             <div class="slides">
-              <article class="slide s1 active"><div><small>EVENT</small><h3>Pre-Registration Dibuka</h3><p>Daftar lebih awal dan dapatkan paket petualang pemula.</p></div></article>
-              <article class="slide s2"><div><small>UPDATE</small><h3>Episode Renewal Terbaru</h3><p>Region, dungeon, dan job baru siap dijelajahi.</p></div></article>
-              <article class="slide s3"><div><small>GUILD</small><h3>War of Emperium</h3><p>Kumpulkan guild-mu dan rebut castle di Midgard.</p></div></article>
+              <article class="slide s1 active"><div><small>EVENT</small><h3>Pre-Registration Is Open</h3><p>Sign up early and claim the starter adventurer pack.</p></div></article>
+              <article class="slide s2"><div><small>UPDATE</small><h3>The Latest Renewal Episodes</h3><p>New regions, dungeons, and jobs are ready to explore.</p></div></article>
+              <article class="slide s3"><div><small>GUILD</small><h3>War of Emperium</h3><p>Rally your guild and seize the castles of Midgard.</p></div></article>
             </div>
             <div class="carousel-nav"><button aria-label="Slide 1" class="on"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button></div>
           </div>
           <div class="news-list">
             <div class="tabs" role="tablist">
-              <button class="tab on" data-cat="all">Terbaru</button>
+              <button class="tab on" data-cat="all">Latest</button>
               <button class="tab" data-cat="info">Info</button>
-              <button class="tab" data-cat="event">Event</button>
+              <button class="tab" data-cat="event">Events</button>
             </div>
             <ul id="news-items">
-              <li data-cat="event"><a href="#"><span>Pre-Registration Ragna Next resmi dibuka</span><time>29/10</time></a></li>
-              <li data-cat="info"><a href="#"><span>Panduan membuat akun & download client</span><time>29/10</time></a></li>
-              <li data-cat="info"><a href="#"><span>Rate server & aturan bermain</span><time>28/10</time></a></li>
-              <li data-cat="event"><a href="#"><span>Jadwal Closed Beta Test</span><time>27/10</time></a></li>
-              <li data-cat="info"><a href="#"><span>Gabung komunitas Discord Ragna Next</span><time>26/10</time></a></li>
+              <li data-cat="event"><a href="#"><span>Ragna Next pre-registration is officially open</span><time>10/29</time></a></li>
+              <li data-cat="info"><a href="#"><span>Guide: creating an account &amp; downloading the client</span><time>10/29</time></a></li>
+              <li data-cat="info"><a href="#"><span>Server rates &amp; rules of play</span><time>10/28</time></a></li>
+              <li data-cat="event"><a href="#"><span>Closed Beta Test schedule</span><time>10/27</time></a></li>
+              <li data-cat="info"><a href="#"><span>Join the Ragna Next Discord community</span><time>10/26</time></a></li>
             </ul>
           </div>
         </div>
@@ -95,10 +92,10 @@
     </section>
 
     <!-- WORLD -->
-    <section id="dunia" class="panel world">
+    <section id="world" class="panel world">
       <div class="world-bg" id="world-bg"></div>
       <div class="wrap">
-        <h2 class="title"><span>Dunia</span></h2>
+        <h2 class="title"><span>World</span></h2>
         <div class="world-body">
           <div class="world-tabs" id="world-tabs">
             <button class="on" data-i="0">Prontera</button>
@@ -111,10 +108,10 @@
       </div>
     </section>
 
-    <!-- CHARACTERS -->
-    <section id="karakter" class="panel chars">
+    <!-- CLASSES -->
+    <section id="heroes" class="panel chars">
       <div class="wrap">
-        <h2 class="title"><span>Karakter</span></h2>
+        <h2 class="title"><span>Classes</span></h2>
         <div class="char-body">
           <div class="char-art">
             <div class="rune"></div>
@@ -133,7 +130,7 @@
     <!-- INFO -->
     <section id="info" class="panel info">
       <div class="wrap">
-        <h2 class="title"><span>Info Server</span></h2>
+        <h2 class="title"><span>Server Info</span></h2>
         <div class="info-cards">
           <div class="icard"><small>Episode</small><strong>Renewal</strong></div>
           <div class="icard"><small>Base / Job</small><strong>1x / 1x</strong></div>
@@ -141,26 +138,26 @@
           <div class="icard"><small>Client</small><strong>2025-07-16</strong></div>
         </div>
         <div class="cta-row">
-          <a href="/akun/account/create" data-auth="register" class="btn-download">Daftar Akun</a>
-          <a href="/akun/" class="btn-ghost">Panel Akun</a>
-          <a href="#" class="btn-ghost" aria-disabled="true">Client — Segera Hadir</a>
+          <a href="/akun/account/create" data-auth="register" class="btn-download">Create Account</a>
+          <a href="/akun/" class="btn-ghost">Account Panel</a>
+          <a href="#" class="btn-ghost" aria-disabled="true">Client — Coming Soon</a>
         </div>
       </div>
       <footer class="footer">
-        <p>&copy; <span id="year"></span> Ragna Next. Ragnarok Online adalah merek dagang Gravity Co., Ltd. Situs ini tidak berafiliasi dengan Gravity.</p>
+        <p>&copy; <span id="year"></span> Ragna Next. Ragnarok Online is a trademark of Gravity Co., Ltd. This site is not affiliated with Gravity.</p>
       </footer>
     </section>
   </main>
 
-  <!-- Akun: masuk / daftar (dikirim ke FluxCP di /akun) -->
+  <!-- Account: log in / sign up (posted to FluxCP at /akun) -->
   <div class="auth" id="auth" hidden>
     <div class="auth-backdrop" data-close></div>
-    <div class="auth-box" role="dialog" aria-modal="true" aria-label="Akun Ragna Next">
-      <button class="auth-x" data-close aria-label="Tutup">&times;</button>
+    <div class="auth-box" role="dialog" aria-modal="true" aria-label="Ragna Next account">
+      <button class="auth-x" data-close aria-label="Close">&times;</button>
       <p class="auth-brand">RAGNA<b>NEXT</b></p>
       <div class="auth-tabs" role="tablist">
-        <button type="button" data-pane="login" class="on">Masuk</button>
-        <button type="button" data-pane="register">Daftar</button>
+        <button type="button" data-pane="login" class="on">Log In</button>
+        <button type="button" data-pane="register">Sign Up</button>
       </div>
 
       <form class="auth-form" id="pane-login" action="/akun/account/login" method="post">
@@ -168,39 +165,39 @@
         <input type="hidden" name="return_url" value="/akun/account/view">
         <label>Username<input name="username" required minlength="4" maxlength="23" autocomplete="username"></label>
         <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
-        <button class="btn-auth">Masuk</button>
-        <p class="auth-alt"><a href="/akun/account/resetpass">Lupa password?</a> · <a href="#" data-pane="register">Buat akun baru</a></p>
+        <button class="btn-auth">Log In</button>
+        <p class="auth-alt"><a href="/akun/account/resetpass">Forgot password?</a> · <a href="#" data-pane="register">Create an account</a></p>
       </form>
 
       <form class="auth-form" id="pane-register" action="/akun/account/create" method="post" hidden>
         <input type="hidden" name="server" value="RO NEXT : Renewal">
         <input type="hidden" name="email_address2">
-        <label>Username<input name="username" required minlength="4" maxlength="23" pattern="[A-Za-z0-9_]+" autocomplete="username" title="4–23 karakter: huruf, angka, garis bawah"></label>
+        <label>Username<input name="username" required minlength="4" maxlength="23" pattern="[A-Za-z0-9_]+" autocomplete="username" title="4–23 characters: letters, numbers, underscore"></label>
         <div class="auth-row">
           <label>Password<input type="password" name="password" required minlength="8" maxlength="31" autocomplete="new-password"></label>
-          <label>Ulangi Password<input type="password" name="confirm_password" required minlength="8" maxlength="31" autocomplete="new-password"></label>
+          <label>Confirm Password<input type="password" name="confirm_password" required minlength="8" maxlength="31" autocomplete="new-password"></label>
         </div>
-        <p class="auth-hint">8–31 karakter, minimal 1 huruf besar, 1 huruf kecil, dan 1 angka.</p>
+        <p class="auth-hint">8–31 characters, with at least 1 uppercase letter, 1 lowercase letter, and 1 number.</p>
         <label>Email<input type="email" name="email_address" required autocomplete="email"></label>
         <fieldset class="auth-birth">
-          <legend>Tanggal Lahir</legend>
-          <select name="birthdate_day" aria-label="Tanggal" required></select>
-          <select name="birthdate_month" aria-label="Bulan" required></select>
-          <select name="birthdate_year" aria-label="Tahun" required></select>
+          <legend>Date of Birth</legend>
+          <select name="birthdate_day" aria-label="Day" required></select>
+          <select name="birthdate_month" aria-label="Month" required></select>
+          <select name="birthdate_year" aria-label="Year" required></select>
         </fieldset>
         <fieldset class="auth-gender">
-          <legend>Jenis Kelamin</legend>
-          <label><input type="radio" name="gender" value="M" required> Pria</label>
-          <label><input type="radio" name="gender" value="F"> Wanita</label>
+          <legend>Gender</legend>
+          <label><input type="radio" name="gender" value="M" required> Male</label>
+          <label><input type="radio" name="gender" value="F"> Female</label>
         </fieldset>
         <div class="auth-captcha">
-          <img alt="Kode keamanan" width="160" height="50">
-          <button type="button" class="captcha-refresh" aria-label="Ganti kode">&#x21bb;</button>
-          <label>Kode Keamanan<input name="security_code" required autocomplete="off"></label>
+          <img alt="Security code" width="160" height="50">
+          <button type="button" class="captcha-refresh" aria-label="New code">&#x21bb;</button>
+          <label>Security Code<input name="security_code" required autocomplete="off"></label>
         </div>
         <p class="auth-error" role="alert" hidden></p>
-        <button class="btn-auth">Daftar</button>
-        <p class="auth-alt">Sudah punya akun? <a href="#" data-pane="login">Masuk</a></p>
+        <button class="btn-auth">Sign Up</button>
+        <p class="auth-alt">Already have an account? <a href="#" data-pane="login">Log in</a></p>
       </form>
     </div>
   </div>

@@ -2,7 +2,7 @@
 <div class="auth-card">
 	<h2><?php echo htmlspecialchars(Flux::message('AccountCreateHeading')) ?></h2>
 	<?php if (Flux::config('RequireEmailConfirm')): ?>
-	<p class="info-text">Gunakan email aktif: kamu perlu mengonfirmasi akun lewat email sebelum bisa login.</p>
+	<p class="info-text">Use a working email address: you must confirm your account by email before you can log in.</p>
 	<?php endif ?>
 	<?php if (isset($errorMessage)): ?>
 	<p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
@@ -33,12 +33,12 @@
 			</label>
 		</div>
 		<p class="auth-hint">
-			<?php printf('%d–%d karakter', Flux::config('MinPasswordLength'), Flux::config('MaxPasswordLength')) ?><?php
-			if (Flux::config('PasswordMinUpper') > 0) echo ', huruf besar';
-			if (Flux::config('PasswordMinLower') > 0) echo ', huruf kecil';
-			if (Flux::config('PasswordMinNumber') > 0) echo ', angka';
-			if (Flux::config('PasswordMinSymbol') > 0) echo ', simbol';
-			if (!Flux::config('AllowUserInPassword')) echo '; tidak boleh mengandung username' ?>.
+			<?php printf('%d–%d characters', Flux::config('MinPasswordLength'), Flux::config('MaxPasswordLength')) ?><?php
+			if (Flux::config('PasswordMinUpper') > 0) echo ', an uppercase letter';
+			if (Flux::config('PasswordMinLower') > 0) echo ', a lowercase letter';
+			if (Flux::config('PasswordMinNumber') > 0) echo ', a number';
+			if (Flux::config('PasswordMinSymbol') > 0) echo ', a symbol';
+			if (!Flux::config('AllowUserInPassword')) echo '; must not contain your username' ?>.
 		</p>
 		<div class="auth-row">
 			<label><?php echo htmlspecialchars(Flux::message('AccountEmailLabel')) ?>
@@ -62,7 +62,7 @@
 			<?php if (Flux::config('EnableReCaptcha')): ?>
 			<div class="g-recaptcha" data-theme="dark" data-sitekey="<?php echo htmlspecialchars($recaptcha) ?>"></div>
 			<?php else: ?>
-			<?php // Tema default hanya menampilkan pesan "butuh kunci reCAPTCHA" di sini, padahal captcha bawaan (GD) dipakai. ?>
+			<?php // The default theme only shows a "reCAPTCHA keys needed" message here, even though the built-in (GD) captcha is in use. ?>
 			<div class="auth-captcha">
 				<img class="security-code" src="<?php echo $this->url('captcha') ?>" alt="<?php echo htmlspecialchars(Flux::message('AccountSecurityLabel')) ?>">
 				<button type="button" class="captcha-refresh" onclick="refreshSecurityCode('img.security-code')" aria-label="<?php echo htmlspecialchars(Flux::message('RefreshSecurityCode')) ?>">&#x21bb;</button>
@@ -73,6 +73,6 @@
 
 		<p class="auth-hint"><?php printf(htmlspecialchars(Flux::message('AccountCreateInfo2')), '<a href="'.$this->url('service', 'tos').'">'.Flux::message('AccountCreateTerms').'</a>') ?></p>
 		<button type="submit" class="btn-auth"><?php echo htmlspecialchars(Flux::message('AccountCreateButton')) ?></button>
-		<p class="auth-alt">Sudah punya akun? <a href="<?php echo $this->url('account', 'login') ?>">Masuk</a></p>
+		<p class="auth-alt">Already have an account? <a href="<?php echo $this->url('account', 'login') ?>">Log in</a></p>
 	</form>
 </div>

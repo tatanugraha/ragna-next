@@ -3,9 +3,9 @@
 	</main>
 
 	<footer class="footer">
-		<p>&copy; <?php echo date('Y') ?> Ragna Next. Ragnarok Online adalah merek dagang Gravity Co., Ltd. Situs ini tidak berafiliasi dengan Gravity.</p>
+		<p>&copy; <?php echo date('Y') ?> Ragna Next. Ragnarok Online is a trademark of Gravity Co., Ltd. This site is not affiliated with Gravity.</p>
 		<?php if (count(Flux::getAvailableLanguages()) > 1): ?>
-		<p>Bahasa:
+		<p>Language:
 			<select name="preferred_language" onchange="updatePreferredLanguage(this)">
 			<?php foreach (Flux::getAvailableLanguages() as $lang_key => $lang): ?>
 				<option value="<?php echo htmlspecialchars($lang_key) ?>"<?php if (!empty($_COOKIE['language']) && $_COOKIE['language'] == $lang_key) echo ' selected="selected"' ?>><?php echo htmlspecialchars($lang) ?></option>
@@ -20,7 +20,7 @@
 	</form>
 
 	<script>
-		// Fungsi yang dipanggil view bawaan FluxCP
+		// Functions called by FluxCP's built-in views
 		function updatePreferredServer(sel) {
 			document.preferred_server_form.preferred_server.value = sel.options[sel.selectedIndex].value;
 			document.preferred_server_form.submit();

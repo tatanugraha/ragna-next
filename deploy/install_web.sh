@@ -32,6 +32,7 @@ sed -i \
   -e "s|'ServerAddress'\(\s*\)=> '[^']*'|'ServerAddress'\1=> '$DOMAIN'|" \
   -e "s|'BaseURI'\(\s*\)=> '[^']*'|'BaseURI'\1=> '/akun'|" \
   -e "s|'ThemeName'\(\s*\)=> array([^)]*)|'ThemeName'\1=> array('ragnanext')|" \
+  -e "s|'DefaultLanguage'\(\s*\)=> '[^']*'|'DefaultLanguage'\1=> 'en_us'|" \
   "$FLUX_DIR/config/application.php"
 
 # --- nginx ---

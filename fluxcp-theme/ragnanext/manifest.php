@@ -1,9 +1,9 @@
 <?php
 return array(
-	// View yang tidak ada di tema ini diambil dari tema default FluxCP.
+	// Views missing from this theme fall back to FluxCP's default theme.
 	'inherit'     => 'default',
 	'author'      => 'Ragna Next',
 	'version'     => '1.0',
-	'description' => 'Tema FluxCP yang menyatu dengan website ragna-next.cc',
+	'description' => 'FluxCP theme matching the ragna-next.cc website',
 	'website'     => 'https://ragna-next.cc'
 );

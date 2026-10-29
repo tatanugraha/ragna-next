@@ -1,6 +1,6 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
 	<?php if (Flux::config('EnableReCaptcha')): ?>
 	<script src="https://www.google.com/recaptcha/api.js"></script>
 	<?php endif ?>
-	<!-- View bawaan FluxCP memakai jQuery di script inline -->
+	<!-- FluxCP's built-in views use jQuery in inline scripts -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
@@ -24,12 +24,12 @@
 			<span>RAGNA<b>NEXT</b></span>
 		</a>
 		<nav class="menu" id="menu">
-			<a href="/">Beranda</a>
-			<a href="/#berita">Berita</a>
-			<a href="/#dunia">Dunia</a>
-			<a href="/#karakter">Karakter</a>
-			<a href="/#info">Info Server</a>
-			<a href="<?php echo $this->url('main') ?>" class="on">Akun</a>
+			<a href="/">Home</a>
+			<a href="/#news">News</a>
+			<a href="/#world">World</a>
+			<a href="/#heroes">Classes</a>
+			<a href="/#info">Server Info</a>
+			<a href="<?php echo $this->url('main') ?>" class="on">Account</a>
 		</nav>
 		<div class="topbar-actions">
 			<?php if ($session->isLoggedIn()): ?>
@@ -37,12 +37,12 @@
 				<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
 				<span><?php echo htmlspecialchars($session->account->userid) ?></span>
 			</a>
-			<a class="btn-sm" href="<?php echo $this->url('account', 'logout') ?>">Keluar</a>
+			<a class="btn-sm" href="<?php echo $this->url('account', 'logout') ?>">Log Out</a>
 			<?php else: ?>
-			<a class="btn-sm gold" href="<?php echo $this->url('account', 'create') ?>">Daftar</a>
+			<a class="btn-sm gold" href="<?php echo $this->url('account', 'create') ?>">Sign Up</a>
 			<a class="avatar" href="<?php echo $this->url('account', 'login') ?>">
 				<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
-				<span>Masuk</span>
+				<span>Log In</span>
 			</a>
 			<?php endif ?>
 		</div>
@@ -50,12 +50,12 @@
 	</header>
 
 	<div class="cp-hero">
-		<p class="cp-kicker"><span></span>Panel Akun<span></span></p>
+		<p class="cp-kicker"><span></span>Account Panel<span></span></p>
 		<h1><?php echo htmlspecialchars(isset($title) ? $title : 'Ragna Next') ?></h1>
 	</div>
 
 	<?php $menuItems = $this->getMenuItems(); $adminMenuItems = $this->getAdminMenuItems(); ?>
-	<nav class="cp-nav" aria-label="Menu panel akun">
+	<nav class="cp-nav" aria-label="Account panel menu">
 		<?php foreach ($menuItems as $menuCategory => $menus): ?>
 			<?php if (!empty($menus)): ?>
 			<div class="cp-drop">

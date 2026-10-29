@@ -36,9 +36,9 @@
 		<?php endif ?>
 		<button type="submit" class="btn-auth"><?php echo htmlspecialchars(Flux::message('LoginButton')) ?></button>
 		<p class="auth-alt">
-			<a href="<?php echo $this->url('account', 'resetpass') ?>">Lupa password?</a>
+			<a href="<?php echo $this->url('account', 'resetpass') ?>">Forgot password?</a>
 			<?php if ($auth->actionAllowed('account', 'create')): ?>
-			· <a href="<?php echo $this->url('account', 'create') ?>">Buat akun baru</a>
+			· <a href="<?php echo $this->url('account', 'create') ?>">Create an account</a>
 			<?php endif ?>
 		</p>
 	</form>
