@@ -7,7 +7,7 @@
   <meta name="description" content="Ragna Next: a Ragnarok Online Renewal server. Create your account, download the client, and begin your adventure in Midgard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=20261103-dashboard">
+  <link rel="stylesheet" href="assets/style.css?v=20261103-otti-refresh">
 </head>
 <body>
   <!-- Top bar -->
@@ -19,13 +19,14 @@
     <nav class="menu" id="menu">
       <a href="#home">Home</a>
       <a href="#news">News</a>
-      <a href="#changelog">Changelog</a>
+      <a href="#changelog">Game Updates</a>
       <a href="#world">World</a>
       <a href="#heroes">Classes</a>
       <a href="#info">Server Info</a>
       <a class="staff-editor-link staff-dashboard-link" id="staff-editor-link" href="#dashboard" hidden>Dashboard</a>
     </nav>
     <div class="topbar-actions">
+      <a class="btn-sm download-link" href="/patcher/Patcher-Portable-0.2.9.exe">Download Patcher</a>
       <a class="btn-sm gold" id="account-register" href="/account/account/create" data-auth="register">Sign Up</a>
       <a class="avatar" id="account-login" href="/account/account/login" data-auth="login" aria-label="Log In">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
@@ -40,35 +41,41 @@
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </header>
 
-  <!-- Side dots -->
-  <nav class="dots" aria-label="Sections">
-    <a href="#home" data-label="Home"></a>
-    <a href="#news" data-label="News"></a>
-    <a href="#changelog" data-label="Changelog"></a>
-    <a href="#world" data-label="World"></a>
-    <a href="#heroes" data-label="Classes"></a>
-    <a href="#info" data-label="Server Info"></a>
-  </nav>
-
   <main>
     <!-- HERO -->
     <section id="home" class="panel hero">
-      <canvas id="stars" aria-hidden="true"></canvas>
       <div class="hero-sky"></div>
       <div class="hero-content">
-        <h1 class="hero-logo"><img src="assets/img/logo-re.webp" width="900" height="712" alt="Ragna-Next Renewal"></h1>
-        <p class="hero-tag">Beneath the boughs of Yggdrasil, Midgard awaits. Rise, Adventurer.</p>
+        <p class="hero-kicker"><span></span>RAGNA NEXT · RENEWAL<span></span></p>
+        <h1 class="hero-heading">A legend of<br>adventure.</h1>
+        <p class="hero-tag">Return to Midgard and begin your next chapter.</p>
         <div class="servers" aria-label="Servers">
           <span class="server live"><i></i>Ragna Next <b>Renewal</b><small>Open</small></span>
           <span class="server soon"><i></i>Ragna Next <b>Pre-Renewal</b><small>Coming Soon</small></span>
         </div>
-        <a href="#info" class="btn-download">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>
-          Download Client
-        </a>
-        <a href="/account/account/create" data-auth="register" class="hero-sub">No account yet? <b>Sign up now</b></a>
+        <div class="hero-actions">
+          <a href="/patcher/Patcher-Portable-0.2.9.exe" class="btn-download">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>
+            Download Patcher
+          </a>
+          <a href="/account/account/create" data-auth="register" class="hero-register">Create Account</a>
+        </div>
+        <div class="hero-facts" aria-label="Renewal server rates">
+          <span><b>1x / 1x</b><small>Base / Job EXP</small></span>
+          <span><b>1x</b><small>Item Drop</small></span>
+          <span><b>Renewal</b><small>Episode</small></span>
+        </div>
       </div>
-      <a href="#news" class="scroll-hint" aria-label="Scroll"><span></span></a>
+      <a href="#news" class="scroll-hint" aria-label="Explore the website"><span></span></a>
+    </section>
+
+    <section class="value-strip" aria-label="Ragna Next at a glance">
+      <div class="value-strip-inner">
+        <article><span>01</span><div><h2>Renewal World</h2><p>Explore the active Ragna Next realm.</p></div></article>
+        <article><span>02</span><div><h2>Classic Progression</h2><p>Build your character at 1x Base and Job EXP.</p></div></article>
+        <article><span>03</span><div><h2>Game Updates</h2><p>Follow published changes and announcements.</p></div></article>
+        <article><span>04</span><div><h2>Made for Midgard</h2><p>Meet the world, classes, and server details.</p></div></article>
+      </div>
     </section>
 
     <!-- NEWS -->
@@ -102,7 +109,7 @@
     <!-- CHANGELOG -->
     <section id="changelog" class="panel changelog">
       <div class="wrap">
-        <div class="changelog-heading"><h2 class="title"><span>Changelog</span></h2><a id="staff-editor-button" class="btn-sm staff-editor-link" href="#dashboard" hidden>Manage in Dashboard</a></div>
+        <div class="changelog-heading"><h2 class="title"><span>Game Updates</span></h2><a id="staff-editor-button" class="btn-sm staff-editor-link" href="#dashboard" hidden>Manage in Dashboard</a></div>
         <div class="changelog-list" id="changelog-items" aria-live="polite">
           <p class="changelog-empty">Loading changelog…</p>
         </div>
@@ -199,7 +206,7 @@
     <!-- INFO -->
     <section id="info" class="panel info">
       <div class="wrap">
-        <h2 class="title"><span>Server Info</span></h2>
+        <h2 class="title"><span>Realms & Rates</span></h2>
         <div class="realms">
           <article class="realm">
             <p class="realm-tag live">Open</p>
@@ -221,7 +228,7 @@
         <div class="cta-row">
           <a href="/account/account/create" data-auth="register" class="btn-download">Create Account</a>
           <a href="/account/" class="btn-ghost">Account Panel</a>
-          <a href="#" class="btn-ghost" aria-disabled="true">Client — Coming Soon</a>
+          <a href="/patcher/Patcher-Portable-0.2.9.exe" class="btn-ghost">Download Patcher</a>
         </div>
       </div>
       <footer class="footer">
