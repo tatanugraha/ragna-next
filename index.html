@@ -7,7 +7,7 @@
   <meta name="description" content="Ragna Next: a Ragnarok Online Renewal server. Create your account, download the client, and begin your adventure in Midgard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=20261103-otti-refresh">
+  <link rel="stylesheet" href="assets/style.css?v=20261103-public-refresh-2">
 </head>
 <body>
   <!-- Top bar -->
@@ -16,7 +16,7 @@
       <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5"/><path d="M7 17c2-7 8-11 13-11s11 4 13 11c-3 2-7 3-13 3s-10-1-13-3z"/><path d="M20 20v11M20 24l-5-4M20 24l5-4M20 31l-6 5M20 31l6 5M20 31v6"/></svg>
       <span>RAGNA<b>NEXT</b></span>
     </a>
-    <nav class="menu" id="menu">
+    <nav class="menu" id="menu" aria-label="Main navigation">
       <a href="#home">Home</a>
       <a href="#news">News</a>
       <a href="#changelog">Game Updates</a>
@@ -38,7 +38,7 @@
       </a>
       <a class="btn-sm" id="account-logout" href="/account/account/logout" hidden>Log Out</a>
     </div>
-    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Open menu" aria-controls="menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </header>
 
   <main>
@@ -81,7 +81,10 @@
     <!-- NEWS -->
     <section id="news" class="panel news">
       <div class="wrap">
-        <h2 class="title"><span>News</span></h2>
+        <div class="section-heading">
+          <div><p class="section-eyebrow">FROM THE RAGNA NEXT TEAM</p><h2 class="title"><span>News</span></h2><p class="section-intro">Announcements, community news, and upcoming activities.</p></div>
+          <a class="section-link" href="#news-items">Browse announcements <span aria-hidden="true">↘</span></a>
+        </div>
         <div class="news-grid">
           <div class="carousel" id="carousel">
             <div class="slides">
@@ -109,7 +112,10 @@
     <!-- CHANGELOG -->
     <section id="changelog" class="panel changelog">
       <div class="wrap">
-        <div class="changelog-heading"><h2 class="title"><span>Game Updates</span></h2><a id="staff-editor-button" class="btn-sm staff-editor-link" href="#dashboard" hidden>Manage in Dashboard</a></div>
+        <div class="section-heading changelog-heading">
+          <div><p class="section-eyebrow">PATCH NOTES</p><h2 class="title"><span>Game Updates</span></h2><p class="section-intro">Changes made to the game, kept separate from community news.</p></div>
+          <a id="staff-editor-button" class="btn-sm staff-editor-link" href="#dashboard" hidden>Manage in Dashboard</a>
+        </div>
         <div class="changelog-list" id="changelog-items" aria-live="polite">
           <p class="changelog-empty">Loading changelog…</p>
         </div>
@@ -171,7 +177,7 @@
     <section id="world" class="panel world">
       <div class="world-bg" id="world-bg"></div>
       <div class="wrap">
-        <h2 class="title"><span>World</span></h2>
+        <div class="section-heading"><div><p class="section-eyebrow">EXPLORE MIDGARD</p><h2 class="title"><span>World</span></h2><p class="section-intro">Visit the cities and landscapes that shape the Ragna Next world.</p></div></div>
         <div class="world-body">
           <div class="world-tabs" id="world-tabs">
             <button class="on" data-i="0">Prontera</button>
@@ -187,7 +193,7 @@
     <!-- CLASSES -->
     <section id="heroes" class="panel chars">
       <div class="wrap">
-        <h2 class="title"><span>Classes</span></h2>
+        <div class="section-heading"><div><p class="section-eyebrow">FIND YOUR PATH</p><h2 class="title"><span>Classes</span></h2><p class="section-intro">Choose a calling and see how it fights across Midgard.</p></div></div>
         <div class="char-body">
           <div class="char-art">
             <div class="rune"></div>
@@ -206,7 +212,7 @@
     <!-- INFO -->
     <section id="info" class="panel info">
       <div class="wrap">
-        <h2 class="title"><span>Realms & Rates</span></h2>
+        <div class="section-heading"><div><p class="section-eyebrow">SERVER DETAILS</p><h2 class="title"><span>Realms & Rates</span></h2><p class="section-intro">Review the realm status and progression settings before you join.</p></div></div>
         <div class="realms">
           <article class="realm">
             <p class="realm-tag live">Open</p>
@@ -290,6 +296,6 @@
     </div>
   </div>
 
-  <script src="assets/main.js?v=20261103-dashboard"></script>
+  <script src="assets/main.js?v=20261103-public-refresh-2"></script>
 </body>
 </html>

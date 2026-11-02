@@ -8,8 +8,20 @@
   // Solid top bar on scroll + mobile menu
   const topbar = $('#topbar');
   addEventListener('scroll', () => topbar.classList.toggle('solid', scrollY > 40), { passive: true });
-  $('#burger').addEventListener('click', () => $('#menu').classList.toggle('open'));
-  $$('#menu a').forEach(a => a.addEventListener('click', () => $('#menu').classList.remove('open')));
+  const menu = $('#menu');
+  const burger = $('#burger');
+  function closeMenu() {
+    menu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Open menu');
+  }
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  $$('#menu a').forEach(a => a.addEventListener('click', closeMenu));
+  addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
 
   // Highlight the matching header link as sections enter the viewport.
   const links = $$('.menu a');
@@ -83,8 +95,15 @@
         const link = document.createElement('a');
         link.href = String(item.url || '#news');
         const title = document.createElement('span');
+        title.className = 'news-item-title';
         title.textContent = titleText;
-        link.append(title, makeTime(date));
+        const content = document.createElement('span');
+        content.className = 'news-item-content';
+        const summary = document.createElement('span');
+        summary.className = 'news-item-summary';
+        summary.textContent = String(item.summary || '');
+        content.append(title, summary);
+        link.append(makeTime(date), content);
         row.append(link);
         newsList.append(row);
       }

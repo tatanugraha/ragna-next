@@ -469,6 +469,38 @@ body { background: #f3f4ef; color: #17231e; }
 .download-link { color: #176c48 !important; border-color: #a9c4b3 !important; }
 .download-link:hover { background: #f1f8f3; }
 
+/* OTTi-inspired public page structure, using Ragna Next content and colors. */
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.section-heading .title { margin: 0; }
+.section-eyebrow { margin: 0 0 8px; color: #25845b; font-size: .68rem; font-weight: 700; letter-spacing: .16em; }
+.section-intro { margin: 10px 0 0; color: #65736b; font-size: .92rem; line-height: 1.6; }
+.section-link { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 9px; margin-bottom: 5px; color: #176c48; font-size: .84rem; font-weight: 700; }
+.section-link:hover { color: #0f5438; }
+.news .title, .changelog .title { margin-bottom: 0; }
+.news-grid { grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr); gap: 20px; }
+.carousel { min-height: 420px; }
+.news-list { display: flex; flex-direction: column; min-height: 420px; padding: 18px; }
+.tabs { flex-wrap: wrap; gap: 18px; }
+#news-items { align-content: start; flex: 1; gap: 9px; margin: 16px 0 0; padding: 0; }
+#news-items li a { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 12px; align-items: start; min-height: 78px; padding: 13px 14px; }
+#news-items li a:hover { padding-left: 14px; }
+#news-items time { margin: 2px 0 0; color: #25845b; font-size: .72rem; font-weight: 700; white-space: normal; }
+.news-item-content { display: grid; gap: 5px; min-width: 0; }
+.news-item-title { font-weight: 700; line-height: 1.4; }
+.news-item-summary { color: #69766e; font-size: .78rem; line-height: 1.5; }
+.changelog-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.changelog-entry { transition: border-color .2s, background .2s, transform .2s; }
+.changelog-entry:hover { transform: translateY(-2px); border-color: #9abbaa; background: #fff; }
+.world .section-eyebrow { color: #e4bc65; }
+.world .section-intro { color: #d0ddd3; }
+.chars .section-eyebrow { color: #176c48; }
+.info .section-eyebrow { color: #f0cb78; }
+.topbar { z-index: 100; }
+.burger { border: 1px solid #d5ddd6; border-radius: 4px; background: #fff; }
+.burger span { background: #26382e; }
+.menu a:focus-visible, .topbar-actions a:focus-visible, .burger:focus-visible, .section-link:focus-visible { outline: 3px solid #43b77e; outline-offset: 4px; }
+.tab:focus-visible, .carousel-nav button:focus-visible, .world-tabs button:focus-visible, .char-list button:focus-visible { outline: 3px solid #43b77e; outline-offset: 3px; }
+
 @media (max-width: 1040px) {
   .topbar { gap: 18px; }
   .menu { gap: 14px; }
@@ -483,6 +515,10 @@ body { background: #f3f4ef; color: #17231e; }
   .menu.open { top: 64px; background: #fff; border-color: #dfe5df; }
   .menu.open a { color: #38483e; }
   .menu.open a.on, .menu.open a:hover { color: #176c48; }
+  .menu.open { z-index: 105; max-height: calc(100vh - 64px); overflow-y: auto; padding: 10px 20px 18px; box-shadow: 0 12px 24px rgba(10, 30, 20, .12); }
+  .menu.open a { min-height: 42px; display: flex; align-items: center; border-bottom: 1px solid #edf0ed; }
+  .menu.open a::after { display: none; }
+  .menu.open .staff-dashboard-link { border-bottom: 0; }
   .burger span { background: #26382e; }
   .hero { height: auto; min-height: 650px; padding: 72px 24px 64px; }
   .hero-sky { background-position: 58% center; }
@@ -497,9 +533,10 @@ body { background: #f3f4ef; color: #17231e; }
   .panel { padding: 64px 0; }
   .news-grid, .changelog-list { grid-template-columns: 1fr; }
   .carousel { min-height: 270px; }
-  .news-list { padding: 16px; }
-  #news-items li a { flex-direction: column; gap: 5px; }
-  #news-items time { margin-left: 0; }
+  .news-list { min-height: 0; padding: 16px; }
+  #news-items li a { grid-template-columns: 74px minmax(0, 1fr); gap: 10px; }
+  #news-items time { margin: 2px 0 0; }
+  .section-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
   .changelog-heading { align-items: flex-start; flex-direction: column; }
   .world-body { min-height: 0; }
   .realms { grid-template-columns: 1fr; }
