@@ -141,6 +141,25 @@ input[type=radio], input[type=checkbox] { accent-color: var(--gold); }
 .cp-tiles strong { font-family: var(--serif); color: var(--gold-hi); }
 .cp-tiles span { font-size: .85rem; color: var(--muted); }
 
+/* Changelog CMS editor */
+.changelog-editor { max-width: 960px; margin: 0 auto; }
+.changelog-editor-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+.changelog-editor-head h2 { color: var(--cream); font: 700 clamp(1.4rem, 3vw, 2rem) var(--serif); }
+.changelog-editor-head > span, .changelog-editor-help { color: var(--muted); font-size: .85rem; }
+.changelog-editor-help { margin-bottom: 20px; }
+.changelog-editor-list { display: grid; gap: 14px; }
+.changelog-edit-entry { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 6px; background: rgba(4, 14, 10, .42); }
+.changelog-edit-entry legend { padding: 0 8px; color: var(--gold-hi); font-family: var(--serif); font-weight: 700; }
+.changelog-edit-entry label { display: grid; gap: 6px; margin: 10px 0; color: var(--muted); font-size: .8rem; }
+.changelog-edit-entry input, .changelog-edit-entry select, .changelog-edit-entry textarea { width: 100%; min-height: 40px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 3px; color: var(--cream); background: rgba(4, 14, 10, .8); font: inherit; }
+.changelog-edit-entry textarea { min-height: 78px; resize: vertical; }
+.changelog-edit-entry input:focus, .changelog-edit-entry select:focus, .changelog-edit-entry textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.changelog-edit-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(150px, 1fr) minmax(140px, .8fr); gap: 12px; }
+.changelog-remove { color: #f2a69d; font-size: .8rem; text-decoration: underline; }
+.changelog-editor-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.changelog-editor-actions .btn-auth { margin: 0; }
+.changelog-edit-entry[hidden] { display: none; }
+
 /* ---------- footer ---------- */
 .footer { border-top: 1px solid rgba(95, 211, 141, .15); padding: 24px 16px; text-align: center; color: var(--muted); font-size: .8rem; }
 .footer p { margin: 4px 0; }
@@ -155,5 +174,7 @@ input[type=radio], input[type=checkbox] { accent-color: var(--gold); }
   .menu.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; padding: 16px; gap: 8px; background: rgba(4, 14, 10, .97); border-bottom: 1px solid var(--line); }
   .cp-card { padding: 20px 16px; }
   .auth-row, .cp-actions { grid-template-columns: 1fr; }
+  .changelog-edit-grid { grid-template-columns: 1fr; gap: 0; }
+  .changelog-editor-actions { flex-direction: column; }
   .vertical-table th { width: auto; }
 }

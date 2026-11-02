@@ -84,6 +84,100 @@
     $$('#news-items li').forEach(li => li.classList.toggle('hide', cat !== 'all' && li.dataset.cat !== cat));
   }));
 
+  // One published JSON feed powers both the homepage preview and full changelog.
+  async function loadChangelog() {
+    const newsList = $('#news-items');
+    const changelogList = $('#changelog-items');
+    try {
+      let data;
+      try {
+        const response = await fetch('/akun/?module=changelog&action=feed', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        data = await response.json();
+      } catch {
+        const fallback = await fetch('assets/changelog.json', { cache: 'no-store' });
+        if (!fallback.ok) throw new Error(`HTTP ${fallback.status}`);
+        data = await fallback.json();
+      }
+      const items = Array.isArray(data.items) ? data.items : [];
+      newsList.replaceChildren();
+      changelogList.replaceChildren();
+
+      if (!items.length) {
+        const empty = document.createElement('p');
+        empty.className = 'changelog-empty';
+        empty.textContent = 'No changelog entries have been published yet.';
+        const emptyRow = document.createElement('li');
+        emptyRow.className = 'news-empty';
+        emptyRow.append(empty.cloneNode(true));
+        newsList.append(emptyRow);
+        changelogList.append(empty);
+        return;
+      }
+
+      const makeTime = (value) => {
+        const time = document.createElement('time');
+        const date = String(value || '');
+        time.dateTime = date;
+        time.textContent = /^\d{4}-\d{2}-\d{2}$/.test(date)
+          ? new Date(`${date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          : (date || 'Update');
+        return time;
+      };
+
+      for (const item of items) {
+        const titleText = String(item.title || 'Server update');
+        const summaryText = String(item.summary || '');
+        const date = String(item.date || '');
+        const category = String(item.category || 'info').toLowerCase();
+        const categoryLabel = category === 'event' ? 'Event' : category === 'info' ? 'Info' : 'Update';
+
+        const row = document.createElement('li');
+        row.dataset.cat = category === 'event' ? 'event' : 'info';
+        const link = document.createElement('a');
+        link.href = '#changelog';
+        const title = document.createElement('span');
+        title.textContent = titleText;
+        link.append(title, makeTime(date));
+        row.append(link);
+        newsList.append(row);
+
+        const entry = document.createElement('article');
+        entry.className = 'changelog-entry';
+        const meta = document.createElement('div');
+        meta.className = 'changelog-meta';
+        const categoryText = document.createElement('span');
+        categoryText.className = 'category';
+        categoryText.textContent = categoryLabel;
+        meta.append(categoryText, makeTime(date));
+        const heading = document.createElement('h3');
+        heading.textContent = titleText;
+        const summary = document.createElement('p');
+        summary.textContent = summaryText;
+        entry.append(meta, heading, summary);
+        changelogList.append(entry);
+      }
+
+      const selectedTab = $('.tab.on');
+      if (selectedTab) {
+        const category = selectedTab.dataset.cat;
+        $$('#news-items li').forEach(row => row.classList.toggle('hide', category !== 'all' && row.dataset.cat !== category));
+      }
+    } catch (error) {
+      newsList.replaceChildren();
+      changelogList.replaceChildren();
+      const message = document.createElement('p');
+      message.className = 'changelog-empty';
+      message.textContent = 'Changelog is temporarily unavailable.';
+      const errorRow = document.createElement('li');
+      errorRow.className = 'news-empty';
+      errorRow.append(message.cloneNode(true));
+      newsList.append(errorRow);
+      changelogList.append(message);
+    }
+  }
+  loadChangelog();
+
   // World
   const regions = [
     { tag: 'Royal Capital', name: 'Prontera', bg: 'url(assets/img/city1.webp) center right / cover no-repeat, #23345e',

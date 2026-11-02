@@ -26,6 +26,15 @@ fi
 
 # --- FluxCP: tema ragnanext, alamat /akun di domain utama ---
 ln -sfn "$WEB_DIR/fluxcp-theme/ragnanext" "$FLUX_DIR/themes/ragnanext"
+if [[ -e "$FLUX_DIR/modules/changelog" && ! -L "$FLUX_DIR/modules/changelog" ]]; then
+  echo "FluxCP already has a real changelog module at $FLUX_DIR/modules/changelog; move it before installing this module." >&2
+  exit 1
+fi
+ln -sfn "$WEB_DIR/fluxcp-modules/changelog" "$FLUX_DIR/modules/changelog"
+install -d -o www-data -g www-data -m 0750 /var/lib/ragna-next
+if [[ ! -f /var/lib/ragna-next/changelog.json ]]; then
+  install -o www-data -g www-data -m 0640 "$WEB_DIR/assets/changelog.json" /var/lib/ragna-next/changelog.json
+fi
 mkdir -p "$CP_ROOT"
 ln -sfn "$FLUX_DIR" "$CP_ROOT/akun"
 sed -i \
@@ -43,7 +52,7 @@ site_body() {
 
     # repo, script deploy & source tema tidak boleh diakses publik
     location ~ /\.(git|ht) { deny all; }
-    location ~ ^/(deploy|fluxcp-theme|README\.md) { deny all; }
+    location ~ ^/(deploy|fluxcp-theme|fluxcp-modules|README\.md) { deny all; }
 
     location ~* \.(css|js|png|jpg|jpeg|webp|svg|ico|woff2?)\$ {
         expires 7d;
@@ -62,7 +71,7 @@ site_body() {
         client_max_body_size 8m;
 
         # file konfigurasi, source, dan data internal FluxCP tidak boleh diakses publik
-        location ~ ^/akun/(config|lib|modules|themes/.*\.php|data/(logs|schemas|tmp|templates|paypal)|addons/[^/]+/(config|lib|modules)) { deny all; }
+        location ~ ^/akun/(config|lib|modules|themes/.*\.php|data/(logs|schemas|tmp|templates|paypal|ragna-next)|addons/[^/]+/(config|lib|modules)) { deny all; }
         location ~ /\.(git|ht) { deny all; }
 
         location ~ \.php\$ {

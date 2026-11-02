@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "title": "Ragna Next pre-registration is officially open",
+      "date": "2026-10-29",
+      "category": "event",
+      "summary": "Sign up early and claim the starter adventurer pack.",
+      "url": "https://ragna-next.cc/#changelog"
+    },
+    {
+      "title": "Guide: creating an account and downloading the client",
+      "date": "2026-10-29",
+      "category": "info",
+      "summary": "Follow the account and client setup guide before your first login.",
+      "url": "https://ragna-next.cc/#changelog"
+    },
+    {
+      "title": "Server rates and rules of play",
+      "date": "2026-10-28",
+      "category": "info",
+      "summary": "Review the current server settings and community rules.",
+      "url": "https://ragna-next.cc/#changelog"
+    },
+    {
+      "title": "Closed Beta Test schedule",
+      "date": "2026-10-27",
+      "category": "event",
+      "summary": "Check the schedule and prepare your account for the test.",
+      "url": "https://ragna-next.cc/#changelog"
+    },
+    {
+      "title": "Join the Ragna Next Discord community",
+      "date": "2026-10-26",
+      "category": "info",
+      "summary": "Meet other players and follow announcements from the team.",
+      "url": "https://ragna-next.cc/#changelog"
+    }
+  ]
+}

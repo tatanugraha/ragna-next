@@ -129,9 +129,24 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .tab.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--gold); }
 #news-items { list-style: none; }
 #news-items li.hide { display: none; }
+#news-items .news-empty { list-style: none; padding: 14px 4px; color: var(--muted); font-size: .85rem; }
+#news-items .news-empty .changelog-empty { font-size: inherit; }
 #news-items a { display: flex; justify-content: space-between; gap: 16px; padding: 14px 4px; border-bottom: 1px dashed rgba(95, 211, 141, .18); transition: color .2s, padding .2s; }
 #news-items a:hover { color: var(--gold-hi); padding-left: 10px; }
 #news-items time { color: var(--muted); font-size: .85rem; flex-shrink: 0; }
+.changelog-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; color: var(--gold-hi); font-size: .82rem; letter-spacing: .04em; }
+.changelog-more:hover { color: var(--cream); }
+
+/* ---------- changelog ---------- */
+.changelog { background: radial-gradient(ellipse at 50% 0, #102b20, var(--ink) 72%); }
+.changelog-list { width: min(820px, 100%); max-height: 62vh; overflow: auto; margin: 0 auto; padding: 0 12px; }
+.changelog-entry { padding: 18px 4px; border-bottom: 1px solid rgba(95, 211, 141, .2); }
+.changelog-entry:first-child { border-top: 1px solid rgba(95, 211, 141, .2); }
+.changelog-meta { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; }
+.changelog-meta .category { color: var(--gold-hi); }
+.changelog-entry h3 { margin: 5px 0; color: var(--cream); font: 700 clamp(1rem, 2vw, 1.35rem) var(--serif); }
+.changelog-entry p, .changelog-empty { color: var(--text); opacity: .82; font-size: .9rem; }
+.changelog-empty { padding: 24px 4px; text-align: center; }
 
 /* ---------- world ---------- */
 .world-bg { position: absolute; inset: 0; background-size: cover !important; background-position: center right !important; transition: opacity .5s; }
