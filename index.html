@@ -26,16 +26,16 @@
       <a class="staff-editor-link staff-dashboard-link" id="staff-editor-link" href="#dashboard" hidden>Dashboard</a>
     </nav>
     <div class="topbar-actions">
-      <a class="btn-sm gold" id="account-register" href="/ACCOUNT/account/create" data-auth="register">Sign Up</a>
-      <a class="avatar" id="account-login" href="/ACCOUNT/account/login" data-auth="login" aria-label="Log In">
+      <a class="btn-sm gold" id="account-register" href="/account/account/create" data-auth="register">Sign Up</a>
+      <a class="avatar" id="account-login" href="/account/account/login" data-auth="login" aria-label="Log In">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
         <span>Log In</span>
       </a>
-      <a class="avatar" id="account-profile" href="/ACCOUNT/account/view" aria-label="Account" hidden>
+      <a class="avatar" id="account-profile" href="/account/account/view" aria-label="Account" hidden>
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
         <span id="account-name"></span>
       </a>
-      <a class="btn-sm" id="account-logout" href="/ACCOUNT/account/logout" hidden>Log Out</a>
+      <a class="btn-sm" id="account-logout" href="/account/account/logout" hidden>Log Out</a>
     </div>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </header>
@@ -66,7 +66,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>
           Download Client
         </a>
-        <a href="/ACCOUNT/account/create" data-auth="register" class="hero-sub">No account yet? <b>Sign up now</b></a>
+        <a href="/account/account/create" data-auth="register" class="hero-sub">No account yet? <b>Sign up now</b></a>
       </div>
       <a href="#news" class="scroll-hint" aria-label="Scroll"><span></span></a>
     </section>
@@ -219,8 +219,8 @@
           </article>
         </div>
         <div class="cta-row">
-          <a href="/ACCOUNT/account/create" data-auth="register" class="btn-download">Create Account</a>
-          <a href="/ACCOUNT/" class="btn-ghost">Account Panel</a>
+          <a href="/account/account/create" data-auth="register" class="btn-download">Create Account</a>
+          <a href="/account/" class="btn-ghost">Account Panel</a>
           <a href="#" class="btn-ghost" aria-disabled="true">Client — Coming Soon</a>
         </div>
       </div>
@@ -230,7 +230,7 @@
     </section>
   </main>
 
-  <!-- Account: log in / sign up (posted to FluxCP at /ACCOUNT) -->
+  <!-- Account: log in / sign up (posted to FluxCP at /account) -->
   <div class="auth" id="auth" hidden>
     <div class="auth-backdrop" data-close></div>
     <div class="auth-box" role="dialog" aria-modal="true" aria-label="Ragna Next account">
@@ -241,16 +241,16 @@
         <button type="button" data-pane="register">Sign Up</button>
       </div>
 
-      <form class="auth-form" id="pane-login" action="/ACCOUNT/account/login" method="post">
+      <form class="auth-form" id="pane-login" action="/account/account/login" method="post">
         <input type="hidden" name="server" value="RO NEXT : Renewal">
-        <input type="hidden" name="return_url" value="/ACCOUNT/account/view">
+        <input type="hidden" name="return_url" value="/account/account/view">
         <label>Username<input name="username" required minlength="4" maxlength="23" autocomplete="username"></label>
         <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
         <button class="btn-auth">Log In</button>
-        <p class="auth-alt"><a href="/ACCOUNT/account/resetpass">Forgot password?</a> · <a href="#" data-pane="register">Create an account</a></p>
+        <p class="auth-alt"><a href="/account/account/resetpass">Forgot password?</a> · <a href="#" data-pane="register">Create an account</a></p>
       </form>
 
-      <form class="auth-form" id="pane-register" action="/ACCOUNT/account/create" method="post" hidden>
+      <form class="auth-form" id="pane-register" action="/account/account/create" method="post" hidden>
         <input type="hidden" name="server" value="RO NEXT : Renewal">
         <input type="hidden" name="email_address2">
         <label>Username<input name="username" required minlength="4" maxlength="23" pattern="[A-Za-z0-9_]+" autocomplete="username" title="4–23 characters: letters, numbers, underscore"></label>

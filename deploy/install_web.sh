@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ragna Next - install the website and FluxCP account panel at /ACCOUNT/.
+# Ragna Next - install the website and FluxCP account panel at /account/.
 # Usage (root): bash install_web.sh [domain]     default domain: ragna-next.cc
 # Aman dijalankan ulang. Update otomatis: cron fetch + reset ke origin/main tiap menit.
 # FluxCP harus sudah terpasang di $FLUX_DIR (lihat deploy/install_fluxcp.sh di repo server).
@@ -10,7 +10,7 @@ CP_DOMAIN=cp.$DOMAIN
 REPO=https://github.com/tatanugraha/ragna-next.git
 WEB_DIR=/var/www/ragna-next
 FLUX_DIR=/var/www/fluxcp
-CP_ROOT=/var/www/cp            # contains /ACCOUNT plus legacy account route symlinks to FluxCP
+CP_ROOT=/var/www/cp            # contains /account plus legacy route symlinks to FluxCP
 SITE=/etc/nginx/sites-available/ragna-next
 CP_SITE=/etc/nginx/sites-available/fluxcp
 PHP_SOCK=$(ls /run/php/php[0-9]*-fpm.sock | head -n1)
@@ -24,7 +24,7 @@ else
   git -C "$WEB_DIR" reset -q --hard origin/main
 fi
 
-# --- FluxCP: Ragna Next theme, canonical /ACCOUNT route on the main domain ---
+# --- FluxCP: Ragna Next theme, canonical /account route on the main domain ---
 ln -sfn "$WEB_DIR/fluxcp-theme/ragnanext" "$FLUX_DIR/themes/ragnanext"
 if [[ -e "$FLUX_DIR/modules/changelog" && ! -L "$FLUX_DIR/modules/changelog" ]]; then
   echo "FluxCP already has a real changelog module at $FLUX_DIR/modules/changelog; move it before installing this module." >&2
@@ -41,7 +41,7 @@ ln -sfn "$FLUX_DIR" "$CP_ROOT/account"
 ln -sfn "$FLUX_DIR" "$CP_ROOT/akun"
 sed -i \
   -e "s|'ServerAddress'\(\s*\)=> '[^']*'|'ServerAddress'\1=> '$DOMAIN'|" \
-  -e "s|'BaseURI'\(\s*\)=> '[^']*'|'BaseURI'\1=> '/ACCOUNT'|" \
+  -e "s|'BaseURI'\(\s*\)=> '[^']*'|'BaseURI'\1=> '/account'|" \
   -e "s|'ThemeName'\(\s*\)=> array([^)]*)|'ThemeName'\1=> array('ragnanext')|" \
   -e "s|'DefaultLanguage'\(\s*\)=> '[^']*'|'DefaultLanguage'\1=> 'en_us'|" \
 	-e "s|'SessionCookieExpire'\(\s*\)=> [0-9]+|'SessionCookieExpire'\1=> 336|" \
@@ -74,15 +74,15 @@ site_body() {
         try_files \$uri \$uri/ =404;
     }
 
-    # Canonical Account panel route (FluxCP)
-    location = /ACCOUNT { return 301 /ACCOUNT/; }
-    location ^~ /ACCOUNT/ {
+    # Canonical account panel route (FluxCP)
+    location = /account { return 301 /account/; }
+    location ^~ /account/ {
         root $CP_ROOT;
         index index.php;
         client_max_body_size 8m;
 
         # file konfigurasi, source, dan data internal FluxCP tidak boleh diakses publik
-        location ~ ^/ACCOUNT/(config|lib|modules|themes/.*\.php|data/(logs|schemas|tmp|templates|paypal|ragna-next)|addons/[^/]+/(config|lib|modules)) { deny all; }
+        location ~ ^/account/(config|lib|modules|themes/.*\.php|data/(logs|schemas|tmp|templates|paypal|ragna-next)|addons/[^/]+/(config|lib|modules)) { deny all; }
         location ~ /\.(git|ht) { deny all; }
 
         location ~ \.php\$ {
@@ -90,21 +90,21 @@ site_body() {
             fastcgi_pass unix:$PHP_SOCK;
         }
 
-        try_files \$uri \$uri/ /ACCOUNT/index.php?\$args;
+        try_files \$uri \$uri/ /account/index.php?\$args;
     }
 
-    # Preserve legacy links while moving the visible route to English.
-    location = /akun { return 308 /ACCOUNT/; }
-    location ~ ^/akun(?<legacy_path>/.*)\$ { return 308 /ACCOUNT\$legacy_path\$is_args\$args; }
-    location = /account { return 308 /ACCOUNT/; }
-    location ~ ^/account(?<legacy_account_path>/.*)\$ { return 308 /ACCOUNT\$legacy_account_path\$is_args\$args; }
+    # Preserve legacy links while moving to the lowercase English route.
+    location = /akun { return 308 /account/; }
+    location ~ ^/akun(?<legacy_path>/.*)\$ { return 308 /account\$legacy_path\$is_args\$args; }
+    location = /ACCOUNT { return 308 /account/; }
+    location ~ ^/ACCOUNT(?<legacy_upper_path>/.*)\$ { return 308 /account\$legacy_upper_path\$is_args\$args; }
 NGINX
 }
 
 # cp.<domain> dan akses lewat IP -> panel akun di domain utama.
 # Pakai location (bukan return di level server) supaya challenge certbot tetap bisa lewat.
 cp_redirect() {
-  echo "    location / { return 301 https://$DOMAIN/ACCOUNT\$request_uri; }"
+  echo "    location / { return 301 https://$DOMAIN/account\$request_uri; }"
 }
 
 ssl_lines() {
@@ -181,4 +181,4 @@ if [[ ! -d /etc/letsencrypt/live/$DOMAIN ]]; then
   fi
 fi
 
-echo "Website installed at $WEB_DIR for $DOMAIN; Account panel: https://$DOMAIN/ACCOUNT/"
+echo "Website installed at $WEB_DIR for $DOMAIN; account panel: https://$DOMAIN/account/"
