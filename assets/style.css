@@ -479,6 +479,8 @@ body { background: #f3f4ef; color: #17231e; }
 .news .title, .changelog .title { margin-bottom: 0; }
 .news-grid { grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr); gap: 20px; }
 .carousel { min-height: 420px; }
+.slide { visibility: hidden; }
+.slide.active { visibility: visible; }
 .news-list { display: flex; flex-direction: column; min-height: 420px; padding: 18px; }
 .tabs { flex-wrap: wrap; gap: 18px; }
 #news-items { align-content: start; flex: 1; gap: 9px; margin: 16px 0 0; padding: 0; }
