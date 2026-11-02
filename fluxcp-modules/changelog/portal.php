@@ -21,7 +21,8 @@ if ($canEdit) {
 		$session->setChangelogCsrfTokenData($csrfToken);
 	}
 	$response['csrfToken'] = $csrfToken;
-	$response['items'] = ragnaChangelogRead()['items'];
+	$response['news'] = ragnaNewsRead()['items'];
+	$response['changelog'] = ragnaChangelogRead()['items'];
 	$response['events'] = ragnaEventsRead()['items'];
 }
 

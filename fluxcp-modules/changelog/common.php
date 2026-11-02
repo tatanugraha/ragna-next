@@ -2,19 +2,25 @@
 if (!defined('FLUX_ROOT')) exit;
 
 define('RAGNA_CHANGELOG_FILE', '/var/lib/ragna-next/changelog.json');
+define('RAGNA_NEWS_PAGE_URL', 'https://ragna-next.cc/#news');
 define('RAGNA_CHANGELOG_PAGE_URL', 'https://ragna-next.cc/#changelog');
 define('RAGNA_CHANGELOG_MAX_ITEMS', 50);
 define('RAGNA_EVENT_MAX_ITEMS', 50);
 
-function ragnaChangelogRead()
+function ragnaContentReadData()
 {
 	$raw = @file_get_contents(RAGNA_CHANGELOG_FILE);
-	if ($raw === false || strlen($raw) > 262144) return array('items' => array());
+	if ($raw === false || strlen($raw) > 262144) return array();
 	$data = json_decode($raw, true);
-	if (!is_array($data) || !isset($data['items']) || !is_array($data['items'])) return array('items' => array());
+	return is_array($data) ? $data : array();
+}
 
+
+function ragnaContentEntriesRead($entries, $url)
+{
+	if (!is_array($entries)) return array('items' => array());
 	$items = array();
-	foreach (array_slice($data['items'], 0, RAGNA_CHANGELOG_MAX_ITEMS) as $item) {
+	foreach (array_slice($entries, 0, RAGNA_CHANGELOG_MAX_ITEMS) as $item) {
 		if (!is_array($item)) continue;
 		$title = trim((string)($item['title'] ?? ''));
 		$date = trim((string)($item['date'] ?? ''));
@@ -27,18 +33,28 @@ function ragnaChangelogRead()
 			'date' => $date,
 			'category' => $category,
 			'summary' => substr(trim((string)($item['summary'] ?? '')), 0, 4800),
-			'url' => RAGNA_CHANGELOG_PAGE_URL
+			'url' => $url
 		);
 	}
 	return array('items' => $items);
 }
 
+function ragnaNewsRead()
+{
+	$data = ragnaContentReadData();
+	$entries = isset($data['news']) && is_array($data['news']) ? $data['news'] : (!isset($data['changelog']) && isset($data['items']) ? $data['items'] : array());
+	return ragnaContentEntriesRead($entries, RAGNA_NEWS_PAGE_URL);
+}
+
+function ragnaChangelogRead()
+{
+	$data = ragnaContentReadData();
+	return ragnaContentEntriesRead($data['changelog'] ?? array(), RAGNA_CHANGELOG_PAGE_URL);
+}
+
 function ragnaEventsRead()
 {
-	$raw = @file_get_contents(RAGNA_CHANGELOG_FILE);
-	if ($raw === false || strlen($raw) > 262144) return array('items' => array());
-	$data = json_decode($raw, true);
-	if (!is_array($data) || !isset($data['events']) || !is_array($data['events'])) return array('items' => array());
+	$data = ragnaContentReadData();
 
 	$items = array();
 	foreach (array_slice($data['events'], 0, RAGNA_EVENT_MAX_ITEMS) as $item) {
@@ -62,9 +78,8 @@ function ragnaEventsRead()
 	return array('items' => $items);
 }
 
-function ragnaChangelogWrite(array $items, ?array $events = null)
+function ragnaContentWrite(array $news, array $changelog, array $events)
 {
-	if ($events === null) $events = ragnaEventsRead()['items'];
 	$directory = dirname(RAGNA_CHANGELOG_FILE);
 	$lockPath = RAGNA_CHANGELOG_FILE . '.lock';
 	if (!is_dir($directory) || is_link($directory) || is_link(RAGNA_CHANGELOG_FILE) || is_link($lockPath)) {
@@ -80,7 +95,7 @@ function ragnaChangelogWrite(array $items, ?array $events = null)
 	try {
 		$tempPath = tempnam($directory, '.changelog-');
 		if ($tempPath === false) throw new RuntimeException('Changelog storage is not available.');
-		$payload = json_encode(array('items' => $items, 'events' => $events), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		$payload = json_encode(array('news' => $news, 'changelog' => $changelog, 'events' => $events), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 		if (!is_string($payload) || file_put_contents($tempPath, $payload . "\n", LOCK_EX) === false) {
 			throw new RuntimeException('Changelog could not be saved.');
 		}
@@ -115,17 +130,17 @@ function ragnaChangelogCleanHttpsUrl($value, $maxLength)
 	return $url;
 }
 
-function ragnaChangelogNormalizePostedItems($posted, &$error)
+function ragnaContentNormalizePostedEntries($posted, &$error, $contentType)
 {
 	$error = '';
 	if (!is_array($posted) || count($posted) > RAGNA_CHANGELOG_MAX_ITEMS) {
-		$error = 'Changelog must contain no more than 50 entries.';
+		$error = ucfirst($contentType) . ' must contain no more than 50 entries.';
 		return null;
 	}
 	$items = array();
 	foreach ($posted as $raw) {
 		if (!is_array($raw)) {
-			$error = 'Invalid changelog entry.';
+			$error = 'Invalid ' . $contentType . ' entry.';
 			return null;
 		}
 		if ((string)($raw['deleted'] ?? '') === '1') continue;
@@ -140,7 +155,7 @@ function ragnaChangelogNormalizePostedItems($posted, &$error)
 		}
 		if ($title === '' && $date === '' && $summary === '') continue;
 		if ($title === '') {
-			$error = 'Every changelog entry needs a title.';
+			$error = 'Every ' . $contentType . ' entry needs a title.';
 			return null;
 		}
 		$dateParts = preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $matches) ? $matches : null;
@@ -163,10 +178,15 @@ function ragnaChangelogNormalizePostedItems($posted, &$error)
 			'date' => $date,
 			'category' => $category,
 			'summary' => $summary,
-			'url' => RAGNA_CHANGELOG_PAGE_URL
+			'url' => $contentType === 'news' ? RAGNA_NEWS_PAGE_URL : RAGNA_CHANGELOG_PAGE_URL
 		);
 	}
 	return $items;
+}
+
+function ragnaChangelogNormalizePostedItems($posted, &$error)
+{
+	return ragnaContentNormalizePostedEntries($posted, $error, 'changelog');
 }
 
 function ragnaChangelogNormalizePostedEvents($posted, &$error)

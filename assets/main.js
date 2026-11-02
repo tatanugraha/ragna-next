@@ -84,50 +84,28 @@
     $$('#news-items li').forEach(li => li.classList.toggle('hide', cat !== 'all' && li.dataset.cat !== cat));
   }));
 
-  // One published JSON feed powers both the homepage preview and full changelog.
+  // News and game changelog have separate published feeds.
   async function loadChangelog() {
     const newsList = $('#news-items');
     const changelogList = $('#changelog-items');
     try {
-      let data;
-      try {
-        const response = await fetch('/akun/?module=changelog&action=feed', { cache: 'no-store' });
+      const fetchJson = async url => {
+        const response = await fetch(url, { cache: 'no-store' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        data = await response.json();
-      } catch {
-        const fallback = await fetch('assets/changelog.json', { cache: 'no-store' });
-        if (!fallback.ok) throw new Error(`HTTP ${fallback.status}`);
-        data = await fallback.json();
-      }
-      const items = Array.isArray(data.items) ? data.items.slice() : [];
-      try {
-        const eventResponse = await fetch('/akun/?module=changelog&action=events-feed', { cache: 'no-store' });
-        if (eventResponse.ok) {
-          const eventData = await eventResponse.json();
-          if (Array.isArray(eventData.items)) {
-            eventData.items.forEach(item => items.push({
-              title: item.title,
-              date: item.startDate,
-              category: 'event',
-              summary: item.description || item.summary || ''
-            }));
-          }
-        }
-      } catch { /* News and changelog remain available if the events feed is down. */ }
+        return response.json();
+      };
+      const fallbackPromise = fetchJson('assets/changelog.json');
+      const [fallback, newsResult, changelogResult] = await Promise.all([
+        fallbackPromise,
+        fetchJson('/akun/?module=changelog&action=news-feed').then(data => ({ data })).catch(() => null),
+        fetchJson('/akun/?module=changelog&action=feed').then(data => ({ data })).catch(() => null)
+      ]);
+      const newsData = newsResult?.data || fallback;
+      const changelogData = changelogResult?.data || fallback;
+      const newsItems = Array.isArray(newsData.news) ? newsData.news : (Array.isArray(newsData.items) ? newsData.items : []);
+      const changelogItems = Array.isArray(changelogData.changelog) ? changelogData.changelog : (Array.isArray(changelogData.items) && changelogResult ? changelogData.items : []);
       newsList.replaceChildren();
       changelogList.replaceChildren();
-
-      if (!items.length) {
-        const empty = document.createElement('p');
-        empty.className = 'changelog-empty';
-        empty.textContent = 'No changelog entries have been published yet.';
-        const emptyRow = document.createElement('li');
-        emptyRow.className = 'news-empty';
-        emptyRow.append(empty.cloneNode(true));
-        newsList.append(emptyRow);
-        changelogList.append(empty);
-        return;
-      }
 
       const makeTime = (value) => {
         const time = document.createElement('time');
@@ -139,23 +117,28 @@
         return time;
       };
 
-      for (const item of items) {
+      for (const item of newsItems) {
         const titleText = String(item.title || 'Server update');
-        const summaryText = String(item.summary || '');
         const date = String(item.date || '');
         const category = String(item.category || 'info').toLowerCase();
-        const categoryLabel = category === 'event' ? 'Event' : category === 'info' ? 'Info' : 'Update';
 
         const row = document.createElement('li');
         row.dataset.cat = category === 'event' ? 'event' : 'info';
         const link = document.createElement('a');
-        link.href = '#changelog';
+        link.href = String(item.url || '#news');
         const title = document.createElement('span');
         title.textContent = titleText;
         link.append(title, makeTime(date));
         row.append(link);
         newsList.append(row);
+      }
 
+      for (const item of changelogItems) {
+        const titleText = String(item.title || 'Game update');
+        const summaryText = String(item.summary || '');
+        const date = String(item.date || '');
+        const category = String(item.category || 'update').toLowerCase();
+        const categoryLabel = category === 'event' ? 'Event' : category === 'info' ? 'Info' : 'Update';
         const entry = document.createElement('article');
         entry.className = 'changelog-entry';
         const meta = document.createElement('div');
@@ -172,6 +155,17 @@
         changelogList.append(entry);
       }
 
+      if (!newsItems.length) {
+        const emptyRow = document.createElement('li'); emptyRow.className = 'news-empty';
+        const empty = document.createElement('span'); empty.textContent = 'No news announcements have been published yet.';
+        emptyRow.append(empty); newsList.append(emptyRow);
+      }
+      if (!changelogItems.length) {
+        const empty = document.createElement('p'); empty.className = 'changelog-empty';
+        empty.textContent = 'No game changes have been published yet.';
+        changelogList.append(empty);
+      }
+
       const selectedTab = $('.tab.on');
       if (selectedTab) {
         const category = selectedTab.dataset.cat;
@@ -182,7 +176,7 @@
       changelogList.replaceChildren();
       const message = document.createElement('p');
       message.className = 'changelog-empty';
-      message.textContent = 'Changelog is temporarily unavailable.';
+      message.textContent = 'News and changelog are temporarily unavailable.';
       const errorRow = document.createElement('li');
       errorRow.className = 'news-empty';
       errorRow.append(message.cloneNode(true));
@@ -196,12 +190,13 @@
   const portalUrl = '/akun/?module=changelog&action=portal';
   const editorSection = $('#staff-editor');
   const editorForm = $('#staff-editor-form');
-  const editorEntries = $('#staff-editor-entries');
+  const editorNewsEntries = $('#staff-news-entries');
+  const editorChangelogEntries = $('#staff-changelog-entries');
   const editorEventEntries = $('#staff-event-entries');
   const editorMessage = $('#staff-editor-message');
   const editorLoading = $('#staff-editor-loading');
   const editorCsrf = $('#staff-editor-csrf');
-  let editorNextIndex = 0;
+  const editorNextIndex = { news: 0, changelog: 0 };
   let editorNextEventIndex = 0;
 
   function setEditorMessage(message, kind = '') {
@@ -209,16 +204,17 @@
     editorMessage.className = `staff-editor-message${kind ? ` ${kind}` : ''}`;
   }
 
-  function createEditorEntry(item = {}) {
-    const index = editorNextIndex++;
+  function createEditorEntry(item = {}, collection = 'news') {
+    const index = editorNextIndex[collection]++;
+    const prefix = `${collection}[${index}]`;
     const fieldset = document.createElement('fieldset');
     fieldset.className = 'staff-editor-entry';
     const legend = document.createElement('legend');
-    legend.textContent = `Entry ${index + 1}`;
+    legend.textContent = `${collection === 'news' ? 'News' : 'Changelog'} ${index + 1}`;
     fieldset.append(legend);
 
     const id = document.createElement('input');
-    id.type = 'hidden'; id.name = `items[${index}][id]`; id.value = String(item.id || '');
+    id.type = 'hidden'; id.name = `${prefix}[id]`; id.value = String(item.id || '');
     fieldset.append(id);
 
     const grid = document.createElement('div');
@@ -230,16 +226,16 @@
       grid.append(label);
     };
     const title = document.createElement('input');
-    title.name = `items[${index}][title]`; title.maxLength = 140; title.required = true; title.value = String(item.title || '');
+    title.name = `${prefix}[title]`; title.maxLength = 140; title.required = true; title.value = String(item.title || '');
     addField('Title', title);
     const date = document.createElement('input');
-    date.type = 'date'; date.name = `items[${index}][date]`; date.required = true; date.value = String(item.date || new Date().toISOString().slice(0, 10));
+    date.type = 'date'; date.name = `${prefix}[date]`; date.required = true; date.value = String(item.date || new Date().toISOString().slice(0, 10));
     addField('Date', date);
     const category = document.createElement('select');
-    category.name = `items[${index}][category]`;
+    category.name = `${prefix}[category]`;
     [['event', 'Event'], ['info', 'Info'], ['update', 'Update']].forEach(([value, text]) => {
       const option = document.createElement('option'); option.value = value; option.textContent = text;
-      if ((item.category || 'info') === value) option.selected = true;
+      if ((item.category || (collection === 'news' ? 'info' : 'update')) === value) option.selected = true;
       category.append(option);
     });
     addField('Category', category);
@@ -248,7 +244,7 @@
     const summaryLabel = document.createElement('label');
     summaryLabel.append(document.createTextNode('Short description'));
     const summary = document.createElement('textarea');
-    summary.name = `items[${index}][summary]`; summary.maxLength = 1200; summary.rows = 3; summary.value = String(item.summary || '');
+    summary.name = `${prefix}[summary]`; summary.maxLength = 1200; summary.rows = 3; summary.value = String(item.summary || '');
     summaryLabel.append(summary);
     fieldset.append(summaryLabel);
 
@@ -259,10 +255,11 @@
     return fieldset;
   }
 
-  function renderEditorEntries(items) {
-    editorEntries.replaceChildren();
-    editorNextIndex = 0;
-    items.slice(0, 50).forEach(item => editorEntries.append(createEditorEntry(item)));
+  function renderEditorEntries(collection, items) {
+    const container = collection === 'news' ? editorNewsEntries : editorChangelogEntries;
+    container.replaceChildren();
+    editorNextIndex[collection] = 0;
+    items.slice(0, 50).forEach(item => container.append(createEditorEntry(item, collection)));
   }
 
   function createEditorEvent(item = {}) {
@@ -353,7 +350,8 @@
 
       ['#staff-editor-link', '#staff-editor-button', '#staff-editor-dot'].forEach(selector => { $(selector).hidden = false; });
       editorCsrf.value = String(portal.csrfToken || '');
-      renderEditorEntries(Array.isArray(portal.items) ? portal.items : []);
+      renderEditorEntries('news', Array.isArray(portal.news) ? portal.news : []);
+      renderEditorEntries('changelog', Array.isArray(portal.changelog) ? portal.changelog : []);
       renderEditorEvents(Array.isArray(portal.events) ? portal.events : []);
       editorLoading.hidden = true;
       editorForm.hidden = false;
@@ -368,16 +366,18 @@
     }
   }
 
-  $('#staff-editor-add').addEventListener('click', () => {
-    if (editorEntries.querySelectorAll('.staff-editor-entry:not([hidden])').length >= 50) {
-      setEditorMessage('The editor supports up to 50 entries.', 'error');
+  function addEditorEntry(collection, container) {
+    if (container.querySelectorAll('.staff-editor-entry:not([hidden])').length >= 50) {
+      setEditorMessage('Each editor supports up to 50 entries.', 'error');
       return;
     }
-    const entry = createEditorEntry();
-    editorEntries.append(entry);
+    const entry = createEditorEntry({}, collection);
+    container.append(entry);
     entry.querySelector('input:not([type="hidden"])').focus();
     setEditorMessage('');
-  });
+  }
+  $('#staff-news-add').addEventListener('click', () => addEditorEntry('news', editorNewsEntries));
+  $('#staff-changelog-add').addEventListener('click', () => addEditorEntry('changelog', editorChangelogEntries));
 
   $('#staff-editor-add-event').addEventListener('click', () => {
     if (editorEventEntries.querySelectorAll('.staff-editor-entry').length >= 50) {
@@ -390,18 +390,19 @@
     setEditorMessage('');
   });
 
-  const newsPane = $('#staff-news-pane');
-  const eventsPane = $('#staff-events-pane');
-  $('#staff-news-tab').addEventListener('click', () => {
-    newsPane.hidden = false; eventsPane.hidden = true;
-    $('#staff-news-tab').classList.add('on'); $('#staff-news-tab').setAttribute('aria-selected', 'true');
-    $('#staff-events-tab').classList.remove('on'); $('#staff-events-tab').setAttribute('aria-selected', 'false');
-  });
-  $('#staff-events-tab').addEventListener('click', () => {
-    newsPane.hidden = true; eventsPane.hidden = false;
-    $('#staff-events-tab').classList.add('on'); $('#staff-events-tab').setAttribute('aria-selected', 'true');
-    $('#staff-news-tab').classList.remove('on'); $('#staff-news-tab').setAttribute('aria-selected', 'false');
-  });
+  const editorTabs = [
+    { tab: $('#staff-news-tab'), pane: $('#staff-news-pane') },
+    { tab: $('#staff-changelog-tab'), pane: $('#staff-changelog-pane') },
+    { tab: $('#staff-events-tab'), pane: $('#staff-events-pane') }
+  ];
+  editorTabs.forEach(current => current.tab.addEventListener('click', () => {
+    editorTabs.forEach(({ tab, pane }) => {
+      const selected = tab === current.tab;
+      pane.hidden = !selected;
+      tab.classList.toggle('on', selected);
+      tab.setAttribute('aria-selected', String(selected));
+    });
+  }));
 
   editorForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -422,7 +423,8 @@
         setEditorMessage(String(result.message || 'Changes could not be saved.'), 'error');
         return;
       }
-      renderEditorEntries(Array.isArray(result.items) ? result.items : []);
+      renderEditorEntries('news', Array.isArray(result.news) ? result.news : []);
+      renderEditorEntries('changelog', Array.isArray(result.changelog) ? result.changelog : []);
       renderEditorEvents(Array.isArray(result.events) ? result.events : []);
       setEditorMessage(String(result.message || 'Changes saved.'), 'success');
       loadChangelog();

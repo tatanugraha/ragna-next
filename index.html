@@ -7,7 +7,7 @@
   <meta name="description" content="Ragna Next: a Ragnarok Online Renewal server. Create your account, download the client, and begin your adventure in Midgard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=20261102-events">
+  <link rel="stylesheet" href="assets/style.css?v=20261103-content-split">
 </head>
 <body>
   <!-- Top bar -->
@@ -94,7 +94,7 @@
             <ul id="news-items" aria-live="polite">
               <li><span>Loading latest updates…</span></li>
             </ul>
-            <a class="changelog-more" href="#changelog">Read full changelog <span aria-hidden="true">↗</span></a>
+            <a class="changelog-more" href="#changelog">Read game changelog <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@
     <!-- CHANGELOG -->
     <section id="changelog" class="panel changelog">
       <div class="wrap">
-        <div class="changelog-heading"><h2 class="title"><span>Changelog</span></h2><a id="staff-editor-button" class="btn-sm staff-editor-link" href="#staff-editor" hidden>Edit News</a></div>
+        <div class="changelog-heading"><h2 class="title"><span>Changelog</span></h2><a id="staff-editor-button" class="btn-sm staff-editor-link" href="#staff-editor" hidden>Edit Changelog</a></div>
         <div class="changelog-list" id="changelog-items" aria-live="polite">
           <p class="changelog-empty">Loading changelog…</p>
         </div>
@@ -114,16 +114,22 @@
     <section id="staff-editor" class="panel staff-editor" hidden>
       <div class="wrap">
         <div class="staff-editor-heading"><div><p class="staff-editor-kicker">STAFF CONTENT</p><h2 class="title"><span>News &amp; Changelog Editor</span></h2></div><a class="btn-sm" href="#changelog">View changelog</a></div>
-        <p class="staff-editor-intro">Changes appear on this website and in the Patcher.</p>
+        <p class="staff-editor-intro">Manage announcements, game updates, and events separately. News appears in the Patcher.</p>
         <form id="staff-editor-form" class="staff-editor-form" hidden>
           <input type="hidden" name="csrf_token" id="staff-editor-csrf">
+          <input type="hidden" name="editor_mode" value="website-cms">
           <div class="staff-editor-tabs" role="tablist" aria-label="Staff content type">
-            <button type="button" id="staff-news-tab" class="staff-editor-tab on" role="tab" aria-selected="true">News &amp; Changelog</button>
-            <button type="button" id="staff-events-tab" class="staff-editor-tab" role="tab" aria-selected="false">Events</button>
+            <button type="button" id="staff-news-tab" class="staff-editor-tab on" role="tab" aria-selected="true" aria-controls="staff-news-pane">News</button>
+            <button type="button" id="staff-changelog-tab" class="staff-editor-tab" role="tab" aria-selected="false" aria-controls="staff-changelog-pane">Changelog</button>
+            <button type="button" id="staff-events-tab" class="staff-editor-tab" role="tab" aria-selected="false" aria-controls="staff-events-pane">Events</button>
           </div>
           <section id="staff-news-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-news-tab">
-            <div id="staff-editor-entries" class="staff-editor-entries"></div>
-            <div class="staff-editor-actions"><button class="btn-sm" id="staff-editor-add" type="button">Add news entry</button></div>
+            <div id="staff-news-entries" class="staff-editor-entries"></div>
+            <div class="staff-editor-actions"><button class="btn-sm" id="staff-news-add" type="button">Add news</button></div>
+          </section>
+          <section id="staff-changelog-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-changelog-tab" hidden>
+            <div id="staff-changelog-entries" class="staff-editor-entries"></div>
+            <div class="staff-editor-actions"><button class="btn-sm" id="staff-changelog-add" type="button">Add changelog entry</button></div>
           </section>
           <section id="staff-events-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-events-tab" hidden>
             <div id="staff-event-entries" class="staff-editor-entries"></div>
@@ -261,6 +267,6 @@
     </div>
   </div>
 
-  <script src="assets/main.js?v=20261102-events"></script>
+  <script src="assets/main.js?v=20261103-content-split"></script>
 </body>
 </html>

@@ -33,16 +33,36 @@ if ($sessionToken === '' || !hash_equals($sessionToken, $postedToken)) {
 $session->setChangelogCsrfTokenData(bin2hex(random_bytes(32)));
 $nextCsrfToken = (string)$session->changelogCsrfToken;
 
+$integratedEditor = (string)($_POST['editor_mode'] ?? '') === 'website-cms' || array_key_exists('news', $_POST) || array_key_exists('changelog', $_POST);
 $error = '';
-$items = ragnaChangelogNormalizePostedItems($_POST['items'] ?? array(), $error);
-if ($items === null) {
+if ($integratedEditor) {
+	$news = ragnaContentNormalizePostedEntries($_POST['news'] ?? array(), $error, 'news');
+	if ($news === null) {
+		if ($jsonMode) $finishJson(422, array('ok' => false, 'message' => $error, 'csrfToken' => $nextCsrfToken));
+		$session->setMessageData($error);
+		header('Location: ' . $this->url('changelog', 'index'));
+		exit;
+	}
+	$changelog = ragnaContentNormalizePostedEntries($_POST['changelog'] ?? array(), $error, 'changelog');
+	if ($changelog === null) {
+		if ($jsonMode) $finishJson(422, array('ok' => false, 'message' => $error, 'csrfToken' => $nextCsrfToken));
+		$session->setMessageData($error);
+		header('Location: ' . $this->url('changelog', 'index'));
+		exit;
+	}
+	$events = ragnaChangelogNormalizePostedEvents($_POST['events'] ?? array(), $error);
+} else {
+	$news = ragnaNewsRead()['items'];
+	$changelog = ragnaChangelogNormalizePostedItems($_POST['items'] ?? array(), $error);
+	$events = ragnaEventsRead()['items'];
+}
+if ($events === null) {
 	if ($jsonMode) $finishJson(422, array('ok' => false, 'message' => $error, 'csrfToken' => $nextCsrfToken));
 	$session->setMessageData($error);
 	header('Location: ' . $this->url('changelog', 'index'));
 	exit;
 }
-$events = ragnaChangelogNormalizePostedEvents($_POST['events'] ?? array(), $error);
-if ($events === null) {
+if ($news === null || $changelog === null) {
 	if ($jsonMode) $finishJson(422, array('ok' => false, 'message' => $error, 'csrfToken' => $nextCsrfToken));
 	$session->setMessageData($error);
 	header('Location: ' . $this->url('changelog', 'index'));
@@ -50,9 +70,9 @@ if ($events === null) {
 }
 
 try {
-	ragnaChangelogWrite($items, $events);
-	if ($jsonMode) $finishJson(200, array('ok' => true, 'message' => 'News, changelog, and events updated.', 'csrfToken' => $nextCsrfToken, 'items' => $items, 'events' => $events));
-	$session->setMessageData('Changelog updated. The website and patcher now use the new entries.');
+	ragnaContentWrite($news, $changelog, $events);
+	if ($jsonMode) $finishJson(200, array('ok' => true, 'message' => 'News, changelog, and events updated.', 'csrfToken' => $nextCsrfToken, 'news' => $news, 'changelog' => $changelog, 'events' => $events));
+	$session->setMessageData('News, changelog, and events updated.');
 } catch (Throwable $exception) {
 	if ($jsonMode) $finishJson(500, array('ok' => false, 'message' => 'Changelog could not be saved. Check the server storage permissions.', 'csrfToken' => $nextCsrfToken));
 	$session->setMessageData('Changelog could not be saved. Check the server storage permissions.');
