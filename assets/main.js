@@ -203,9 +203,7 @@
 
     const id = document.createElement('input');
     id.type = 'hidden'; id.name = `items[${index}][id]`; id.value = String(item.id || '');
-    const deleted = document.createElement('input');
-    deleted.type = 'hidden'; deleted.name = `items[${index}][deleted]`; deleted.value = '0'; deleted.dataset.deleted = 'true';
-    fieldset.append(id, deleted);
+    fieldset.append(id);
 
     const grid = document.createElement('div');
     grid.className = 'staff-editor-grid';
@@ -240,7 +238,7 @@
 
     const remove = document.createElement('button');
     remove.type = 'button'; remove.className = 'btn-sm staff-editor-remove'; remove.textContent = 'Remove entry';
-    remove.addEventListener('click', () => { deleted.value = '1'; fieldset.hidden = true; });
+    remove.addEventListener('click', () => { fieldset.remove(); });
     fieldset.append(remove);
     return fieldset;
   }
