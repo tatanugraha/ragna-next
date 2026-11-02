@@ -1,7 +1,6 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
 <?php
 $escapeDashboard = function ($value) { return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8'); };
-$title = 'Staff Dashboard';
 $dashboardCollections = array(
 	'news' => array('title' => 'News', 'description' => 'Announcements and community updates shown on the website and patcher.', 'items' => $news),
 	'changelog' => array('title' => 'Game changelog', 'description' => 'Game updates shown on the website and patcher home page.', 'items' => $changelog),

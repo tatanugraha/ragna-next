@@ -3,6 +3,7 @@ if (!defined('FLUX_ROOT')) exit;
 if (!$session->isLoggedIn()) $this->loginRequired();
 if (!isset($session->account->group_level) || $session->account->group_level < AccountLevel::LOWGM) $this->deny();
 
+$title = 'Staff Dashboard';
 require_once FLUX_ROOT . '/modules/changelog/common.php';
 
 $csrfToken = is_string($session->changelogCsrfToken) ? $session->changelogCsrfToken : '';
