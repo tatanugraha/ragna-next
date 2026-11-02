@@ -188,7 +188,7 @@
 
   // Reflect the FluxCP login session on the public website and expose the editor to GM+.
   const portalUrl = '/akun/?module=changelog&action=portal';
-  const editorSection = $('#staff-editor');
+  const editorSection = $('#dashboard');
   const editorForm = $('#staff-editor-form');
   const editorNewsEntries = $('#staff-news-entries');
   const editorChangelogEntries = $('#staff-changelog-entries');
@@ -328,16 +328,61 @@
     items.slice(0, 50).forEach(item => editorEventEntries.append(createEditorEvent(item)));
   }
 
-  function showStaffEditor() {
+  const dashboardViews = [
+    { id: 'overview', tab: $('#dashboard-overview-tab'), pane: $('#dashboard-overview') },
+    { id: 'news', tab: $('#staff-news-tab'), pane: $('#staff-news-pane') },
+    { id: 'changelog', tab: $('#staff-changelog-tab'), pane: $('#staff-changelog-pane') },
+    { id: 'events', tab: $('#staff-events-tab'), pane: $('#staff-events-pane') }
+  ];
+  function syncDashboardRoute() {
+    const active = location.hash === '#dashboard' || location.hash === '#staff-editor';
+    document.body.classList.toggle('dashboard-active', active);
+    if (!active) editorSection.hidden = true;
+  }
+  window.addEventListener('hashchange', syncDashboardRoute);
+  syncDashboardRoute();
+  function setDashboardView(id) {
+    dashboardViews.forEach(({ id: viewId, tab, pane }) => {
+      const selected = viewId === id;
+      tab.classList.toggle('on', selected);
+      tab.setAttribute('aria-selected', String(selected));
+      pane.hidden = !selected;
+    });
+    $('#dashboard-save-actions').hidden = id === 'overview';
+  }
+  dashboardViews.forEach(({ id, tab }, index) => {
+    tab.addEventListener('click', () => setDashboardView(id));
+    tab.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+      event.preventDefault();
+      const offset = event.key === 'ArrowDown' ? 1 : -1;
+      const next = dashboardViews[(index + offset + dashboardViews.length) % dashboardViews.length];
+      next.tab.focus();
+      setDashboardView(next.id);
+    });
+  });
+  document.querySelectorAll('[data-dashboard-view]:not([role="tab"])').forEach(button => button.addEventListener('click', () => {
+    setDashboardView(button.dataset.dashboardView);
+    dashboardViews.find(view => view.id === button.dataset.dashboardView)?.tab.focus();
+  }));
+
+  function showStaffEditor(view = 'overview') {
     editorSection.hidden = false;
-    location.hash = 'staff-editor';
+    setDashboardView(view);
+    location.hash = 'dashboard';
     editorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   async function loadAccountPortal() {
     try {
       const response = await fetch(portalUrl, { cache: 'no-store', credentials: 'same-origin', headers: { accept: 'application/json' } });
-      if (!response.ok) return;
+      if (!response.ok) {
+        if (location.hash === '#dashboard' || location.hash === '#staff-editor') {
+          editorSection.hidden = false;
+          editorLoading.textContent = 'Tidak dapat memeriksa akses staf. Muat ulang halaman atau login kembali.';
+        }
+        return;
+      }
       const portal = await response.json();
       if (portal.loggedIn) {
         $('#account-login').hidden = true;
@@ -346,23 +391,38 @@
         $('#account-logout').hidden = false;
         $('#account-name').textContent = String(portal.accountName || 'Account');
       }
-      if (!portal.canEdit) return;
+      if (!portal.canEdit) {
+        if (location.hash === '#dashboard' || location.hash === '#staff-editor') {
+          editorSection.hidden = false;
+          editorLoading.textContent = portal.loggedIn ? 'Dashboard hanya tersedia untuk akun GM atau Super Admin.' : 'Login dengan akun GM atau Super Admin untuk membuka dashboard.';
+        }
+        return;
+      }
 
-      ['#staff-editor-link', '#staff-editor-button', '#staff-editor-dot'].forEach(selector => { $(selector).hidden = false; });
+      ['#staff-editor-link', '#staff-editor-button'].forEach(selector => { $(selector).hidden = false; });
       editorCsrf.value = String(portal.csrfToken || '');
-      renderEditorEntries('news', Array.isArray(portal.news) ? portal.news : []);
-      renderEditorEntries('changelog', Array.isArray(portal.changelog) ? portal.changelog : []);
-      renderEditorEvents(Array.isArray(portal.events) ? portal.events : []);
+      const news = Array.isArray(portal.news) ? portal.news : [];
+      const changelog = Array.isArray(portal.changelog) ? portal.changelog : [];
+      const events = Array.isArray(portal.events) ? portal.events : [];
+      renderEditorEntries('news', news);
+      renderEditorEntries('changelog', changelog);
+      renderEditorEvents(events);
+      $('#dashboard-news-count').textContent = String(news.length);
+      $('#dashboard-changelog-count').textContent = String(changelog.length);
+      $('#dashboard-events-count').textContent = String(events.length);
       editorLoading.hidden = true;
       editorForm.hidden = false;
-      document.querySelectorAll('.staff-editor-link, #staff-editor-dot').forEach(link => link.addEventListener('click', event => {
+      document.querySelectorAll('.staff-editor-link').forEach(link => link.addEventListener('click', event => {
         event.preventDefault();
-        showStaffEditor();
+        showStaffEditor(link.id === 'staff-editor-button' ? 'changelog' : 'overview');
       }));
-      if (location.hash === '#staff-editor') showStaffEditor();
+      setDashboardView('overview');
+      if (location.hash === '#staff-editor') showStaffEditor('changelog');
+      else if (location.hash === '#dashboard') showStaffEditor();
     } catch {
       // Public pages remain usable if the account service is temporarily unavailable.
-      editorLoading.textContent = 'Staff tools are temporarily unavailable.';
+      editorLoading.textContent = 'Dashboard sedang tidak dapat dimuat. Muat ulang beberapa saat lagi.';
+      if (location.hash === '#dashboard' || location.hash === '#staff-editor') editorSection.hidden = false;
     }
   }
 
@@ -389,20 +449,6 @@
     entry.querySelector('input:not([type="hidden"])').focus();
     setEditorMessage('');
   });
-
-  const editorTabs = [
-    { tab: $('#staff-news-tab'), pane: $('#staff-news-pane') },
-    { tab: $('#staff-changelog-tab'), pane: $('#staff-changelog-pane') },
-    { tab: $('#staff-events-tab'), pane: $('#staff-events-pane') }
-  ];
-  editorTabs.forEach(current => current.tab.addEventListener('click', () => {
-    editorTabs.forEach(({ tab, pane }) => {
-      const selected = tab === current.tab;
-      pane.hidden = !selected;
-      tab.classList.toggle('on', selected);
-      tab.setAttribute('aria-selected', String(selected));
-    });
-  }));
 
   editorForm.addEventListener('submit', async event => {
     event.preventDefault();

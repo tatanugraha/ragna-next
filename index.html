@@ -7,7 +7,7 @@
   <meta name="description" content="Ragna Next: a Ragnarok Online Renewal server. Create your account, download the client, and begin your adventure in Midgard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=20261103-content-split">
+  <link rel="stylesheet" href="assets/style.css?v=20261103-dashboard">
 </head>
 <body>
   <!-- Top bar -->
@@ -23,6 +23,7 @@
       <a href="#world">World</a>
       <a href="#heroes">Classes</a>
       <a href="#info">Server Info</a>
+      <a class="staff-editor-link staff-dashboard-link" id="staff-editor-link" href="#dashboard" hidden>Dashboard</a>
     </nav>
     <div class="topbar-actions">
       <a class="btn-sm gold" id="account-register" href="/akun/account/create" data-auth="register">Sign Up</a>
@@ -34,7 +35,6 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
         <span id="account-name"></span>
       </a>
-      <a class="btn-sm staff-editor-link" id="staff-editor-link" href="#staff-editor" hidden>Edit News</a>
       <a class="btn-sm" id="account-logout" href="/akun/account/logout" hidden>Log Out</a>
     </div>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -48,7 +48,6 @@
     <a href="#world" data-label="World"></a>
     <a href="#heroes" data-label="Classes"></a>
     <a href="#info" data-label="Server Info"></a>
-      <a href="#staff-editor" id="staff-editor-dot" data-label="Editor" hidden></a>
   </nav>
 
   <main>
@@ -103,44 +102,61 @@
     <!-- CHANGELOG -->
     <section id="changelog" class="panel changelog">
       <div class="wrap">
-        <div class="changelog-heading"><h2 class="title"><span>Changelog</span></h2><a id="staff-editor-button" class="btn-sm staff-editor-link" href="#staff-editor" hidden>Edit Changelog</a></div>
+        <div class="changelog-heading"><h2 class="title"><span>Changelog</span></h2><a id="staff-editor-button" class="btn-sm staff-editor-link" href="#dashboard" hidden>Manage in Dashboard</a></div>
         <div class="changelog-list" id="changelog-items" aria-live="polite">
           <p class="changelog-empty">Loading changelog…</p>
         </div>
       </div>
     </section>
 
-    <!-- STAFF NEWS EDITOR: shown only after FluxCP confirms a GM-level session -->
-    <section id="staff-editor" class="panel staff-editor" hidden>
+    <!-- Staff dashboard: shown only after FluxCP confirms editor access -->
+    <section id="dashboard" class="panel dashboard" hidden>
       <div class="wrap">
-        <div class="staff-editor-heading"><div><p class="staff-editor-kicker">STAFF CONTENT</p><h2 class="title"><span>News &amp; Changelog Editor</span></h2></div><a class="btn-sm" href="#changelog">View changelog</a></div>
-        <p class="staff-editor-intro">Manage announcements, game updates, and events separately. News appears in the Patcher.</p>
+        <div class="staff-editor-heading"><div><p class="staff-editor-kicker">STAFF WORKSPACE</p><h2 class="title"><span>Dashboard</span></h2></div><a class="btn-sm" href="#home">View website</a></div>
+        <p class="staff-editor-intro">Kelola konten publik website dan patcher dari satu tempat.</p>
         <form id="staff-editor-form" class="staff-editor-form" hidden>
           <input type="hidden" name="csrf_token" id="staff-editor-csrf">
           <input type="hidden" name="editor_mode" value="website-cms">
-          <div class="staff-editor-tabs" role="tablist" aria-label="Staff content type">
-            <button type="button" id="staff-news-tab" class="staff-editor-tab on" role="tab" aria-selected="true" aria-controls="staff-news-pane">News</button>
-            <button type="button" id="staff-changelog-tab" class="staff-editor-tab" role="tab" aria-selected="false" aria-controls="staff-changelog-pane">Changelog</button>
-            <button type="button" id="staff-events-tab" class="staff-editor-tab" role="tab" aria-selected="false" aria-controls="staff-events-pane">Events</button>
+          <div class="dashboard-layout">
+            <nav class="dashboard-nav" role="tablist" aria-orientation="vertical" aria-label="Dashboard sections">
+              <span class="dashboard-nav-label">CONTENT</span>
+              <button type="button" class="dashboard-nav-item on" id="dashboard-overview-tab" data-dashboard-view="overview" role="tab" aria-selected="true" aria-controls="dashboard-overview">Overview</button>
+              <button type="button" class="dashboard-nav-item" id="staff-news-tab" data-dashboard-view="news" role="tab" aria-selected="false" aria-controls="staff-news-pane">News</button>
+              <button type="button" class="dashboard-nav-item" id="staff-changelog-tab" data-dashboard-view="changelog" role="tab" aria-selected="false" aria-controls="staff-changelog-pane">Changelog</button>
+              <button type="button" class="dashboard-nav-item" id="staff-events-tab" data-dashboard-view="events" role="tab" aria-selected="false" aria-controls="staff-events-pane">Events</button>
+            </nav>
+            <div class="dashboard-content">
+              <section id="dashboard-overview" class="dashboard-overview" role="tabpanel" aria-labelledby="dashboard-overview-tab">
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">CONTENT MANAGEMENT</p><h3>Kelola publikasi</h3><p>Pilih jenis konten untuk melihat dan memperbarui yang tampil di website atau patcher.</p></div>
+                <div class="dashboard-cards">
+                  <article class="dashboard-card"><span>NEWS</span><strong id="dashboard-news-count">0</strong><p>Pengumuman dan berita komunitas.</p><button type="button" class="btn-sm" data-dashboard-view="news">Kelola News</button></article>
+                  <article class="dashboard-card"><span>CHANGELOG</span><strong id="dashboard-changelog-count">0</strong><p>Catatan update game yang tampil di Home dan website.</p><button type="button" class="btn-sm" data-dashboard-view="changelog">Kelola Changelog</button></article>
+                  <article class="dashboard-card"><span>EVENTS</span><strong id="dashboard-events-count">0</strong><p>Jadwal event dan detail promosi.</p><button type="button" class="btn-sm" data-dashboard-view="events">Kelola Events</button></article>
+                </div>
+              </section>
+              <section id="staff-news-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-news-tab" hidden>
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">PUBLIC CONTENT</p><h3>News</h3><p>Berita yang ditampilkan pada tab News patcher dan website.</p></div>
+                <div id="staff-news-entries" class="staff-editor-entries"></div>
+                <div class="staff-editor-actions"><button class="btn-sm" id="staff-news-add" type="button">Tambah News</button></div>
+              </section>
+              <section id="staff-changelog-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-changelog-tab" hidden>
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">GAME UPDATES</p><h3>Changelog</h3><p>Catatan perubahan game yang muncul di Home patcher dan halaman Changelog.</p></div>
+                <div id="staff-changelog-entries" class="staff-editor-entries"></div>
+                <div class="staff-editor-actions"><button class="btn-sm" id="staff-changelog-add" type="button">Tambah Changelog</button></div>
+              </section>
+              <section id="staff-events-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-events-tab" hidden>
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">SCHEDULED CONTENT</p><h3>Events</h3><p>Atur jadwal, ringkasan, dan tautan promosi event.</p></div>
+                <div id="staff-event-entries" class="staff-editor-entries"></div>
+                <div class="staff-editor-actions"><button class="btn-sm" id="staff-editor-add-event" type="button">Tambah Event</button></div>
+              </section>
+            </div>
           </div>
-          <section id="staff-news-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-news-tab">
-            <div id="staff-news-entries" class="staff-editor-entries"></div>
-            <div class="staff-editor-actions"><button class="btn-sm" id="staff-news-add" type="button">Add news</button></div>
-          </section>
-          <section id="staff-changelog-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-changelog-tab" hidden>
-            <div id="staff-changelog-entries" class="staff-editor-entries"></div>
-            <div class="staff-editor-actions"><button class="btn-sm" id="staff-changelog-add" type="button">Add changelog entry</button></div>
-          </section>
-          <section id="staff-events-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-events-tab" hidden>
-            <div id="staff-event-entries" class="staff-editor-entries"></div>
-            <div class="staff-editor-actions"><button class="btn-sm" id="staff-editor-add-event" type="button">Add event</button></div>
-          </section>
           <p id="staff-editor-message" class="staff-editor-message" role="status" aria-live="polite"></p>
-          <div class="staff-editor-actions">
-            <button class="btn-sm gold" type="submit">Save changes</button>
+          <div class="staff-editor-actions dashboard-save-actions" id="dashboard-save-actions" hidden>
+            <button class="btn-sm gold" type="submit">Simpan perubahan</button>
           </div>
         </form>
-        <p id="staff-editor-loading" class="staff-editor-message" role="status">Checking staff access…</p>
+        <p id="staff-editor-loading" class="staff-editor-message" role="status">Memeriksa akses GM/Admin…</p>
       </div>
     </section>
 
@@ -267,6 +283,6 @@
     </div>
   </div>
 
-  <script src="assets/main.js?v=20261103-content-split"></script>
+  <script src="assets/main.js?v=20261103-dashboard"></script>
 </body>
 </html>
