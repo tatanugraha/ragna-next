@@ -379,7 +379,7 @@
       if (!response.ok) {
         if (location.hash === '#dashboard' || location.hash === '#staff-editor') {
           editorSection.hidden = false;
-          editorLoading.textContent = 'Tidak dapat memeriksa akses staf. Muat ulang halaman atau login kembali.';
+          editorLoading.textContent = 'Staff access could not be checked. Reload the page or sign in again.';
         }
         return;
       }
@@ -394,7 +394,7 @@
       if (!portal.canEdit) {
         if (location.hash === '#dashboard' || location.hash === '#staff-editor') {
           editorSection.hidden = false;
-          editorLoading.textContent = portal.loggedIn ? 'Dashboard hanya tersedia untuk akun GM atau Super Admin.' : 'Login dengan akun GM atau Super Admin untuk membuka dashboard.';
+          editorLoading.textContent = portal.loggedIn ? 'The dashboard is available to Game Masters and Super Admins.' : 'Sign in with a Game Master or Super Admin account to open the dashboard.';
         }
         return;
       }
@@ -421,7 +421,7 @@
       else if (location.hash === '#dashboard') showStaffEditor();
     } catch {
       // Public pages remain usable if the account service is temporarily unavailable.
-      editorLoading.textContent = 'Dashboard sedang tidak dapat dimuat. Muat ulang beberapa saat lagi.';
+      editorLoading.textContent = 'The dashboard could not be loaded. Please try again in a moment.';
       if (location.hash === '#dashboard' || location.hash === '#staff-editor') editorSection.hidden = false;
     }
   }

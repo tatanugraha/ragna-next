@@ -113,7 +113,7 @@
     <section id="dashboard" class="panel dashboard" hidden>
       <div class="wrap">
         <div class="staff-editor-heading"><div><p class="staff-editor-kicker">STAFF WORKSPACE</p><h2 class="title"><span>Dashboard</span></h2></div><a class="btn-sm" href="#home">View website</a></div>
-        <p class="staff-editor-intro">Kelola konten publik website dan patcher dari satu tempat.</p>
+        <p class="staff-editor-intro">Manage public website and patcher content in one place.</p>
         <form id="staff-editor-form" class="staff-editor-form" hidden>
           <input type="hidden" name="csrf_token" id="staff-editor-csrf">
           <input type="hidden" name="editor_mode" value="website-cms">
@@ -127,36 +127,36 @@
             </nav>
             <div class="dashboard-content">
               <section id="dashboard-overview" class="dashboard-overview" role="tabpanel" aria-labelledby="dashboard-overview-tab">
-                <div class="dashboard-content-heading"><p class="staff-editor-kicker">CONTENT MANAGEMENT</p><h3>Kelola publikasi</h3><p>Pilih jenis konten untuk melihat dan memperbarui yang tampil di website atau patcher.</p></div>
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">CONTENT MANAGEMENT</p><h3>Manage publications</h3><p>Choose a content type to review and update what players see on the website and patcher.</p></div>
                 <div class="dashboard-cards">
-                  <article class="dashboard-card"><span>NEWS</span><strong id="dashboard-news-count">0</strong><p>Pengumuman dan berita komunitas.</p><button type="button" class="btn-sm" data-dashboard-view="news">Kelola News</button></article>
-                  <article class="dashboard-card"><span>CHANGELOG</span><strong id="dashboard-changelog-count">0</strong><p>Catatan update game yang tampil di Home dan website.</p><button type="button" class="btn-sm" data-dashboard-view="changelog">Kelola Changelog</button></article>
-                  <article class="dashboard-card"><span>EVENTS</span><strong id="dashboard-events-count">0</strong><p>Jadwal event dan detail promosi.</p><button type="button" class="btn-sm" data-dashboard-view="events">Kelola Events</button></article>
+                  <article class="dashboard-card"><span>NEWS</span><strong id="dashboard-news-count">0</strong><p>Community announcements and news.</p><button type="button" class="btn-sm" data-dashboard-view="news">Manage news</button></article>
+                  <article class="dashboard-card"><span>CHANGELOG</span><strong id="dashboard-changelog-count">0</strong><p>Game updates shown on the patcher home page and website.</p><button type="button" class="btn-sm" data-dashboard-view="changelog">Manage changelog</button></article>
+                  <article class="dashboard-card"><span>EVENTS</span><strong id="dashboard-events-count">0</strong><p>Event schedules and promotion details.</p><button type="button" class="btn-sm" data-dashboard-view="events">Manage events</button></article>
                 </div>
               </section>
               <section id="staff-news-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-news-tab" hidden>
-                <div class="dashboard-content-heading"><p class="staff-editor-kicker">PUBLIC CONTENT</p><h3>News</h3><p>Berita yang ditampilkan pada tab News patcher dan website.</p></div>
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">PUBLIC CONTENT</p><h3>News</h3><p>Announcements shown on the patcher News tab and website.</p></div>
                 <div id="staff-news-entries" class="staff-editor-entries"></div>
-                <div class="staff-editor-actions"><button class="btn-sm" id="staff-news-add" type="button">Tambah News</button></div>
+                <div class="staff-editor-actions"><button class="btn-sm" id="staff-news-add" type="button">Add news item</button></div>
               </section>
               <section id="staff-changelog-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-changelog-tab" hidden>
-                <div class="dashboard-content-heading"><p class="staff-editor-kicker">GAME UPDATES</p><h3>Changelog</h3><p>Catatan perubahan game yang muncul di Home patcher dan halaman Changelog.</p></div>
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">GAME UPDATES</p><h3>Changelog</h3><p>Game update notes shown on the patcher home page and website Changelog.</p></div>
                 <div id="staff-changelog-entries" class="staff-editor-entries"></div>
-                <div class="staff-editor-actions"><button class="btn-sm" id="staff-changelog-add" type="button">Tambah Changelog</button></div>
+                <div class="staff-editor-actions"><button class="btn-sm" id="staff-changelog-add" type="button">Add changelog entry</button></div>
               </section>
               <section id="staff-events-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-events-tab" hidden>
-                <div class="dashboard-content-heading"><p class="staff-editor-kicker">SCHEDULED CONTENT</p><h3>Events</h3><p>Atur jadwal, ringkasan, dan tautan promosi event.</p></div>
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">SCHEDULED CONTENT</p><h3>Events</h3><p>Set event dates, summaries, and promotion links.</p></div>
                 <div id="staff-event-entries" class="staff-editor-entries"></div>
-                <div class="staff-editor-actions"><button class="btn-sm" id="staff-editor-add-event" type="button">Tambah Event</button></div>
+                <div class="staff-editor-actions"><button class="btn-sm" id="staff-editor-add-event" type="button">Add event</button></div>
               </section>
             </div>
           </div>
           <p id="staff-editor-message" class="staff-editor-message" role="status" aria-live="polite"></p>
           <div class="staff-editor-actions dashboard-save-actions" id="dashboard-save-actions" hidden>
-            <button class="btn-sm gold" type="submit">Simpan perubahan</button>
+            <button class="btn-sm gold" type="submit">Save changes</button>
           </div>
         </form>
-        <p id="staff-editor-loading" class="staff-editor-message" role="status">Memeriksa akses GM/Admin…</p>
+        <p id="staff-editor-loading" class="staff-editor-message" role="status">Checking staff access…</p>
       </div>
     </section>
 

@@ -55,30 +55,40 @@
 	</div>
 
 	<?php $menuItems = $this->getMenuItems(); $adminMenuItems = $this->getAdminMenuItems(); ?>
-	<nav class="cp-nav" aria-label="Account panel menu">
-		<?php foreach ($menuItems as $menuCategory => $menus): ?>
-			<?php if (!empty($menus)): ?>
-			<div class="cp-drop">
-				<button type="button"><?php echo htmlspecialchars(Flux::message($menuCategory)) ?></button>
-				<div class="cp-drop-list">
-					<?php foreach ($menus as $menuItem): ?>
-					<a href="<?php echo $menuItem['url'] ?>"><?php echo htmlspecialchars(Flux::message($menuItem['name'])) ?></a>
-					<?php endforeach ?>
-				</div>
-			</div>
+	<?php if ($session->isLoggedIn()): ?>
+	<nav class="cp-nav" aria-label="Account panel navigation">
+		<div class="cp-nav-primary">
+			<a href="<?php echo $this->url('main') ?>">Account home</a>
+			<a href="<?php echo $this->url('account', 'view') ?>">My account</a>
+			<a href="<?php echo $this->url('account', 'changepass') ?>">Change password</a>
+			<a href="<?php echo $this->url('account', 'changemail') ?>">Change email</a>
+			<?php if (isset($session->account->group_level) && $session->account->group_level >= AccountLevel::LOWGM): ?>
+			<a class="cp-staff-link" href="<?php echo $this->url('changelog', 'index') ?>">Staff dashboard</a>
 			<?php endif ?>
-		<?php endforeach ?>
-		<?php if (!empty($adminMenuItems) && Flux::config('AdminMenuNewStyle')): ?>
-			<div class="cp-drop">
-				<button type="button">Admin</button>
-				<div class="cp-drop-list">
-					<?php foreach ($adminMenuItems as $menuItem): ?>
-					<a href="<?php echo $this->url($menuItem['module'], $menuItem['action']) ?>"><?php echo htmlspecialchars(Flux::message($menuItem['name'])) ?></a>
+		</div>
+		<details class="cp-more-tools">
+			<summary>More account tools</summary>
+			<div class="cp-tools-groups">
+			<?php foreach ($menuItems as $menuCategory => $menus): ?>
+				<?php if (!empty($menus)): ?>
+				<section><h2><?php echo htmlspecialchars(Flux::message($menuCategory)) ?></h2>
+					<?php foreach ($menus as $menuItem): ?>
+					<a href="<?php echo htmlspecialchars($menuItem['url'], ENT_QUOTES, 'UTF-8') ?>"><?php echo htmlspecialchars(Flux::message($menuItem['name'])) ?></a>
 					<?php endforeach ?>
-				</div>
+				</section>
+				<?php endif ?>
+			<?php endforeach ?>
+			<?php if (!empty($adminMenuItems)): ?>
+				<section><h2>Administration</h2>
+					<?php foreach ($adminMenuItems as $menuItem): ?>
+					<a href="<?php echo htmlspecialchars($this->url($menuItem['module'], $menuItem['action']), ENT_QUOTES, 'UTF-8') ?>"><?php echo htmlspecialchars(Flux::message($menuItem['name'])) ?></a>
+					<?php endforeach ?>
+				</section>
+			<?php endif ?>
 			</div>
-		<?php endif ?>
+		</details>
 	</nav>
+	<?php endif ?>
 
 	<main class="cp-main">
 		<div class="cp-card">

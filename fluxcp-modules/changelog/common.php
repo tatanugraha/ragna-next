@@ -202,6 +202,7 @@ function ragnaChangelogNormalizePostedEvents($posted, &$error)
 			$error = 'Invalid event entry.';
 			return null;
 		}
+		if ((string)($raw['deleted'] ?? '') === '1') continue;
 		$title = ragnaChangelogCleanText($raw['title'] ?? '', 140);
 		$summary = ragnaChangelogCleanText($raw['summary'] ?? '', 320);
 		$description = ragnaChangelogCleanText($raw['description'] ?? '', 1200);
