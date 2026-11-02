@@ -4,6 +4,7 @@ if (!defined('FLUX_ROOT')) exit;
 define('RAGNA_CHANGELOG_FILE', '/var/lib/ragna-next/changelog.json');
 define('RAGNA_CHANGELOG_PAGE_URL', 'https://ragna-next.cc/#changelog');
 define('RAGNA_CHANGELOG_MAX_ITEMS', 50);
+define('RAGNA_EVENT_MAX_ITEMS', 50);
 
 function ragnaChangelogRead()
 {
@@ -32,8 +33,38 @@ function ragnaChangelogRead()
 	return array('items' => $items);
 }
 
-function ragnaChangelogWrite(array $items)
+function ragnaEventsRead()
 {
+	$raw = @file_get_contents(RAGNA_CHANGELOG_FILE);
+	if ($raw === false || strlen($raw) > 262144) return array('items' => array());
+	$data = json_decode($raw, true);
+	if (!is_array($data) || !isset($data['events']) || !is_array($data['events'])) return array('items' => array());
+
+	$items = array();
+	foreach (array_slice($data['events'], 0, RAGNA_EVENT_MAX_ITEMS) as $item) {
+		if (!is_array($item)) continue;
+		$title = trim((string)($item['title'] ?? ''));
+		$startDate = trim((string)($item['startDate'] ?? ''));
+		$endDate = trim((string)($item['endDate'] ?? ''));
+		if ($title === '' || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $startDate)) continue;
+		if ($endDate !== '' && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $endDate)) $endDate = '';
+		$items[] = array(
+			'id' => preg_match('/^[A-Za-z0-9_-]{1,64}$/', (string)($item['id'] ?? '')) ? (string)$item['id'] : bin2hex(random_bytes(8)),
+			'title' => substr($title, 0, 140),
+			'startDate' => $startDate,
+			'endDate' => $endDate,
+			'summary' => substr(trim((string)($item['summary'] ?? '')), 0, 320),
+			'description' => substr(trim((string)($item['description'] ?? '')), 0, 1200),
+			'image' => ragnaChangelogCleanHttpsUrl($item['image'] ?? '', 500) ?: '',
+			'url' => ragnaChangelogCleanHttpsUrl($item['url'] ?? '', 500) ?: ''
+		);
+	}
+	return array('items' => $items);
+}
+
+function ragnaChangelogWrite(array $items, ?array $events = null)
+{
+	if ($events === null) $events = ragnaEventsRead()['items'];
 	$directory = dirname(RAGNA_CHANGELOG_FILE);
 	$lockPath = RAGNA_CHANGELOG_FILE . '.lock';
 	if (!is_dir($directory) || is_link($directory) || is_link(RAGNA_CHANGELOG_FILE) || is_link($lockPath)) {
@@ -49,7 +80,7 @@ function ragnaChangelogWrite(array $items)
 	try {
 		$tempPath = tempnam($directory, '.changelog-');
 		if ($tempPath === false) throw new RuntimeException('Changelog storage is not available.');
-		$payload = json_encode(array('items' => $items), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		$payload = json_encode(array('items' => $items, 'events' => $events), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 		if (!is_string($payload) || file_put_contents($tempPath, $payload . "\n", LOCK_EX) === false) {
 			throw new RuntimeException('Changelog could not be saved.');
 		}
@@ -72,6 +103,16 @@ function ragnaChangelogCleanText($value, $maxLength)
 	$length = function_exists('mb_strlen') ? mb_strlen($text, 'UTF-8') : strlen($text);
 	if ($length > $maxLength) return null;
 	return $text;
+}
+
+function ragnaChangelogCleanHttpsUrl($value, $maxLength)
+{
+	$url = ragnaChangelogCleanText($value, $maxLength);
+	if ($url === '') return '';
+	if ($url === null || preg_match('/[\r\n]/', $url) || !filter_var($url, FILTER_VALIDATE_URL)) return null;
+	$parts = parse_url($url);
+	if (!is_array($parts) || strtolower((string)($parts['scheme'] ?? '')) !== 'https' || empty($parts['host']) || isset($parts['user']) || isset($parts['pass'])) return null;
+	return $url;
 }
 
 function ragnaChangelogNormalizePostedItems($posted, &$error)
@@ -123,6 +164,62 @@ function ragnaChangelogNormalizePostedItems($posted, &$error)
 			'category' => $category,
 			'summary' => $summary,
 			'url' => RAGNA_CHANGELOG_PAGE_URL
+		);
+	}
+	return $items;
+}
+
+function ragnaChangelogNormalizePostedEvents($posted, &$error)
+{
+	$error = '';
+	if (!is_array($posted) || count($posted) > RAGNA_EVENT_MAX_ITEMS) {
+		$error = 'Events must contain no more than 50 entries.';
+		return null;
+	}
+	$items = array();
+	foreach ($posted as $raw) {
+		if (!is_array($raw)) {
+			$error = 'Invalid event entry.';
+			return null;
+		}
+		$title = ragnaChangelogCleanText($raw['title'] ?? '', 140);
+		$summary = ragnaChangelogCleanText($raw['summary'] ?? '', 320);
+		$description = ragnaChangelogCleanText($raw['description'] ?? '', 1200);
+		$image = ragnaChangelogCleanHttpsUrl($raw['image'] ?? '', 500);
+		$url = ragnaChangelogCleanHttpsUrl($raw['url'] ?? '', 500);
+		$startDate = is_string($raw['startDate'] ?? null) ? trim($raw['startDate']) : '';
+		$endDate = is_string($raw['endDate'] ?? null) ? trim($raw['endDate']) : '';
+		if ($title === null || $summary === null || $description === null || $image === null || $url === null) {
+			$error = 'An event field is too long or contains an invalid URL or text.';
+			return null;
+		}
+		if ($title === '' && $startDate === '' && $endDate === '' && $summary === '' && $description === '' && $image === '' && $url === '') continue;
+		$dateParts = preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $startDate, $matches) ? $matches : null;
+		if ($title === '' || !$dateParts || !checkdate((int)$dateParts[2], (int)$dateParts[3], (int)$dateParts[1])) {
+			$error = 'Every event needs a title and valid start date.';
+			return null;
+		}
+		if ($endDate !== '') {
+			$endParts = preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $endDate, $matches) ? $matches : null;
+			if (!$endParts || !checkdate((int)$endParts[2], (int)$endParts[3], (int)$endParts[1]) || $endDate < $startDate) {
+				$error = 'Use a valid end date on or after the start date.';
+				return null;
+			}
+		}
+		$id = is_string($raw['id'] ?? null) ? trim($raw['id']) : '';
+		if ($id !== '' && !preg_match('/^[A-Za-z0-9_-]{1,64}$/', $id)) {
+			$error = 'Invalid event identifier.';
+			return null;
+		}
+		$items[] = array(
+			'id' => $id !== '' ? $id : bin2hex(random_bytes(8)),
+			'title' => $title,
+			'startDate' => $startDate,
+			'endDate' => $endDate,
+			'summary' => $summary,
+			'description' => $description,
+			'image' => $image,
+			'url' => $url
 		);
 	}
 	return $items;

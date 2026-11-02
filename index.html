@@ -7,7 +7,7 @@
   <meta name="description" content="Ragna Next: a Ragnarok Online Renewal server. Create your account, download the client, and begin your adventure in Midgard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/style.css?v=20261102-events">
 </head>
 <body>
   <!-- Top bar -->
@@ -117,10 +117,20 @@
         <p class="staff-editor-intro">Changes appear on this website and in the Kafra Patcher.</p>
         <form id="staff-editor-form" class="staff-editor-form" hidden>
           <input type="hidden" name="csrf_token" id="staff-editor-csrf">
-          <div id="staff-editor-entries" class="staff-editor-entries"></div>
+          <div class="staff-editor-tabs" role="tablist" aria-label="Staff content type">
+            <button type="button" id="staff-news-tab" class="staff-editor-tab on" role="tab" aria-selected="true">News &amp; Changelog</button>
+            <button type="button" id="staff-events-tab" class="staff-editor-tab" role="tab" aria-selected="false">Events</button>
+          </div>
+          <section id="staff-news-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-news-tab">
+            <div id="staff-editor-entries" class="staff-editor-entries"></div>
+            <div class="staff-editor-actions"><button class="btn-sm" id="staff-editor-add" type="button">Add news entry</button></div>
+          </section>
+          <section id="staff-events-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-events-tab" hidden>
+            <div id="staff-event-entries" class="staff-editor-entries"></div>
+            <div class="staff-editor-actions"><button class="btn-sm" id="staff-editor-add-event" type="button">Add event</button></div>
+          </section>
           <p id="staff-editor-message" class="staff-editor-message" role="status" aria-live="polite"></p>
           <div class="staff-editor-actions">
-            <button class="btn-sm" id="staff-editor-add" type="button">Add entry</button>
             <button class="btn-sm gold" type="submit">Save changes</button>
           </div>
         </form>
@@ -251,6 +261,6 @@
     </div>
   </div>
 
-  <script src="assets/main.js"></script>
+  <script src="assets/main.js?v=20261102-events"></script>
 </body>
 </html>

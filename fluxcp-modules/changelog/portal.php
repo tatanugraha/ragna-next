@@ -22,6 +22,7 @@ if ($canEdit) {
 	}
 	$response['csrfToken'] = $csrfToken;
 	$response['items'] = ragnaChangelogRead()['items'];
+	$response['events'] = ragnaEventsRead()['items'];
 }
 
 echo json_encode($response, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);

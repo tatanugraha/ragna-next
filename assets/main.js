@@ -99,7 +99,21 @@
         if (!fallback.ok) throw new Error(`HTTP ${fallback.status}`);
         data = await fallback.json();
       }
-      const items = Array.isArray(data.items) ? data.items : [];
+      const items = Array.isArray(data.items) ? data.items.slice() : [];
+      try {
+        const eventResponse = await fetch('/akun/?module=changelog&action=events-feed', { cache: 'no-store' });
+        if (eventResponse.ok) {
+          const eventData = await eventResponse.json();
+          if (Array.isArray(eventData.items)) {
+            eventData.items.forEach(item => items.push({
+              title: item.title,
+              date: item.startDate,
+              category: 'event',
+              summary: item.description || item.summary || ''
+            }));
+          }
+        }
+      } catch { /* News and changelog remain available if the events feed is down. */ }
       newsList.replaceChildren();
       changelogList.replaceChildren();
 
@@ -183,10 +197,12 @@
   const editorSection = $('#staff-editor');
   const editorForm = $('#staff-editor-form');
   const editorEntries = $('#staff-editor-entries');
+  const editorEventEntries = $('#staff-event-entries');
   const editorMessage = $('#staff-editor-message');
   const editorLoading = $('#staff-editor-loading');
   const editorCsrf = $('#staff-editor-csrf');
   let editorNextIndex = 0;
+  let editorNextEventIndex = 0;
 
   function setEditorMessage(message, kind = '') {
     editorMessage.textContent = message;
@@ -249,6 +265,72 @@
     items.slice(0, 50).forEach(item => editorEntries.append(createEditorEntry(item)));
   }
 
+  function createEditorEvent(item = {}) {
+    const index = editorNextEventIndex++;
+    const fieldset = document.createElement('fieldset');
+    fieldset.className = 'staff-editor-entry';
+    const legend = document.createElement('legend');
+    legend.textContent = `Event ${index + 1}`;
+    fieldset.append(legend);
+    const id = document.createElement('input');
+    id.type = 'hidden'; id.name = `events[${index}][id]`; id.value = String(item.id || '');
+    fieldset.append(id);
+
+    const grid = document.createElement('div');
+    grid.className = 'staff-editor-grid';
+    const addField = (labelText, control) => {
+      const label = document.createElement('label');
+      label.append(document.createTextNode(labelText), control);
+      grid.append(label);
+    };
+    const title = document.createElement('input');
+    title.name = `events[${index}][title]`; title.maxLength = 140; title.required = true; title.value = String(item.title || '');
+    addField('Event title', title);
+    const startDate = document.createElement('input');
+    startDate.type = 'date'; startDate.name = `events[${index}][startDate]`; startDate.required = true; startDate.value = String(item.startDate || new Date().toISOString().slice(0, 10));
+    addField('Start date', startDate);
+    const endDate = document.createElement('input');
+    endDate.type = 'date'; endDate.name = `events[${index}][endDate]`; endDate.value = String(item.endDate || '');
+    addField('End date', endDate);
+    fieldset.append(grid);
+
+    const addTextarea = (labelText, name, value, maxLength) => {
+      const label = document.createElement('label');
+      label.append(document.createTextNode(labelText));
+      const textarea = document.createElement('textarea');
+      textarea.name = `events[${index}][${name}]`; textarea.rows = 3; textarea.maxLength = maxLength; textarea.value = String(value || '');
+      label.append(textarea);
+      fieldset.append(label);
+    };
+    addTextarea('Short summary', 'summary', item.summary, 320);
+    addTextarea('Event description', 'description', item.description, 1200);
+
+    const linkGrid = document.createElement('div');
+    linkGrid.className = 'staff-editor-grid';
+    const addUrl = (labelText, name, value) => {
+      const label = document.createElement('label');
+      label.append(document.createTextNode(labelText));
+      const input = document.createElement('input');
+      input.type = 'url'; input.name = `events[${index}][${name}]`; input.maxLength = 500; input.placeholder = 'https://'; input.value = String(value || '');
+      label.append(input); linkGrid.append(label);
+    };
+    addUrl('Promo image URL (optional)', 'image', item.image);
+    addUrl('Event details URL (optional)', 'url', item.url);
+    fieldset.append(linkGrid);
+
+    const remove = document.createElement('button');
+    remove.type = 'button'; remove.className = 'btn-sm staff-editor-remove'; remove.textContent = 'Remove event';
+    remove.addEventListener('click', () => fieldset.remove());
+    fieldset.append(remove);
+    return fieldset;
+  }
+
+  function renderEditorEvents(items) {
+    editorEventEntries.replaceChildren();
+    editorNextEventIndex = 0;
+    items.slice(0, 50).forEach(item => editorEventEntries.append(createEditorEvent(item)));
+  }
+
   function showStaffEditor() {
     editorSection.hidden = false;
     location.hash = 'staff-editor';
@@ -272,6 +354,7 @@
       ['#staff-editor-link', '#staff-editor-button', '#staff-editor-dot'].forEach(selector => { $(selector).hidden = false; });
       editorCsrf.value = String(portal.csrfToken || '');
       renderEditorEntries(Array.isArray(portal.items) ? portal.items : []);
+      renderEditorEvents(Array.isArray(portal.events) ? portal.events : []);
       editorLoading.hidden = true;
       editorForm.hidden = false;
       document.querySelectorAll('.staff-editor-link, #staff-editor-dot').forEach(link => link.addEventListener('click', event => {
@@ -296,6 +379,30 @@
     setEditorMessage('');
   });
 
+  $('#staff-editor-add-event').addEventListener('click', () => {
+    if (editorEventEntries.querySelectorAll('.staff-editor-entry').length >= 50) {
+      setEditorMessage('The editor supports up to 50 events.', 'error');
+      return;
+    }
+    const entry = createEditorEvent();
+    editorEventEntries.append(entry);
+    entry.querySelector('input:not([type="hidden"])').focus();
+    setEditorMessage('');
+  });
+
+  const newsPane = $('#staff-news-pane');
+  const eventsPane = $('#staff-events-pane');
+  $('#staff-news-tab').addEventListener('click', () => {
+    newsPane.hidden = false; eventsPane.hidden = true;
+    $('#staff-news-tab').classList.add('on'); $('#staff-news-tab').setAttribute('aria-selected', 'true');
+    $('#staff-events-tab').classList.remove('on'); $('#staff-events-tab').setAttribute('aria-selected', 'false');
+  });
+  $('#staff-events-tab').addEventListener('click', () => {
+    newsPane.hidden = true; eventsPane.hidden = false;
+    $('#staff-events-tab').classList.add('on'); $('#staff-events-tab').setAttribute('aria-selected', 'true');
+    $('#staff-news-tab').classList.remove('on'); $('#staff-news-tab').setAttribute('aria-selected', 'false');
+  });
+
   editorForm.addEventListener('submit', async event => {
     event.preventDefault();
     setEditorMessage('Saving changes…');
@@ -316,6 +423,7 @@
         return;
       }
       renderEditorEntries(Array.isArray(result.items) ? result.items : []);
+      renderEditorEvents(Array.isArray(result.events) ? result.events : []);
       setEditorMessage(String(result.message || 'Changes saved.'), 'success');
       loadChangelog();
     } catch {

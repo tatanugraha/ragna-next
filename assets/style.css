@@ -156,6 +156,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .staff-editor-kicker { margin-bottom: 6px; color: var(--gold-hi); font-size: .72rem; font-weight: 700; letter-spacing: .2em; }
 .staff-editor-intro { margin: 8px 0 22px; color: var(--muted); text-align: center; }
 .staff-editor-form { width: min(900px, 100%); margin: 0 auto; }
+.staff-editor-tabs { display: flex; justify-content: center; gap: 28px; margin: 18px auto 12px; border-bottom: 1px solid var(--line); }
+.staff-editor-tab { position: relative; padding: 10px 4px; color: var(--muted); font-family: var(--serif); font-weight: 700; }
+.staff-editor-tab.on { color: var(--gold-hi); }
+.staff-editor-tab.on::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: var(--gold); content: ""; }
 .staff-editor-entries { max-height: 56vh; overflow: auto; padding: 4px 12px; }
 .staff-editor-entry { position: relative; margin: 0 0 14px; padding: 18px; border: 1px solid rgba(95, 211, 141, .25); background: rgba(3, 12, 8, .56); }
 .staff-editor-entry legend { padding: 0 8px; color: var(--gold-hi); font-size: .76rem; letter-spacing: .12em; text-transform: uppercase; }
@@ -300,6 +304,7 @@ body.modal-open { overflow: hidden; }
   .title span::before, .title span::after { width: 28px; }
   .changelog-heading, .staff-editor-heading { align-items: center; flex-direction: column; }
   .staff-editor-grid { grid-template-columns: 1fr; gap: 2px; }
+  .staff-editor-tabs { gap: 14px; }
   .staff-editor-entry { padding: 14px 10px; }
   .staff-editor-entries { max-height: none; padding: 0; }
   .staff-editor-actions { justify-content: center; flex-wrap: wrap; }

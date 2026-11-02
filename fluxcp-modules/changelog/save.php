@@ -34,8 +34,15 @@ $session->setChangelogCsrfTokenData(bin2hex(random_bytes(32)));
 $nextCsrfToken = (string)$session->changelogCsrfToken;
 
 $error = '';
-$items = ragnaChangelogNormalizePostedItems($_POST['items'] ?? null, $error);
+$items = ragnaChangelogNormalizePostedItems($_POST['items'] ?? array(), $error);
 if ($items === null) {
+	if ($jsonMode) $finishJson(422, array('ok' => false, 'message' => $error, 'csrfToken' => $nextCsrfToken));
+	$session->setMessageData($error);
+	header('Location: ' . $this->url('changelog', 'index'));
+	exit;
+}
+$events = ragnaChangelogNormalizePostedEvents($_POST['events'] ?? array(), $error);
+if ($events === null) {
 	if ($jsonMode) $finishJson(422, array('ok' => false, 'message' => $error, 'csrfToken' => $nextCsrfToken));
 	$session->setMessageData($error);
 	header('Location: ' . $this->url('changelog', 'index'));
@@ -43,8 +50,8 @@ if ($items === null) {
 }
 
 try {
-	ragnaChangelogWrite($items);
-	if ($jsonMode) $finishJson(200, array('ok' => true, 'message' => 'News and changelog updated.', 'csrfToken' => $nextCsrfToken, 'items' => $items));
+	ragnaChangelogWrite($items, $events);
+	if ($jsonMode) $finishJson(200, array('ok' => true, 'message' => 'News, changelog, and events updated.', 'csrfToken' => $nextCsrfToken, 'items' => $items, 'events' => $events));
 	$session->setMessageData('Changelog updated. The website and patcher now use the new entries.');
 } catch (Throwable $exception) {
 	if ($jsonMode) $finishJson(500, array('ok' => false, 'message' => 'Changelog could not be saved. Check the server storage permissions.', 'csrfToken' => $nextCsrfToken));

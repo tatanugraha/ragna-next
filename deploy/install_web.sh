@@ -55,7 +55,15 @@ site_body() {
     location ~ /\.(git|ht) { deny all; }
     location ~ ^/(deploy|fluxcp-theme|fluxcp-modules|README\.md) { deny all; }
 
-    location ~* \.(css|js|png|jpg|jpeg|webp|svg|ico|woff2?)\$ {
+    location = /index.html {
+        add_header Cache-Control "no-cache, must-revalidate" always;
+    }
+
+    location ~* \.(css|js)\$ {
+        add_header Cache-Control "no-cache, must-revalidate" always;
+    }
+
+    location ~* \.(png|jpg|jpeg|webp|svg|ico|woff2?)\$ {
         expires 7d;
         add_header Cache-Control "public";
     }
