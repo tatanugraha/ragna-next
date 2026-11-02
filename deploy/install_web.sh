@@ -42,6 +42,7 @@ sed -i \
   -e "s|'BaseURI'\(\s*\)=> '[^']*'|'BaseURI'\1=> '/akun'|" \
   -e "s|'ThemeName'\(\s*\)=> array([^)]*)|'ThemeName'\1=> array('ragnanext')|" \
   -e "s|'DefaultLanguage'\(\s*\)=> '[^']*'|'DefaultLanguage'\1=> 'en_us'|" \
+	-e "s|'SessionCookieExpire'\(\s*\)=> [0-9]+|'SessionCookieExpire'\1=> 336|" \
   "$FLUX_DIR/config/application.php"
 
 # --- nginx ---

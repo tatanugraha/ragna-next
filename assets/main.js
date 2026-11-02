@@ -178,6 +178,155 @@
   }
   loadChangelog();
 
+  // Reflect the FluxCP login session on the public website and expose the editor to GM+.
+  const portalUrl = '/akun/?module=changelog&action=portal';
+  const editorSection = $('#staff-editor');
+  const editorForm = $('#staff-editor-form');
+  const editorEntries = $('#staff-editor-entries');
+  const editorMessage = $('#staff-editor-message');
+  const editorLoading = $('#staff-editor-loading');
+  const editorCsrf = $('#staff-editor-csrf');
+  let editorNextIndex = 0;
+
+  function setEditorMessage(message, kind = '') {
+    editorMessage.textContent = message;
+    editorMessage.className = `staff-editor-message${kind ? ` ${kind}` : ''}`;
+  }
+
+  function createEditorEntry(item = {}) {
+    const index = editorNextIndex++;
+    const fieldset = document.createElement('fieldset');
+    fieldset.className = 'staff-editor-entry';
+    const legend = document.createElement('legend');
+    legend.textContent = `Entry ${index + 1}`;
+    fieldset.append(legend);
+
+    const id = document.createElement('input');
+    id.type = 'hidden'; id.name = `items[${index}][id]`; id.value = String(item.id || '');
+    const deleted = document.createElement('input');
+    deleted.type = 'hidden'; deleted.name = `items[${index}][deleted]`; deleted.value = '0'; deleted.dataset.deleted = 'true';
+    fieldset.append(id, deleted);
+
+    const grid = document.createElement('div');
+    grid.className = 'staff-editor-grid';
+    const addField = (labelText, control) => {
+      const label = document.createElement('label');
+      label.append(document.createTextNode(labelText));
+      label.append(control);
+      grid.append(label);
+    };
+    const title = document.createElement('input');
+    title.name = `items[${index}][title]`; title.maxLength = 140; title.required = true; title.value = String(item.title || '');
+    addField('Title', title);
+    const date = document.createElement('input');
+    date.type = 'date'; date.name = `items[${index}][date]`; date.required = true; date.value = String(item.date || new Date().toISOString().slice(0, 10));
+    addField('Date', date);
+    const category = document.createElement('select');
+    category.name = `items[${index}][category]`;
+    [['event', 'Event'], ['info', 'Info'], ['update', 'Update']].forEach(([value, text]) => {
+      const option = document.createElement('option'); option.value = value; option.textContent = text;
+      if ((item.category || 'info') === value) option.selected = true;
+      category.append(option);
+    });
+    addField('Category', category);
+    fieldset.append(grid);
+
+    const summaryLabel = document.createElement('label');
+    summaryLabel.append(document.createTextNode('Short description'));
+    const summary = document.createElement('textarea');
+    summary.name = `items[${index}][summary]`; summary.maxLength = 1200; summary.rows = 3; summary.value = String(item.summary || '');
+    summaryLabel.append(summary);
+    fieldset.append(summaryLabel);
+
+    const remove = document.createElement('button');
+    remove.type = 'button'; remove.className = 'btn-sm staff-editor-remove'; remove.textContent = 'Remove entry';
+    remove.addEventListener('click', () => { deleted.value = '1'; fieldset.hidden = true; });
+    fieldset.append(remove);
+    return fieldset;
+  }
+
+  function renderEditorEntries(items) {
+    editorEntries.replaceChildren();
+    editorNextIndex = 0;
+    items.slice(0, 50).forEach(item => editorEntries.append(createEditorEntry(item)));
+  }
+
+  function showStaffEditor() {
+    editorSection.hidden = false;
+    location.hash = 'staff-editor';
+    editorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function loadAccountPortal() {
+    try {
+      const response = await fetch(portalUrl, { cache: 'no-store', credentials: 'same-origin', headers: { accept: 'application/json' } });
+      if (!response.ok) return;
+      const portal = await response.json();
+      if (portal.loggedIn) {
+        $('#account-login').hidden = true;
+        $('#account-register').hidden = true;
+        $('#account-profile').hidden = false;
+        $('#account-logout').hidden = false;
+        $('#account-name').textContent = String(portal.accountName || 'Account');
+      }
+      if (!portal.canEdit) return;
+
+      ['#staff-editor-link', '#staff-editor-button', '#staff-editor-dot'].forEach(selector => { $(selector).hidden = false; });
+      editorCsrf.value = String(portal.csrfToken || '');
+      renderEditorEntries(Array.isArray(portal.items) ? portal.items : []);
+      editorLoading.hidden = true;
+      editorForm.hidden = false;
+      document.querySelectorAll('.staff-editor-link, #staff-editor-dot').forEach(link => link.addEventListener('click', event => {
+        event.preventDefault();
+        showStaffEditor();
+      }));
+      if (location.hash === '#staff-editor') showStaffEditor();
+    } catch {
+      // Public pages remain usable if the account service is temporarily unavailable.
+      editorLoading.textContent = 'Staff tools are temporarily unavailable.';
+    }
+  }
+
+  $('#staff-editor-add').addEventListener('click', () => {
+    if (editorEntries.querySelectorAll('.staff-editor-entry:not([hidden])').length >= 50) {
+      setEditorMessage('The editor supports up to 50 entries.', 'error');
+      return;
+    }
+    const entry = createEditorEntry();
+    editorEntries.append(entry);
+    entry.querySelector('input:not([type="hidden"])').focus();
+    setEditorMessage('');
+  });
+
+  editorForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    setEditorMessage('Saving changes…');
+    try {
+      const response = await fetch('/akun/?module=changelog&action=save', {
+        method: 'POST', cache: 'no-store', credentials: 'same-origin',
+        headers: { accept: 'application/json' }, body: new FormData(editorForm)
+      });
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        setEditorMessage('Your account session has expired. Sign in again, then reopen the editor.', 'error');
+        return;
+      }
+      const result = await response.json();
+      if (result.csrfToken) editorCsrf.value = String(result.csrfToken);
+      if (!response.ok || !result.ok) {
+        setEditorMessage(String(result.message || 'Changes could not be saved.'), 'error');
+        return;
+      }
+      renderEditorEntries(Array.isArray(result.items) ? result.items : []);
+      setEditorMessage(String(result.message || 'Changes saved.'), 'success');
+      loadChangelog();
+    } catch {
+      setEditorMessage('Could not reach the account service. Your changes are still in this form; try saving again.', 'error');
+    }
+  });
+
+  loadAccountPortal();
+
   // World
   const regions = [
     { tag: 'Royal Capital', name: 'Prontera', bg: 'url(assets/img/city1.webp) center right / cover no-repeat, #23345e',

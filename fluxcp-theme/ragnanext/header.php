@@ -26,9 +26,6 @@
 		<nav class="menu" id="menu">
 			<a href="/">Home</a>
 			<a href="/#news">News</a>
-			<?php if ($session->isLoggedIn() && isset($session->account->group_level) && $session->account->group_level >= AccountLevel::LOWGM): ?>
-			<a href="<?php echo $this->url('changelog', 'index') ?>">Changelog editor</a>
-			<?php endif ?>
 			<a href="/#world">World</a>
 			<a href="/#heroes">Classes</a>
 			<a href="/#info">Server Info</a>

@@ -25,11 +25,17 @@
       <a href="#info">Server Info</a>
     </nav>
     <div class="topbar-actions">
-      <a class="btn-sm gold" href="/akun/account/create" data-auth="register">Sign Up</a>
-      <a class="avatar" href="/akun/account/login" data-auth="login" aria-label="Log In">
+      <a class="btn-sm gold" id="account-register" href="/akun/account/create" data-auth="register">Sign Up</a>
+      <a class="avatar" id="account-login" href="/akun/account/login" data-auth="login" aria-label="Log In">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
         <span>Log In</span>
       </a>
+      <a class="avatar" id="account-profile" href="/akun/account/view" aria-label="Account" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
+        <span id="account-name"></span>
+      </a>
+      <a class="btn-sm staff-editor-link" id="staff-editor-link" href="#staff-editor" hidden>Edit News</a>
+      <a class="btn-sm" id="account-logout" href="/akun/account/logout" hidden>Log Out</a>
     </div>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </header>
@@ -42,6 +48,7 @@
     <a href="#world" data-label="World"></a>
     <a href="#heroes" data-label="Classes"></a>
     <a href="#info" data-label="Server Info"></a>
+      <a href="#staff-editor" id="staff-editor-dot" data-label="Editor" hidden></a>
   </nav>
 
   <main>
@@ -96,10 +103,28 @@
     <!-- CHANGELOG -->
     <section id="changelog" class="panel changelog">
       <div class="wrap">
-        <h2 class="title"><span>Changelog</span></h2>
+        <div class="changelog-heading"><h2 class="title"><span>Changelog</span></h2><a id="staff-editor-button" class="btn-sm staff-editor-link" href="#staff-editor" hidden>Edit News</a></div>
         <div class="changelog-list" id="changelog-items" aria-live="polite">
           <p class="changelog-empty">Loading changelog…</p>
         </div>
+      </div>
+    </section>
+
+    <!-- STAFF NEWS EDITOR: shown only after FluxCP confirms a GM-level session -->
+    <section id="staff-editor" class="panel staff-editor" hidden>
+      <div class="wrap">
+        <div class="staff-editor-heading"><div><p class="staff-editor-kicker">STAFF CONTENT</p><h2 class="title"><span>News &amp; Changelog Editor</span></h2></div><a class="btn-sm" href="#changelog">View changelog</a></div>
+        <p class="staff-editor-intro">Changes appear on this website and in the Kafra Patcher.</p>
+        <form id="staff-editor-form" class="staff-editor-form" hidden>
+          <input type="hidden" name="csrf_token" id="staff-editor-csrf">
+          <div id="staff-editor-entries" class="staff-editor-entries"></div>
+          <p id="staff-editor-message" class="staff-editor-message" role="status" aria-live="polite"></p>
+          <div class="staff-editor-actions">
+            <button class="btn-sm" id="staff-editor-add" type="button">Add entry</button>
+            <button class="btn-sm gold" type="submit">Save changes</button>
+          </div>
+        </form>
+        <p id="staff-editor-loading" class="staff-editor-message" role="status">Checking staff access…</p>
       </div>
     </section>
 
