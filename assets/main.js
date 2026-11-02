@@ -97,8 +97,8 @@
       const fallbackPromise = fetchJson('assets/changelog.json');
       const [fallback, newsResult, changelogResult] = await Promise.all([
         fallbackPromise,
-        fetchJson('/akun/?module=changelog&action=news-feed').then(data => ({ data })).catch(() => null),
-        fetchJson('/akun/?module=changelog&action=feed').then(data => ({ data })).catch(() => null)
+        fetchJson('/ACCOUNT/?module=changelog&action=news-feed').then(data => ({ data })).catch(() => null),
+        fetchJson('/ACCOUNT/?module=changelog&action=feed').then(data => ({ data })).catch(() => null)
       ]);
       const newsData = newsResult?.data || fallback;
       const changelogData = changelogResult?.data || fallback;
@@ -187,7 +187,7 @@
   loadChangelog();
 
   // Reflect the FluxCP login session on the public website and expose the editor to GM+.
-  const portalUrl = '/akun/?module=changelog&action=portal';
+  const portalUrl = '/ACCOUNT/?module=changelog&action=portal';
   const editorSection = $('#dashboard');
   const editorForm = $('#staff-editor-form');
   const editorNewsEntries = $('#staff-news-entries');
@@ -454,7 +454,7 @@
     event.preventDefault();
     setEditorMessage('Saving changes…');
     try {
-      const response = await fetch('/akun/?module=changelog&action=save', {
+      const response = await fetch('/ACCOUNT/?module=changelog&action=save', {
         method: 'POST', cache: 'no-store', credentials: 'same-origin',
         headers: { accept: 'application/json' }, body: new FormData(editorForm)
       });
@@ -534,9 +534,9 @@
   }
   showJob(0);
 
-  // Account: log in / sign up modal. Forms post straight to FluxCP (/akun); results and errors show there.
+  // Account: log in / sign up modal. Forms post straight to FluxCP (/ACCOUNT); results and errors show there.
   const auth = $('#auth'), captcha = $('#pane-register .auth-captcha img');
-  function refreshCaptcha() { captcha.src = '/akun/captcha?nocache=' + Math.random(); }
+  function refreshCaptcha() { captcha.src = '/ACCOUNT/captcha?nocache=' + Math.random(); }
   function showPane(name) {
     $$('.auth-tabs button').forEach(b => b.classList.toggle('on', b.dataset.pane === name));
     $$('.auth-form').forEach(f => { f.hidden = f.id !== 'pane-' + name; });
