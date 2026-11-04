@@ -307,8 +307,10 @@
     { id: 'overview', tab: $('#dashboard-overview-tab'), pane: $('#dashboard-overview') },
     { id: 'news', tab: $('#staff-news-tab'), pane: $('#staff-news-pane') },
     { id: 'changelog', tab: $('#staff-changelog-tab'), pane: $('#staff-changelog-pane') },
-    { id: 'events', tab: $('#staff-events-tab'), pane: $('#staff-events-pane') }
+    { id: 'events', tab: $('#staff-events-tab'), pane: $('#staff-events-pane') },
+    ...['report', 'online', 'items', 'zeny', 'trades', 'cash', 'commands'].map(name => ({ id: `gm-${name}`, tab: $(`#gm-tab-${name}`), pane: $('#gm-pane') }))
   ];
+  const contentViews = ['news', 'changelog', 'events'];
   function syncDashboardRoute() {
     const active = location.hash === '#dashboard' || location.hash === '#staff-editor';
     document.body.classList.toggle('dashboard-active', active);
@@ -317,13 +319,15 @@
   window.addEventListener('hashchange', syncDashboardRoute);
   syncDashboardRoute();
   function setDashboardView(id) {
+    const activePane = dashboardViews.find(view => view.id === id)?.pane;
     dashboardViews.forEach(({ id: viewId, tab, pane }) => {
       const selected = viewId === id;
       tab.classList.toggle('on', selected);
       tab.setAttribute('aria-selected', String(selected));
-      pane.hidden = !selected;
+      pane.hidden = pane !== activePane;
     });
-    $('#dashboard-save-actions').hidden = id === 'overview';
+    $('#dashboard-save-actions').hidden = !contentViews.includes(id);
+    document.dispatchEvent(new CustomEvent('ragna:dashboard-view', { detail: id }));
   }
   dashboardViews.forEach(({ id, tab }, index) => {
     tab.addEventListener('click', () => setDashboardView(id));

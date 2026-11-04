@@ -10,7 +10,8 @@ $canEdit = $loggedIn && isset($session->account->group_level) && $session->accou
 $response = array(
 	'loggedIn' => (bool)$loggedIn,
 	'canEdit' => (bool)$canEdit,
-	'accountName' => $loggedIn ? (string)$session->account->userid : ''
+	'accountName' => $loggedIn ? (string)$session->account->userid : '',
+	'canViewReports' => (bool)$canEdit
 );
 
 if ($canEdit) {

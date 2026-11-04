@@ -7,7 +7,7 @@
   <meta name="description" content="Ragna Next: a Ragnarok Online Renewal server. Create your account, download the client, and begin your adventure in Midgard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=20261104-sky-1">
+  <link rel="stylesheet" href="assets/style.css?v=20261104-gm-1">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -164,6 +164,14 @@
               <button type="button" class="dashboard-nav-item" id="staff-news-tab" data-dashboard-view="news" role="tab" aria-selected="false" aria-controls="staff-news-pane">News</button>
               <button type="button" class="dashboard-nav-item" id="staff-changelog-tab" data-dashboard-view="changelog" role="tab" aria-selected="false" aria-controls="staff-changelog-pane">Changelog</button>
               <button type="button" class="dashboard-nav-item" id="staff-events-tab" data-dashboard-view="events" role="tab" aria-selected="false" aria-controls="staff-events-pane">Events</button>
+              <span class="dashboard-nav-label">GM REPORTS</span>
+              <button type="button" class="dashboard-nav-item" id="gm-tab-report" data-dashboard-view="gm-report" role="tab" aria-selected="false" aria-controls="gm-pane">Report</button>
+              <button type="button" class="dashboard-nav-item" id="gm-tab-online" data-dashboard-view="gm-online" role="tab" aria-selected="false" aria-controls="gm-pane">Online</button>
+              <button type="button" class="dashboard-nav-item" id="gm-tab-items" data-dashboard-view="gm-items" role="tab" aria-selected="false" aria-controls="gm-pane">Item Log</button>
+              <button type="button" class="dashboard-nav-item" id="gm-tab-zeny" data-dashboard-view="gm-zeny" role="tab" aria-selected="false" aria-controls="gm-pane">Zeny Log</button>
+              <button type="button" class="dashboard-nav-item" id="gm-tab-trades" data-dashboard-view="gm-trades" role="tab" aria-selected="false" aria-controls="gm-pane">Trades</button>
+              <button type="button" class="dashboard-nav-item" id="gm-tab-cash" data-dashboard-view="gm-cash" role="tab" aria-selected="false" aria-controls="gm-pane">Cash Points</button>
+              <button type="button" class="dashboard-nav-item" id="gm-tab-commands" data-dashboard-view="gm-commands" role="tab" aria-selected="false" aria-controls="gm-pane">GM Commands</button>
             </nav>
             <div class="dashboard-content">
               <section id="dashboard-overview" class="dashboard-overview" role="tabpanel" aria-labelledby="dashboard-overview-tab">
@@ -188,6 +196,20 @@
                 <div class="dashboard-content-heading"><p class="staff-editor-kicker">SCHEDULED CONTENT</p><h3>Events</h3><p>Set event dates, summaries, and promotion links.</p></div>
                 <div id="staff-event-entries" class="staff-editor-entries"></div>
                 <div class="staff-editor-actions"><button class="btn btn-outline" id="staff-editor-add-event" type="button">Add event</button></div>
+              </section>
+              <section id="gm-pane" class="gm-pane" role="tabpanel" aria-live="polite" hidden>
+                <div class="dashboard-content-heading"><p class="staff-editor-kicker">GM REPORTS · READ ONLY</p><h3 id="gm-title">Report</h3><p id="gm-intro"></p></div>
+                <div class="gm-filters" id="gm-filters">
+                  <label data-gm-field="char">Character<input id="gm-f-char" maxlength="30" placeholder="Name or char ID" autocomplete="off"></label>
+                  <label data-gm-field="item">Item ID<input id="gm-f-item" inputmode="numeric" maxlength="10" autocomplete="off"></label>
+                  <label data-gm-field="uid">Unique ID<input id="gm-f-uid" inputmode="numeric" maxlength="20" autocomplete="off"></label>
+                  <label data-gm-field="command">Command<input id="gm-f-command" maxlength="30" placeholder="e.g. @item" autocomplete="off"></label>
+                  <label data-gm-field="type">Type<select id="gm-f-type"></select></label>
+                  <label data-gm-field="period">Period<select id="gm-f-period"><option value="1">24 hours</option><option value="3">3 days</option><option value="7" selected>7 days</option><option value="30">30 days</option><option value="90">90 days</option></select></label>
+                  <label data-gm-field="filter">Filter<input id="gm-f-filter" placeholder="Name, account, map, guild, IP" autocomplete="off"></label>
+                  <button type="button" class="btn btn-primary" id="gm-search">Search</button>
+                </div>
+                <div id="gm-body" class="gm-body"></div>
               </section>
             </div>
           </div>
@@ -385,6 +407,7 @@
     </div>
   </div>
 
-  <script src="assets/main.js?v=20261104-sky-1"></script>
+  <script src="assets/main.js?v=20261104-gm-1"></script>
+  <script src="assets/gm.js?v=20261104-gm-1"></script>
 </body>
 </html>

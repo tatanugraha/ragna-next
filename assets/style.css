@@ -252,6 +252,38 @@ svg { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-wi
 .staff-editor-message.error { color: #d23b3b; }
 .staff-editor-message.success { color: var(--green); }
 
+/* ---------- GM reports ---------- */
+.dashboard-nav-label + .dashboard-nav-label, .dashboard-nav-item + .dashboard-nav-label { margin-top: 12px; }
+.gm-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin-bottom: 18px; padding: 14px; background: var(--bg); border-radius: 14px; }
+.gm-filters label { display: grid; gap: 4px; font-size: .78rem; color: var(--muted); flex: 1 1 140px; }
+.gm-filters input, .gm-filters select { font: inherit; font-weight: 400; color: var(--ink); background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 8px 10px; width: 100%; }
+.gm-filters input:focus, .gm-filters select:focus { outline: none; border-color: var(--blue-hi); }
+.gm-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.gm-stat { background: var(--bg); border-radius: 12px; padding: 12px 14px; }
+.gm-stat small { display: block; text-transform: uppercase; letter-spacing: 1px; font-size: .66rem; color: var(--muted); }
+.gm-stat strong { display: block; font-size: 1.35rem; font-weight: 600; color: var(--ink); line-height: 1.3; overflow-wrap: anywhere; }
+.gm-stat span { font-size: .76rem; color: var(--muted); }
+.gm-sub { font-family: var(--serif); font-variant: small-caps; color: var(--ink); font-size: 1.15rem; margin: 6px 0 10px; }
+.gm-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+.gm-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+.gm-table th { text-align: left; font-weight: 500; font-size: .7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--blue-lo); background: #f4f9ff; padding: 10px 12px; white-space: nowrap; }
+.gm-table td { padding: 9px 12px; border-top: 1px solid var(--line); color: var(--ink); vertical-align: top; }
+.gm-table tr:hover td { background: #fafcff; }
+.gm-table code { font-family: ui-monospace, Consolas, monospace; font-size: .8rem; background: var(--bg); padding: 1px 6px; border-radius: 6px; }
+.gm-table ul { list-style: none; margin-top: 2px; color: var(--muted); }
+.gm-muted { color: var(--muted); font-size: .78rem; }
+.gm-pos { color: var(--green); font-weight: 500; }
+.gm-neg { color: #d23b3b; font-weight: 500; }
+.gm-ok { color: var(--green); font-weight: 500; }
+.gm-warn { color: #c2410c; font-weight: 500; }
+.gm-empty { padding: 30px 10px; text-align: center; color: var(--muted); }
+.gm-empty.error { color: #d23b3b; }
+.gm-note { font-size: .8rem; color: var(--muted); margin-bottom: 8px; }
+.gm-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.gm-chip { padding: 4px 12px; border-radius: 999px; background: #e6f0ff; color: var(--blue-lo); font-size: .8rem; }
+.gm-chip b { font-weight: 600; }
+.gm-actions { margin-top: 14px; }
+
 /* ---------- auth modal ---------- */
 .auth { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; }
 .auth-backdrop { position: absolute; inset: 0; background: rgba(15, 29, 48, .55); backdrop-filter: blur(3px); }
