@@ -6,37 +6,64 @@
   <title>Ragna Next — RO NEXT : Renewal</title>
   <meta name="description" content="Ragna Next: a Ragnarok Online Renewal server. Create your account, download the client, and begin your adventure in Midgard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=20261103-public-refresh-3">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=20261104-sky-1">
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-castle" viewBox="0 0 24 24"><path d="M4 21V9l2-2 2 2V5l2-2 2 2 2-2 2 2v4l2-2 2 2v12z"/><path d="M10 21v-5h4v5"/></symbol>
+      <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6 3h12M6 21h12M7 3c0 5 10 6 10 9s-10 4-10 9M17 3c0 5-10 6-10 9s10 4 10 9"/></symbol>
+      <symbol id="i-pad" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r=".8"/><circle cx="18" cy="13.5" r=".8"/></symbol>
+      <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14M5 7l-3 7a3 3 0 006 0zM19 7l-3 7a3 3 0 006 0z"/></symbol>
+      <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0116 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.3 0 4 1.4 4.6 4"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></symbol>
+      <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></symbol>
+      <symbol id="i-scroll" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+      <symbol id="i-sword" viewBox="0 0 24 24"><path d="M14 4h6v6L9 21l-6-6z"/><path d="M5 13l6 6M3 21l3-3"/></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/><path d="M12 9v6M9 12h6"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.5-7-12a7 7 0 0114 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+      <symbol id="i-badge" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14l-1.5 7 5-3 5 3-1.5-7"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 00-14.6-4.5M4 4v4h4M4 13a8 8 0 0014.6 4.5M20 20v-4h-4"/></symbol>
+      <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 13h18M12 9v12M12 9c-2-4-6-4-6-1.5S10 9 12 9zM12 9c2-4 6-4 6-1.5S14 9 12 9z"/></symbol>
+      <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l2 2 3-3M7 15l2 2 3-3M14 10h4M14 16h4"/></symbol>
+      <symbol id="i-hammer" viewBox="0 0 24 24"><path d="M14 4l6 6-3 3-6-6zM11 7l-8 8 3 3 8-8"/></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="14.5" r="4.5"/><path d="M11 11l9-9M16 6l3 3M14 8l2 2"/></symbol>
+      <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 8a2 2 0 002-2h14a2 2 0 002 2v2a2 2 0 000 4v2a2 2 0 00-2 2H5a2 2 0 00-2-2v-2a2 2 0 000-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/></symbol>
+      <symbol id="i-skull" viewBox="0 0 24 24"><path d="M12 3a8 8 0 00-5 14.3V21h10v-3.7A8 8 0 0012 3z"/><circle cx="9" cy="11" r="1.5"/><circle cx="15" cy="11" r="1.5"/><path d="M10 21v-3M14 21v-3"/></symbol>
+      <symbol id="i-mask" viewBox="0 0 24 24"><path d="M3 7c3-2 15-2 18 0 0 7-3 11-9 11S3 14 3 7z"/><path d="M7 11c1-1 2.5-1 3 0M14 11c.5-1 2-1 3 0"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+      <symbol id="i-door" viewBox="0 0 24 24"><path d="M5 21V4a1 1 0 011-1h12a1 1 0 011 1v17M3 21h18"/><circle cx="15" cy="12" r="1"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3"/></symbol>
+    </defs>
+  </svg>
+
   <!-- Top bar -->
   <header class="topbar" id="topbar">
-    <a href="#home" class="brand" aria-label="Ragna Next">
-      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5"/><path d="M7 17c2-7 8-11 13-11s11 4 13 11c-3 2-7 3-13 3s-10-1-13-3z"/><path d="M20 20v11M20 24l-5-4M20 24l5-4M20 31l-6 5M20 31l6 5M20 31v6"/></svg>
+    <a href="#home" class="brand" aria-label="Ragna Next home">
+      <img src="assets/img/logo-re.webp" width="900" height="713" alt="">
       <span>RAGNA<b>NEXT</b></span>
     </a>
     <nav class="menu" id="menu" aria-label="Main navigation">
       <a href="#home">Home</a>
       <a href="#news">News</a>
-      <a href="#changelog">Game Updates</a>
+      <a href="#changelog">Updates</a>
       <a href="#world">World</a>
       <a href="#heroes">Classes</a>
       <a href="#info">Server Info</a>
+      <a href="#features">Features</a>
       <a class="staff-editor-link staff-dashboard-link" id="staff-editor-link" href="#dashboard" hidden>Dashboard</a>
     </nav>
     <div class="topbar-actions">
-      <a class="btn-sm download-link" href="/patcher/Patcher-Portable-0.2.9.exe">Download Patcher</a>
-      <a class="btn-sm gold" id="account-register" href="/account/account/create" data-auth="register">Sign Up</a>
-      <a class="avatar" id="account-login" href="/account/account/login" data-auth="login" aria-label="Log In">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
-        <span>Log In</span>
-      </a>
-      <a class="avatar" id="account-profile" href="/account/account/view" aria-label="Account" hidden>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4"/><path d="M4 20.5c1.4-4 4.4-6 8-6s6.6 2 8 6"/></svg>
-        <span id="account-name"></span>
-      </a>
-      <a class="btn-sm" id="account-logout" href="/account/account/logout" hidden>Log Out</a>
+      <a class="btn btn-outline download-link" href="/patcher/Patcher-Portable-0.2.9.exe"><svg><use href="#i-download"/></svg><span>Download</span></a>
+      <a class="btn btn-primary" id="account-register" href="/account/account/create" data-auth="register"><svg><use href="#i-pen"/></svg><span>Sign Up</span></a>
+      <a class="btn btn-ghost" id="account-login" href="/account/account/login" data-auth="login"><svg><use href="#i-user"/></svg><span>Log In</span></a>
+      <a class="btn btn-primary" id="account-profile" href="/account/account/view" hidden><svg><use href="#i-user"/></svg><span id="account-name"></span></a>
+      <a class="btn btn-ghost" id="account-logout" href="/account/account/logout" hidden>Log Out</a>
     </div>
     <button class="burger" id="burger" aria-label="Open menu" aria-controls="menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </header>
@@ -44,77 +71,77 @@
   <main>
     <!-- HERO -->
     <section id="home" class="panel hero">
-      <div class="hero-sky"></div>
-      <div class="hero-content">
-        <p class="hero-kicker"><span></span>RAGNA NEXT · RENEWAL<span></span></p>
-        <h1 class="hero-heading">A legend of<br>adventure.</h1>
-        <p class="hero-tag">Return to Midgard and begin your next chapter.</p>
-        <div class="servers" aria-label="Servers">
-          <span class="server live"><i></i>Ragna Next <b>Renewal</b><small>Open</small></span>
-          <span class="server soon"><i></i>Ragna Next <b>Pre-Renewal</b><small>Coming Soon</small></span>
-        </div>
-        <div class="hero-actions">
-          <a href="/patcher/Patcher-Portable-0.2.9.exe" class="btn-download">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>
-            Download Patcher
-          </a>
-          <a href="/account/account/create" data-auth="register" class="hero-register">Create Account</a>
-        </div>
-        <div class="hero-facts" aria-label="Renewal server rates">
-          <span><b>1x / 1x</b><small>Base / Job EXP</small></span>
-          <span><b>1x</b><small>Item Drop</small></span>
-          <span><b>Renewal</b><small>Episode</small></span>
+      <div class="hero-art" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <img class="hero-logo" src="assets/img/logo-re.webp" width="900" height="713" alt="Ragna-Next Renewal">
+          <h1 class="hero-heading">A legend of adventure</h1>
+          <p class="hero-tag">Return to Midgard and begin your next chapter.</p>
+          <p class="hero-sub">Renewal · 1x / 1x · Free to play</p>
+          <div class="hero-actions">
+            <a href="/account/account/create" data-auth="register" class="btn btn-primary btn-lg"><svg><use href="#i-pen"/></svg>Register now</a>
+            <div class="hero-actions-row">
+              <a href="/patcher/Patcher-Portable-0.2.9.exe" class="btn btn-outline"><svg><use href="#i-download"/></svg>Download</a>
+              <a href="/account/account/login" data-auth="login" class="btn btn-outline"><svg><use href="#i-user"/></svg>Log in</a>
+            </div>
+          </div>
+          <div class="servers" aria-label="Servers">
+            <span class="server live"><i></i>Renewal <small>Online</small></span>
+            <span class="server soon"><i></i>Pre-Renewal <small>Coming soon</small></span>
+          </div>
         </div>
       </div>
-      <a href="#news" class="scroll-hint" aria-label="Explore the website"><span></span></a>
     </section>
 
-    <section class="value-strip" aria-label="Ragna Next at a glance">
-      <div class="value-strip-inner">
-        <article><span>01</span><div><h2>Renewal World</h2><p>Explore the active Ragna Next realm.</p></div></article>
-        <article><span>02</span><div><h2>Classic Progression</h2><p>Build your character at 1x Base and Job EXP.</p></div></article>
-        <article><span>03</span><div><h2>Game Updates</h2><p>Follow published changes and announcements.</p></div></article>
-        <article><span>04</span><div><h2>Made for Midgard</h2><p>Meet the world, classes, and server details.</p></div></article>
+    <!-- Values strip -->
+    <section class="values" aria-label="Ragna Next at a glance">
+      <div class="wrap">
+        <div class="values-card">
+          <article><svg><use href="#i-castle"/></svg><h2>Renewal World</h2><p>Episodes up to the newest lands</p></article>
+          <article><svg><use href="#i-hourglass"/></svg><h2>Long-Term</h2><p>Built to stay for years</p></article>
+          <article><svg><use href="#i-pad"/></svg><h2>Classic Rates</h2><p>1x Base, Job and Drop</p></article>
+          <article><svg><use href="#i-scale"/></svg><h2>Fair Play</h2><p>No pay-to-win shortcuts</p></article>
+          <article><svg><use href="#i-headset"/></svg><h2>Active GMs</h2><p>Help when you need it</p></article>
+          <article><svg><use href="#i-users"/></svg><h2>Community</h2><p>Warm and welcoming</p></article>
+        </div>
       </div>
     </section>
 
     <!-- NEWS -->
     <section id="news" class="panel news">
-      <div class="wrap">
-        <div class="section-heading">
-          <div><p class="section-eyebrow">FROM THE RAGNA NEXT TEAM</p><h2 class="title"><span>News</span></h2><p class="section-intro">Announcements, community news, and upcoming activities.</p></div>
-          <a class="section-link" href="#news-items">Browse announcements <span aria-hidden="true">↘</span></a>
-        </div>
-        <div class="news-grid">
-          <div class="carousel" id="carousel">
-            <div class="slides">
-              <article class="slide s1 active"><div><small>EVENT</small><h3>Pre-Registration Is Open</h3><p>Sign up early and claim the starter adventurer pack.</p></div></article>
-              <article class="slide s2"><div><small>UPDATE</small><h3>The Latest Renewal Episodes</h3><p>New regions, dungeons, and jobs are ready to explore.</p></div></article>
-              <article class="slide s3"><div><small>GUILD</small><h3>War of Emperium</h3><p>Rally your guild and seize the castles of Midgard.</p></div></article>
-            </div>
-            <div class="carousel-nav"><button aria-label="Slide 1" class="on"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button></div>
+      <div class="wrap news-layout">
+        <div class="card news-card">
+          <div class="card-head">
+            <h2 class="card-title">News &amp; Updates</h2>
+            <a class="card-link" href="#changelog">Game changelog →</a>
           </div>
-          <div class="news-list">
-            <div class="tabs" role="tablist">
-              <button class="tab on" data-cat="all">Latest</button>
-              <button class="tab" data-cat="info">Info</button>
-              <button class="tab" data-cat="event">Events</button>
-            </div>
-            <ul id="news-items" aria-live="polite">
-              <li><span>Loading latest updates…</span></li>
-            </ul>
-            <a class="changelog-more" href="#changelog">Read game changelog <span aria-hidden="true">↗</span></a>
+          <div class="tabs" role="tablist">
+            <button class="tab on" data-cat="all">All News</button>
+            <button class="tab" data-cat="info">Info</button>
+            <button class="tab" data-cat="event">Events</button>
           </div>
+          <ul id="news-items" aria-live="polite">
+            <li class="news-empty"><span>Loading latest updates…</span></li>
+          </ul>
         </div>
+        <aside class="quick-links" aria-label="Quick links">
+          <a href="/patcher/Patcher-Portable-0.2.9.exe" class="qlink"><span class="qicon"><svg><use href="#i-download"/></svg></span><span><b>Download</b><small>Patcher &amp; client</small></span></a>
+          <a href="/account/account/create" data-auth="register" class="qlink"><span class="qicon c2"><svg><use href="#i-pen"/></svg></span><span><b>Create Account</b><small>Free, takes a minute</small></span></a>
+          <a href="/account/" class="qlink"><span class="qicon c3"><svg><use href="#i-key"/></svg></span><span><b>Account Panel</b><small>Manage your characters</small></span></a>
+          <a href="#changelog" class="qlink"><span class="qicon c4"><svg><use href="#i-scroll"/></svg></span><span><b>Game Updates</b><small>Latest patch notes</small></span></a>
+          <a href="#info" class="qlink"><span class="qicon c5"><svg><use href="#i-gear"/></svg></span><span><b>Server Info</b><small>Rates and settings</small></span></a>
+        </aside>
       </div>
     </section>
 
     <!-- CHANGELOG -->
     <section id="changelog" class="panel changelog">
       <div class="wrap">
-        <div class="section-heading changelog-heading">
-          <div><p class="section-eyebrow">PATCH NOTES</p><h2 class="title"><span>Game Updates</span></h2><p class="section-intro">Changes made to the game, kept separate from community news.</p></div>
-          <a id="staff-editor-button" class="btn-sm staff-editor-link" href="#dashboard" hidden>Manage in Dashboard</a>
+        <div class="section-heading">
+          <h2 class="title">Game Updates</h2>
+          <span class="ornament" aria-hidden="true"></span>
+          <p class="section-intro">Patch notes, kept separate from community news.</p>
+          <a id="staff-editor-button" class="btn btn-outline staff-editor-link" href="#dashboard" hidden>Manage in Dashboard</a>
         </div>
         <div class="changelog-list" id="changelog-items" aria-live="polite">
           <p class="changelog-empty">Loading changelog…</p>
@@ -125,7 +152,7 @@
     <!-- Staff dashboard: shown only after FluxCP confirms editor access -->
     <section id="dashboard" class="panel dashboard" hidden>
       <div class="wrap">
-        <div class="staff-editor-heading"><div><p class="staff-editor-kicker">STAFF WORKSPACE</p><h2 class="title"><span>Dashboard</span></h2></div><a class="btn-sm" href="#home">View website</a></div>
+        <div class="staff-editor-heading"><div><p class="staff-editor-kicker">STAFF WORKSPACE</p><h2 class="title">Dashboard</h2></div><a class="btn btn-outline" href="#home">View website</a></div>
         <p class="staff-editor-intro">Manage public website and patcher content in one place.</p>
         <form id="staff-editor-form" class="staff-editor-form" hidden>
           <input type="hidden" name="csrf_token" id="staff-editor-csrf">
@@ -142,50 +169,54 @@
               <section id="dashboard-overview" class="dashboard-overview" role="tabpanel" aria-labelledby="dashboard-overview-tab">
                 <div class="dashboard-content-heading"><p class="staff-editor-kicker">CONTENT MANAGEMENT</p><h3>Manage publications</h3><p>Choose a content type to review and update what players see on the website and patcher.</p></div>
                 <div class="dashboard-cards">
-                  <article class="dashboard-card"><span>NEWS</span><strong id="dashboard-news-count">0</strong><p>Community announcements and news.</p><button type="button" class="btn-sm" data-dashboard-view="news">Manage news</button></article>
-                  <article class="dashboard-card"><span>CHANGELOG</span><strong id="dashboard-changelog-count">0</strong><p>Game updates shown on the patcher home page and website.</p><button type="button" class="btn-sm" data-dashboard-view="changelog">Manage changelog</button></article>
-                  <article class="dashboard-card"><span>EVENTS</span><strong id="dashboard-events-count">0</strong><p>Event schedules and promotion details.</p><button type="button" class="btn-sm" data-dashboard-view="events">Manage events</button></article>
+                  <article class="dashboard-card"><span>NEWS</span><strong id="dashboard-news-count">0</strong><p>Community announcements and news.</p><button type="button" class="btn btn-outline" data-dashboard-view="news">Manage news</button></article>
+                  <article class="dashboard-card"><span>CHANGELOG</span><strong id="dashboard-changelog-count">0</strong><p>Game updates shown on the patcher home page and website.</p><button type="button" class="btn btn-outline" data-dashboard-view="changelog">Manage changelog</button></article>
+                  <article class="dashboard-card"><span>EVENTS</span><strong id="dashboard-events-count">0</strong><p>Event schedules and promotion details.</p><button type="button" class="btn btn-outline" data-dashboard-view="events">Manage events</button></article>
                 </div>
               </section>
               <section id="staff-news-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-news-tab" hidden>
                 <div class="dashboard-content-heading"><p class="staff-editor-kicker">PUBLIC CONTENT</p><h3>News</h3><p>Announcements shown on the patcher News tab and website.</p></div>
                 <div id="staff-news-entries" class="staff-editor-entries"></div>
-                <div class="staff-editor-actions"><button class="btn-sm" id="staff-news-add" type="button">Add news item</button></div>
+                <div class="staff-editor-actions"><button class="btn btn-outline" id="staff-news-add" type="button">Add news item</button></div>
               </section>
               <section id="staff-changelog-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-changelog-tab" hidden>
                 <div class="dashboard-content-heading"><p class="staff-editor-kicker">GAME UPDATES</p><h3>Changelog</h3><p>Game update notes shown on the patcher home page and website Changelog.</p></div>
                 <div id="staff-changelog-entries" class="staff-editor-entries"></div>
-                <div class="staff-editor-actions"><button class="btn-sm" id="staff-changelog-add" type="button">Add changelog entry</button></div>
+                <div class="staff-editor-actions"><button class="btn btn-outline" id="staff-changelog-add" type="button">Add changelog entry</button></div>
               </section>
               <section id="staff-events-pane" class="staff-editor-pane" role="tabpanel" aria-labelledby="staff-events-tab" hidden>
                 <div class="dashboard-content-heading"><p class="staff-editor-kicker">SCHEDULED CONTENT</p><h3>Events</h3><p>Set event dates, summaries, and promotion links.</p></div>
                 <div id="staff-event-entries" class="staff-editor-entries"></div>
-                <div class="staff-editor-actions"><button class="btn-sm" id="staff-editor-add-event" type="button">Add event</button></div>
+                <div class="staff-editor-actions"><button class="btn btn-outline" id="staff-editor-add-event" type="button">Add event</button></div>
               </section>
             </div>
           </div>
           <p id="staff-editor-message" class="staff-editor-message" role="status" aria-live="polite"></p>
           <div class="staff-editor-actions dashboard-save-actions" id="dashboard-save-actions" hidden>
-            <button class="btn-sm gold" type="submit">Save changes</button>
+            <button class="btn btn-primary" type="submit">Save changes</button>
           </div>
         </form>
         <p id="staff-editor-loading" class="staff-editor-message" role="status">Checking staff access…</p>
       </div>
     </section>
 
-    <!-- WORLD -->
+    <!-- WORLD showcase -->
     <section id="world" class="panel world">
-      <div class="world-bg" id="world-bg"></div>
       <div class="wrap">
-        <div class="section-heading"><div><p class="section-eyebrow">EXPLORE MIDGARD</p><h2 class="title"><span>World</span></h2><p class="section-intro">Visit the cities and landscapes that shape the Ragna Next world.</p></div></div>
-        <div class="world-body">
-          <div class="world-tabs" id="world-tabs">
-            <button class="on" data-i="0">Prontera</button>
-            <button data-i="1">Geffen</button>
-            <button data-i="2">Payon</button>
-            <button data-i="3">Morroc</button>
-          </div>
+        <div class="section-heading">
+          <h2 class="title">Explore Midgard</h2>
+          <span class="ornament" aria-hidden="true"></span>
+          <p class="section-intro">The cities that shape the Ragna Next world.</p>
+        </div>
+        <div class="showcase">
           <div class="world-text" id="world-text"></div>
+          <div class="showcase-media"><div class="world-bg" id="world-bg"></div></div>
+        </div>
+        <div class="world-tabs" id="world-tabs">
+          <button class="on" data-i="0" aria-label="Prontera"><svg><use href="#i-castle"/></svg></button>
+          <button data-i="1" aria-label="Geffen"><svg><use href="#i-globe"/></svg></button>
+          <button data-i="2" aria-label="Payon"><svg><use href="#i-pin"/></svg></button>
+          <button data-i="3" aria-label="Morroc"><svg><use href="#i-sword"/></svg></button>
         </div>
       </div>
     </section>
@@ -193,14 +224,15 @@
     <!-- CLASSES -->
     <section id="heroes" class="panel chars">
       <div class="wrap">
-        <div class="section-heading"><div><p class="section-eyebrow">FIND YOUR PATH</p><h2 class="title"><span>Classes</span></h2><p class="section-intro">Choose a calling and see how it fights across Midgard.</p></div></div>
-        <div class="char-body">
-          <div class="char-art">
-            <div class="rune"></div>
-            <div class="char-emblem" id="char-emblem">⚔</div>
-          </div>
+        <div class="section-heading">
+          <h2 class="title">Find Your Path</h2>
+          <span class="ornament" aria-hidden="true"></span>
+          <p class="section-intro">Choose a calling and see how it fights across Midgard.</p>
+        </div>
+        <div class="card char-body">
+          <div class="char-art"><div class="char-emblem" id="char-emblem">⚔</div></div>
           <div class="char-info">
-            <p class="char-role" id="char-role"></p>
+            <p class="pill" id="char-role"></p>
             <h3 id="char-name"></h3>
             <p id="char-desc"></p>
             <div class="char-list" id="char-list"></div>
@@ -209,39 +241,96 @@
       </div>
     </section>
 
-    <!-- INFO -->
+    <!-- SERVER INFO -->
     <section id="info" class="panel info">
       <div class="wrap">
-        <div class="section-heading"><div><p class="section-eyebrow">SERVER DETAILS</p><h2 class="title"><span>Realms & Rates</span></h2><p class="section-intro">Review the realm status and progression settings before you join.</p></div></div>
-        <div class="realms">
-          <article class="realm">
-            <p class="realm-tag live">Open</p>
-            <h3>Ragna Next <b>Renewal</b></h3>
-            <div class="info-cards">
-              <div class="icard"><small>Episode</small><strong>Renewal</strong></div>
-              <div class="icard"><small>Base / Job</small><strong>1x / 1x</strong></div>
-              <div class="icard"><small>Drop</small><strong>1x</strong></div>
-              <div class="icard"><small>Client</small><strong>2025-07-16</strong></div>
-            </div>
-          </article>
-          <article class="realm soon">
-            <p class="realm-tag">Coming Soon</p>
-            <img class="realm-logo" src="assets/img/logo-pre.webp" width="520" height="401" alt="Ragna-Next Classic" loading="lazy">
-            <h3>Ragna Next <b>Pre-Renewal</b></h3>
-            <p>The classic Midgard, as it once was. A new branch of the World Tree is growing. Stay tuned.</p>
-          </article>
+        <div class="section-heading">
+          <h2 class="title">Server Info</h2>
+          <span class="ornament" aria-hidden="true"></span>
+          <p class="section-intro">Rates and settings for the Renewal realm.</p>
         </div>
-        <div class="cta-row">
-          <a href="/account/account/create" data-auth="register" class="btn-download">Create Account</a>
-          <a href="/account/" class="btn-ghost">Account Panel</a>
-          <a href="/patcher/Patcher-Portable-0.2.9.exe" class="btn-ghost">Download Patcher</a>
+        <div class="stat-grid">
+          <div><small>Base / Job EXP</small><strong>1x / 1x</strong></div>
+          <div><small>Item Drops</small><strong>1x</strong></div>
+          <div><small>Type</small><strong>Renewal</strong></div>
+          <div><small>Client</small><strong>2025-07-16</strong></div>
+          <div><small>Realm</small><strong class="ok">Online</strong></div>
+          <div><small>Pre-Renewal</small><strong>Coming soon</strong></div>
         </div>
       </div>
-      <footer class="footer">
-        <p>&copy; <span id="year"></span> Ragna Next. Ragnarok Online is a trademark of Gravity Co., Ltd. This site is not affiliated with Gravity.</p>
-      </footer>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="panel features">
+      <div class="wrap">
+        <div class="section-heading">
+          <h2 class="title">Server Features</h2>
+          <span class="ornament" aria-hidden="true"></span>
+          <p class="section-intro">Everything waiting for you in Ragna Next.</p>
+        </div>
+        <div class="feature-grid">
+          <article><svg><use href="#i-door"/></svg><h3>Official Instances</h3><p>Party dungeons from the official episodes, ready to clear with friends.</p></article>
+          <article><svg><use href="#i-board"/></svg><h3>Mission Board</h3><p>Pick up missions that match your level and earn extra rewards.</p></article>
+          <article><svg><use href="#i-gift"/></svg><h3>Freebies</h3><p>A starter package to help new adventurers get going.</p></article>
+          <article><svg><use href="#i-ticket"/></svg><h3>Redeem Codes</h3><p>Claim rewards from codes shared in events and announcements.</p></article>
+          <article><svg><use href="#i-pin"/></svg><h3>Warper</h3><p>Travel quickly to towns, fields and dungeons across Midgard.</p></article>
+          <article><svg><use href="#i-heart"/></svg><h3>Healer</h3><p>Recover and get buffed before heading back out.</p></article>
+          <article><svg><use href="#i-badge"/></svg><h3>Job Master</h3><p>Change jobs without hunting down every quest NPC.</p></article>
+          <article><svg><use href="#i-refresh"/></svg><h3>Reset NPC</h3><p>Reset stats or skills to try a new build.</p></article>
+          <article><svg><use href="#i-hammer"/></svg><h3>Auction House</h3><p>Buy and sell gear with other players.</p></article>
+          <article><svg><use href="#i-key"/></svg><h3>Universal Rental</h3><p>Rent mounts and gear for your class when you need them.</p></article>
+          <article><svg><use href="#i-copy"/></svg><h3>Plagiarism Helper</h3><p>Pick the skill you want to copy as a Rogue or Stalker.</p></article>
+          <article><svg><use href="#i-skull"/></svg><h3>Devil Square</h3><p>Survive waves of monsters with your party for rewards.</p></article>
+          <article><svg><use href="#i-mask"/></svg><h3>Disguise Event</h3><p>Guess the monster the GM is disguised as.</p></article>
+          <article><svg><use href="#i-search"/></svg><h3>Find the GM</h3><p>Track down the hidden GM somewhere in the world.</p></article>
+          <article><svg><use href="#i-globe"/></svg><h3>New Episodes</h3><p>Renewal content up to the latest episodes.</p></article>
+          <article><svg><use href="#i-users"/></svg><h3>Guilds</h3><p>Build a guild and grow together.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- REALMS band -->
+    <section id="realms" class="panel realms-band">
+      <div class="wrap">
+        <div class="section-heading light">
+          <h2 class="title">Realms</h2>
+          <span class="ornament" aria-hidden="true"></span>
+          <p class="section-intro">Where Ragna Next is going.</p>
+        </div>
+        <div class="realm-cards">
+          <article class="realm">
+            <span class="pill">Open now</span>
+            <h3>Ragna Next Renewal</h3>
+            <p>The active realm, with Renewal episodes and 1x rates.</p>
+          </article>
+          <article class="realm soon">
+            <span class="pill pill-gold">Coming soon</span>
+            <h3>Ragna Next Pre-Renewal</h3>
+            <p>The classic Midgard, as it once was. A new branch of the World Tree is growing.</p>
+          </article>
+        </div>
+        <ol class="timeline" aria-label="Realm timeline">
+          <li class="done"><i></i>Renewal launch</li>
+          <li class="now"><i></i>Renewal live</li>
+          <li><i></i>Pre-Renewal</li>
+        </ol>
+        <div class="cta-row">
+          <a href="/account/account/create" data-auth="register" class="btn btn-primary btn-lg">Create Account</a>
+          <a href="/patcher/Patcher-Portable-0.2.9.exe" class="btn btn-light btn-lg">Download Patcher</a>
+        </div>
+      </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <img src="assets/img/logo-re.webp" width="900" height="713" alt="Ragna Next" loading="lazy">
+    <nav aria-label="Footer">
+      <a href="#news">News</a><a href="#changelog">Updates</a><a href="/account/">Account</a><a href="/patcher/Patcher-Portable-0.2.9.exe">Download</a>
+    </nav>
+    <p>&copy; <span id="year"></span> Ragna Next. All rights reserved.</p>
+    <p>Ragnarok Online is a trademark of Gravity Co., Ltd. This site is not affiliated with Gravity.</p>
+  </footer>
+  <a href="#home" class="to-top" aria-label="Back to top"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
 
   <!-- Account: log in / sign up (posted to FluxCP at /account) -->
   <div class="auth" id="auth" hidden>
@@ -259,7 +348,7 @@
         <input type="hidden" name="return_url" value="/account/account/view">
         <label>Username<input name="username" required minlength="4" maxlength="23" autocomplete="username"></label>
         <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
-        <button class="btn-auth">Log In</button>
+        <button class="btn btn-primary btn-auth">Log In</button>
         <p class="auth-alt"><a href="/account/account/resetpass">Forgot password?</a> · <a href="#" data-pane="register">Create an account</a></p>
       </form>
 
@@ -290,12 +379,12 @@
           <label>Security Code<input name="security_code" required autocomplete="off"></label>
         </div>
         <p class="auth-error" role="alert" hidden></p>
-        <button class="btn-auth">Sign Up</button>
+        <button class="btn btn-primary btn-auth">Sign Up</button>
         <p class="auth-alt">Already have an account? <a href="#" data-pane="login">Log in</a></p>
       </form>
     </div>
   </div>
 
-  <script src="assets/main.js?v=20261103-public-refresh-3"></script>
+  <script src="assets/main.js?v=20261104-sky-1"></script>
 </body>
 </html>
