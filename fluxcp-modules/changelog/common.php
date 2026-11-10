@@ -55,9 +55,11 @@ function ragnaChangelogRead()
 function ragnaEventsRead()
 {
 	$data = ragnaContentReadData();
+	// Content saved before Events existed has no "events" key yet.
+	$entries = isset($data['events']) && is_array($data['events']) ? $data['events'] : array();
 
 	$items = array();
-	foreach (array_slice($data['events'], 0, RAGNA_EVENT_MAX_ITEMS) as $item) {
+	foreach (array_slice($entries, 0, RAGNA_EVENT_MAX_ITEMS) as $item) {
 		if (!is_array($item)) continue;
 		$title = trim((string)($item['title'] ?? ''));
 		$startDate = trim((string)($item['startDate'] ?? ''));
