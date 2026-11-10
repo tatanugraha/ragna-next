@@ -22,6 +22,8 @@ $dashboardCollections = array(
 				<?php foreach ($dashboardCollections as $key => $collection): ?>
 				<button type="button" id="dashboard-tab-<?php echo $key ?>" data-dashboard-tab="<?php echo $key ?>" role="tab" aria-selected="false" aria-controls="dashboard-panel-<?php echo $key ?>"><?php echo $collection['title'] ?><span><?php echo count($collection['items']) ?></span></button>
 				<?php endforeach ?>
+				<p class="staff-dashboard-gm-label">GM TOOLS</p>
+				<a class="staff-dashboard-navlink" href="/#dashboard">Reports &amp; logs &rarr;</a>
 			</nav>
 			<div class="staff-dashboard-main">
 				<section class="staff-dashboard-panel" id="dashboard-panel-overview" role="tabpanel" aria-labelledby="dashboard-tab-overview">
@@ -30,6 +32,7 @@ $dashboardCollections = array(
 						<?php foreach ($dashboardCollections as $key => $collection): ?>
 						<article class="staff-dashboard-card"><span><?php echo strtoupper($collection['title']) ?></span><strong><?php echo count($collection['items']) ?></strong><p><?php echo $collection['description'] ?></p><button type="button" class="btn-sm" data-open-dashboard-tab="<?php echo $key ?>">Manage <?php echo $collection['title'] ?></button></article>
 						<?php endforeach ?>
+						<article class="staff-dashboard-card"><span>GM TOOLS</span><strong>7</strong><p>Report, who is online, item / zeny / cash logs, trades and GM commands.</p><a class="btn-sm" href="/#dashboard">Open GM tools</a></article>
 					</div>
 				</section>
 
