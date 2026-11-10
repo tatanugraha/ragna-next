@@ -112,8 +112,13 @@ try {
 			$day = date('Y-m-d', strtotime("-$i days"));
 			$days[$day] = array('day' => $day, 'accounts' => 0, 'ips' => 0);
 		}
-		foreach ($gmQuery("SELECT DATE(`time`) d, COUNT(DISTINCT `user`) a, COUNT(DISTINCT ip) i FROM {$loginDb}.loginlog WHERE rcode = 100 AND `time` >= ? GROUP BY DATE(`time`)", array($since)) as $row) {
-			if (isset($days[$row['d']])) { $days[$row['d']]['accounts'] = (int)$row['a']; $days[$row['d']]['ips'] = (int)$row['i']; }
+		// loginlog is written to the log database (log_db_db), not the login database.
+		try {
+			foreach ($gmQuery("SELECT DATE(`time`) d, COUNT(DISTINCT `user`) a, COUNT(DISTINCT ip) i FROM {$logsDb}.loginlog WHERE rcode = 100 AND `time` >= ? GROUP BY DATE(`time`)", array($since), true) as $row) {
+				if (isset($days[$row['d']])) { $days[$row['d']]['accounts'] = (int)$row['a']; $days[$row['d']]['ips'] = (int)$row['i']; }
+			}
+		} catch (Throwable $e) {
+			// Without the log table the stats below still load; the daily log-ins stay at 0.
 		}
 		$gmFinish(200, array('ok' => true, 'tab' => 'report', 'stats' => array(
 			'online' => $gmValue("SELECT COUNT(*) FROM {$charDb}.`char` WHERE online = 1"),
