@@ -1,7 +1,7 @@
 <?php
 if (!defined('FLUX_ROOT')) exit;
 if (!$session->isLoggedIn()) $this->loginRequired();
-if (!isset($session->account->group_level) || $session->account->group_level < AccountLevel::LOWGM) $this->deny();
+if ((int)$session->account->group_level < AccountLevel::LOWGM) $this->deny();
 $jsonMode = strpos((string)($_SERVER['HTTP_ACCEPT'] ?? ''), 'application/json') !== false;
 $finishJson = function ($status, array $payload) {
 	http_response_code($status);

@@ -6,7 +6,7 @@ header('Cache-Control: no-store, max-age=0');
 header('X-Content-Type-Options: nosniff');
 
 $loggedIn = $session->isLoggedIn();
-$canEdit = $loggedIn && isset($session->account->group_level) && $session->account->group_level >= AccountLevel::LOWGM;
+$canEdit = $loggedIn && (int)$session->account->group_level >= AccountLevel::LOWGM;
 $response = array(
 	'loggedIn' => (bool)$loggedIn,
 	'canEdit' => (bool)$canEdit,

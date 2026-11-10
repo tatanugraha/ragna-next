@@ -7,7 +7,7 @@
 	<a href="<?php echo $this->url('account', 'changepass') ?>"><strong>Change Password</strong><span>Keep your account secure</span></a>
 	<a href="<?php echo $this->url('account', 'changemail') ?>"><strong>Change Email</strong><span>Update your account email</span></a>
 	<a href="/#info"><strong>Download Client</strong><span>Start playing</span></a>
-	<?php if (isset($session->account->group_level) && $session->account->group_level >= AccountLevel::LOWGM): ?>
+	<?php if ((int)$session->account->group_level >= AccountLevel::LOWGM): ?>
 	<a class="cp-staff-tile" href="<?php echo $this->url('changelog', 'index') ?>"><strong>Staff Dashboard</strong><span>Manage website and patcher content</span></a>
 	<?php endif ?>
 </div>

@@ -62,7 +62,7 @@
 			<a href="<?php echo $this->url('account', 'view') ?>">My account</a>
 			<a href="<?php echo $this->url('account', 'changepass') ?>">Change password</a>
 			<a href="<?php echo $this->url('account', 'changemail') ?>">Change email</a>
-			<?php if (isset($session->account->group_level) && $session->account->group_level >= AccountLevel::LOWGM): ?>
+			<?php if ((int)$session->account->group_level >= AccountLevel::LOWGM): ?>
 			<a class="cp-staff-link" href="<?php echo $this->url('changelog', 'index') ?>">Staff dashboard</a>
 			<?php endif ?>
 		</div>

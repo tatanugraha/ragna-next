@@ -18,7 +18,7 @@ if (!in_array($_SERVER['REQUEST_METHOD'] ?? '', array('GET', 'HEAD'), true)) {
 	$gmFinish(405, array('ok' => false, 'message' => 'Method not allowed.'));
 }
 if (!$session->isLoggedIn()) $gmFinish(401, array('ok' => false, 'message' => 'Sign in with a Game Master account.'));
-if (!isset($session->account->group_level) || $session->account->group_level < AccountLevel::LOWGM) {
+if ((int)$session->account->group_level < AccountLevel::LOWGM) {
 	$gmFinish(403, array('ok' => false, 'message' => 'GM reports are available to Game Masters only.'));
 }
 
