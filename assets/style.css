@@ -184,6 +184,13 @@ svg { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-wi
 .stat-grid small { display: block; text-transform: uppercase; letter-spacing: 1px; font-size: .68rem; color: var(--muted); }
 .stat-grid strong { display: block; margin-top: 4px; font-size: 1.35rem; font-weight: 600; color: var(--primary-lo); }
 .stat-grid strong.ok { color: var(--green); }
+.cmd-card { margin-top: 20px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 24px; }
+.cmd-card h3 { font-weight: 500; color: var(--ink); font-size: 1.05rem; margin-bottom: 12px; }
+.cmd-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 18px; }
+.cmd-list li { font-size: .85rem; color: var(--muted); min-width: 0; }
+.cmd-list code { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; font-weight: 600; color: var(--primary-lo); }
+.cmd-list span { margin-left: 4px; }
+.cmd-more { margin-top: 12px; font-size: .8rem; color: var(--muted); }
 
 /* ---------- features ---------- */
 .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
