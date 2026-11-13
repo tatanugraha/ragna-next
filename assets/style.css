@@ -72,6 +72,7 @@ svg { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-wi
 .hero-inner { position: relative; width: 100%; max-width: 1200px; margin: 0 auto; padding: 40px 16px 60px; }
 .hero-content { width: min(460px, 100%); text-align: center; display: flex; flex-direction: column; align-items: center; animation: rise .8s ease both; }
 .hero-logo { width: min(380px, 85%); height: auto; filter: drop-shadow(0 14px 24px rgba(20, 80, 55, .25)); }
+.hero-cbt { margin-top: 14px; font-weight: 600; }
 .hero-heading { margin-top: 6px; font-weight: 600; font-size: clamp(1.9rem, 3.6vw, 2.7rem); line-height: 1.15; color: var(--primary); }
 .hero-tag { color: var(--muted); margin-top: 6px; }
 .hero-sub { margin-top: 10px; color: var(--primary-lo); font-weight: 500; font-size: .85rem; letter-spacing: .4px; }
